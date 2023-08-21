@@ -21,15 +21,15 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-[100dvh] relative">
       <Map
         state={{
-          center: [59.928194, 30.346644],
+          center: marks[marks.length - 1].cords || [59.928194, 30.346644],
           zoom: 8,
           controls: [],
         }}
-        width={"100dvw"}
-        height={"100dvh"}
+        width={"100vw"}
+        height={"100vh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />

@@ -3,9 +3,9 @@ import Mark from './Mark';
 
 
 export default function App() {
-
   return (
     <YMaps>
+      <h1 className='text-red-500'>hello</h1>
       <section className="map container">
         <Map
           state={{

@@ -1,4 +1,4 @@
-import { Map, ZoomControl } from "@pbe/react-yandex-maps";
+import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import Mark from "./Mark";
 import AddButton from "./AddButton";
 import { useState } from "react";
@@ -28,15 +28,22 @@ export default function App() {
           zoom: 8,
           controls: [],
         }}
-        width={"100vw"}
-        height={"100vh"}
+        width={"100dvw"}
+        height={"100dvh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />
 
-        {marks.map((mark) => (
-          <Mark key={mark.id} id={mark.id} cords={mark.cords} />
-        ))}
+        <Clusterer
+          options={{
+            preset: "islands#blackClusterIcons",
+            groupByCoordinates: false,
+          }}
+        >
+          {marks.map((mark) => (
+            <Mark key={mark.id} id={mark.id} cords={mark.cords} />
+          ))}
+        </Clusterer>
       </Map>
       <AddButton onAdd={onAdd} />
     </div>

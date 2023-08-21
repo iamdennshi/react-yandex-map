@@ -37,9 +37,10 @@ export default function Mark(props: MarkType) {
         onClick={() => setShowInfo(!showInfo)}
         geometry={props.cords}
         options={{
-          preset: "islands#blueCircleDotIconWithCaption",
-          iconColor: "#000000", // цвет иконки
+          preset: "islands#darkGreenCircleIcong",
+          iconColor: "#000", // цвет иконки
         }}
+        properties={{ iconContent: props.id }}
         // properties={{
         //   balloonContentHeader: `Балун метки ${props.id}`,
         //   balloonContentBody: "Содержимое <em>балуна</em> метки",

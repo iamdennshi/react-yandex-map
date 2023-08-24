@@ -1,63 +1,46 @@
 import { Placemark } from "@pbe/react-yandex-maps";
-import { MouseEventHandler, useState } from "react";
 
 type MarkType = {
   id: number;
   cords: number[];
 };
 
-type MarkInfoType = {
-  onClose: MouseEventHandler;
-};
-
-function MarkInfo(props: MarkInfoType) {
-  return (
-    <div onClick={props.onClose} className="absolute inset-0 bg-red-300 z-20">
-      <div className="absolute h-[300px] w-[300px]  bg-white top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-        <button onClick={props.onClose} className="bg-slate-400">
-          Close
-        </button>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur qui
-          perspiciatis illo. Nesciunt laboriosam amet quibusdam architecto
-          dicta! Saepe dolor magnam libero, aliquam eum suscipit odio eligendi
-          incidunt expedita qui.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export default function Mark(props: MarkType) {
-  const [showInfo, setShowInfo] = useState(false);
-
   return (
     <>
       <Placemark
-        onClick={() => setShowInfo(!showInfo)}
         geometry={props.cords}
         options={{
-          preset: "islands#darkGreenCircleIcong",
-          iconColor: "#000", // цвет иконки
+          preset: "islands#darkGreenCircleIcon",
+          hideIconOnBalloonOpen: false,
         }}
-        properties={{ iconContent: props.id }}
-        // properties={{
-        //   balloonContentHeader: `Балун метки ${props.id}`,
-        //   balloonContentBody: "Содержимое <em>балуна</em> метки",
-        //   balloonContentFooter: "Подвал",
-        //   hintContent: "Хинт метки",
-        //   balloonContent: `<div class="my-balloon">
-        //   <h4>Наш адрес</h4>
-        //   <p class="text-red-500">
-        //     Санкт-Петербург,
-        //     <br />
-        //     Владимирский проспект, 23, лит. А, офис 701
-        //   </p>
-        //   <a href="#">Схема проезда</a>
-        // </div>`,
-        // }}
+        properties={{
+          iconContent: props.id,
+          //   balloonContentHeader: `Балун метки ${props.id}`,
+          //   balloonContentBody: "Содержимое <em>балуна</em> метки",
+          //   balloonContentFooter: "Подвал",
+          //   hintContent: "Хинт метки",
+          // balloonContent: ,
+
+          balloonContent: `<div class="w-[600px] my-balloon flex">
+          <div class="basis-1/2 cursor-pointer ">
+            <img class="h-full w-full object-cover " src="https://flowertimes.ru/wp-content/uploads/2021/10/buk-derevo.jpg"/>
+          </div>
+          <div class="basis-1/2 px-6">
+          <h2 class="text-center text-2xl font-bold text-[#4A5568] mb-2 ">ДУБ</h2>
+          <h3 class="bg-[#DDFFE0] text-[#58D364] w-[61px] m-auto text-center rounded-md">дерево</h3>
+          <ul class="flex flex-col py-6 gap-3">
+            <li class="text-[#4A5568]">Высота: <span class="font-bold">30 м</span></li>
+            <li class="text-[#4A5568]">Диаметр: <span class="font-bold">30.5 см</span></li>
+            <li class="text-[#4A5568]">Возраст: <span class="font-bold">30 лет</span></li>
+            <li class="text-[#4A5568]">Состояние: <span class="font-bold">удовлетворительное</span></li>
+            <li class="text-[#4A5568]">Комментарий: <span class="font-bold">Дуб хорошо узнаваем благодаря его плодам, желудям</span>
+          </ul>
+          </div>
+
+        </div>`,
+        }}
       />
-      {showInfo && <MarkInfo onClose={() => setShowInfo(false)} />}
     </>
   );
 }

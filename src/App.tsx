@@ -1,9 +1,11 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import Mark from "./Mark";
 import AddButton from "./AddButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { YMapsApi } from "@pbe/react-yandex-maps/typings/util/typing";
 
 export default function App() {
+  const [ymaps, setYmaps] = useState<YMapsApi>();
   const [marks, setMarks] = useState([
     {
       id: 0,
@@ -20,6 +22,10 @@ export default function App() {
     setMarks((prev) => [...prev, newMark]);
   }
 
+  useEffect(() => {
+    // document.querySelector("ymaps .ymaps-2-1-79-balloon__content ymaps").style.width="auto"
+  }, []);
+
   return (
     <div className="min-h-[100dvh] relative">
       <Map
@@ -28,6 +34,7 @@ export default function App() {
           zoom: 8,
           controls: [],
         }}
+        onLoad={(ymaps) => setYmaps(ymaps)}
         width={"100vw"}
         height={"100vh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
@@ -36,7 +43,7 @@ export default function App() {
 
         <Clusterer
           options={{
-            preset: "islands#blackClusterIcons",
+            preset: "islands#darkGreenClusterIcons",
             groupByCoordinates: false,
           }}
         >

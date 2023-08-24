@@ -6,3 +6,18 @@
 [class*="copyrights-pane"] {
   display: none !important;
 }
+
+/* Disable fixed width */
+ymaps .ymaps-2-1-79-balloon__content ymaps {
+  width: auto !important;
+  overflow: visible !important;
+}
+
+.ymaps-2-1-79-balloon__layout {
+  border-radius: 16px;
+  border: solid 1px #ccc;
+}
+
+.ymaps-2-1-79-balloon {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.04) !important;
+}

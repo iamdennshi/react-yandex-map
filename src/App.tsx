@@ -2,10 +2,8 @@ import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import Mark from "./Mark";
 import AddButton from "./AddButton";
 import { useEffect, useState } from "react";
-import { YMapsApi } from "@pbe/react-yandex-maps/typings/util/typing";
 
 export default function App() {
-  const [ymaps, setYmaps] = useState<YMapsApi>();
   const [marks, setMarks] = useState([
     {
       id: 0,
@@ -34,7 +32,6 @@ export default function App() {
           zoom: 8,
           controls: [],
         }}
-        onLoad={(ymaps) => setYmaps(ymaps)}
         width={"100vw"}
         height={"100vh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}

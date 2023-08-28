@@ -1,9 +1,3 @@
-import { MouseEventHandler } from "react";
-
-type AddButtonType = {
-  onAdd: MouseEventHandler;
-};
-
 export default function AddButton(props: AddButtonType) {
   return (
     <button

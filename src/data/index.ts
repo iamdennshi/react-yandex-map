@@ -1,19 +1,29 @@
-export const data : MarkInfo[] = [
+export const treesData : TreeInfo[] = [
     {
         id: 0,
         cords: [59.928194, 30.346644],
-        type: 0, // 0 treee
         name: "дуб",
-        info: {
-            height: 100,
-            diameter: 30.5,
-            age: 53,
-            state: 0, // состояние
-            comment: "Дуб хорошо узнаваем благодаря его плодам, желудям"
-        }
+        img: "https://flowertimes.ru/wp-content/uploads/2021/10/buk-derevo.jpg",
+        comment: "Дуб хорошо узнаваем благодаря его плодам, желудям",
+        state: 0, // состояние
+        height: 100,
+        diameter: 30.5,
+        age: 53,
 
     },
 ]
 
 
-export default data;
+export const furnitureData : FurnitureInfo[] = [
+    {
+        id: 0,
+        cords: [59.928194, 30.349644],
+        name: "Лавочка",
+        img: "https://hozotdel.ru/wa-data/public/shop/products/39/51/5139/images/21410/21410.970.jpg",
+        state: 0, // состояние
+        comment: "Слишком шикарная, чтобы стоять в парке",
+    },
+]
+
+
+export default {treesData, furnitureData};

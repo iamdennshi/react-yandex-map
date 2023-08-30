@@ -15,7 +15,7 @@ window.editMark = (id: number) => {
 }
 
 export default function App() {
-  const [marks, setMarks] = useState<MarkType[]>(data);
+  const [marks, setMarks] = useState<MarkInfo[]>(data);
 
 
   function onAdd() {
@@ -23,15 +23,17 @@ export default function App() {
       id: marks[marks.length - 1].id + 1,
       cords: [59.928194 + Math.random(), 30.347644 + Math.random()],
       type: 0,
-      name: "",
-      height: 0,
-      diameter: 0,
-      age: 0,
-      state: 0,
-      comment: "",
+      name: "Дубяра",
+      info: {
+        height: 0,
+        diameter: 0,
+        age: 0,
+        state: 0,
+        comment: "",
+      }
     };
 
-    setMarks((prev: MarkType[]) => [...prev, newMark]);
+    setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   }   
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function App() {
             groupByCoordinates: false,
           }}
         >
-          {marks.map((mark: MarkType) => (
+          {marks.map((mark: MarkInfo) => (
             <Mark key={mark.id} {...mark}/>
           ))}
         </Clusterer>

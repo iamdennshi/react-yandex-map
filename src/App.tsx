@@ -4,6 +4,7 @@ import AddButton from "./AddButton";
 import { useEffect, useState } from "react";
 import {treesData, furnitureData} from './data'
 import FurnitureMark from "./FurnitureMark";
+import SearchBox from "./SearchBox";
 
 declare global {
   interface Window {
@@ -81,6 +82,7 @@ export default function App() {
           ))}
         </Clusterer>
       </Map>
+      <SearchBox />
       <AddButton onAdd={null} />
     </div>
   );

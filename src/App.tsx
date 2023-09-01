@@ -2,7 +2,7 @@ import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import TreeMark from './TreeMark'
 import AddButton from "./AddButton";
 import { useEffect, useState } from "react";
-import {treesData, furnitureData} from './data'
+import {treesData, furnitureData, placesData} from './data'
 import FurnitureMark from "./FurnitureMark";
 import SearchBox from "./SearchBox";
 
@@ -17,9 +17,10 @@ window.editMark = (id: number) => {
 }
 
 export default function App() {
-  const [trees, setTrees] = useState<TreeInfo[]>(treesData);
-  const [furniture, setFurniture] = useState<FurnitureInfo[]>(furnitureData);
-
+  const [trees] = useState<TreeInfo[]>(treesData);
+  const [furniture] = useState<FurnitureInfo[]>(furnitureData);
+  const [places] = useState(placesData);
+  const [currentPlace, setCurrentPlace] = useState<number>(0);
 
 
   // function onAdd() {
@@ -43,13 +44,12 @@ export default function App() {
   useEffect(() => {
     // document.querySelector("ymaps .ymaps-2-1-79-balloon__content ymaps").style.width="auto"
   }, []);
-
   return (
     <div className="min-h-screen relative">
       <Map
         state={{
-          center: trees[trees.length - 1].cords || [59.928194, 30.346644],
-          zoom: 8,
+          center: places[currentPlace].cords,
+          zoom: 16,
           controls: [],
         }}
         width={"100vw"}
@@ -82,7 +82,7 @@ export default function App() {
           ))}
         </Clusterer>
       </Map>
-      <SearchBox />
+      <SearchBox places={places} setCurrentPlace={setCurrentPlace}/>
       <AddButton onAdd={null} />
     </div>
   );

@@ -20,6 +20,12 @@ type FurnitureInfo = {
     comment: string,
 };
 
+type PlaceInfo = {
+    id: number,
+    cords: number[],
+    address: string
+}
+
 
 type AddButtonType = {
     onAdd: MouseEventHandler;

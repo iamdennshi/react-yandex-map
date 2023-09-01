@@ -4,6 +4,12 @@
 @tailwind utilities;
 
 
+.searchbox-item:last-of-type {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+/* Close icon - x */
 .close-icon {
   display: block;
   width: 30px;

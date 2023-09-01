@@ -44,7 +44,7 @@ export default function SearchBox({places, setCurrentPlace} : Searchbox) {
                 inputRef.current.focus();
             }} className="close-icon absolute right-8 top-0 hover:opacity-100"></div>
         }
-        {isActive && fromInput !== "" && searchboxItems.length > 0 && 
+        {isActive  && searchboxItems.length > 0 &&
             <div className="px-4">
                 <ul className='relative -top-[2.6px] bg-white border-green-500 border-t-0 border-solid border-2 rounded-br-2xl rounded-bl-2xl text-[#4A5568] max-w-lg m-auto cursor-pointer'>
                     {searchboxItems}

@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 .searchbox-item:last-of-type {
   border-bottom-left-radius: 1rem;
@@ -15,8 +14,9 @@
   width: 30px;
   height: 40px;
   cursor: pointer;
-  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTQgLjdsLS43LS43TDcgNi4zLjcgMCAwIC43IDYuMyA3IDAgMTMuM2wuNy43TDcgNy43bDYuMyA2LjMuNy0uN0w3LjcgN3oiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==) 50% no-repeat;
-  opacity: .3;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTQgLjdsLS43LS43TDcgNi4zLjcgMCAwIC43IDYuMyA3IDAgMTMuM2wuNy43TDcgNy43bDYuMyA2LjMuNy0uN0w3LjcgN3oiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==)
+    50% no-repeat;
+  opacity: 0.3;
 }
 
 /* Hide watermarks */
@@ -35,13 +35,11 @@ ymaps .ymaps-2-1-79-balloon__content ymaps {
 .ymaps-2-1-79-balloon__layout {
   border-radius: 16px;
   border: solid 1px #ccc;
-
 }
 
 .ymaps-2-1-79-balloon {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.04) !important;
   transform: translateY(-10px);
-
 }
 
 .ymaps-2-1-79-balloon__content {

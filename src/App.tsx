@@ -1,27 +1,26 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
-import TreeMark from './TreeMark'
+import TreeMark from "./TreeMark";
 import AddButton from "./AddButton";
 import { useEffect, useState } from "react";
-import {treesData, furnitureData, placesData} from './data'
+import { treesData, furnitureData, placesData } from "./data";
 import FurnitureMark from "./FurnitureMark";
 import SearchBox from "./SearchBox";
 
 declare global {
   interface Window {
-      editMark: (id: number) => void;
+    editMark: (id: number) => void;
   }
 }
 
 window.editMark = (id: number) => {
   console.log(id);
-}
+};
 
 export default function App() {
   const [trees] = useState<TreeInfo[]>(treesData);
   const [furniture] = useState<FurnitureInfo[]>(furnitureData);
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState<number>(0);
-
 
   // function onAdd() {
   //   const newMark = {
@@ -39,7 +38,7 @@ export default function App() {
   //   };
 
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
-  // }   
+  // }
 
   useEffect(() => {
     // document.querySelector("ymaps .ymaps-2-1-79-balloon__content ymaps").style.width="auto"
@@ -66,7 +65,7 @@ export default function App() {
           }}
         >
           {trees.map((item: TreeInfo) => (
-            <TreeMark key={item.id} {...item}/>
+            <TreeMark key={item.id} {...item} />
           ))}
         </Clusterer>
 
@@ -78,11 +77,11 @@ export default function App() {
           }}
         >
           {furniture.map((item: FurnitureInfo) => (
-            <FurnitureMark key={item.id} {...item}/>
+            <FurnitureMark key={item.id} {...item} />
           ))}
         </Clusterer>
       </Map>
-      <SearchBox places={places} setCurrentPlace={setCurrentPlace}/>
+      <SearchBox places={places} setCurrentPlace={setCurrentPlace} />
       <AddButton onAdd={null} />
     </div>
   );

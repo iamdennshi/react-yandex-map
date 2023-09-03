@@ -81,7 +81,11 @@ export default function App() {
           ))}
         </Clusterer>
       </Map>
-      <SearchBox places={places} setCurrentPlace={setCurrentPlace} />
+      <SearchBox
+        places={places}
+        currentPlace={currentPlace}
+        setCurrentPlace={setCurrentPlace}
+      />
       <AddButton onAdd={null} />
     </div>
   );

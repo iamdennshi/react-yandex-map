@@ -2,25 +2,36 @@ import { MouseEvent, useRef, useState } from "react";
 
 type Searchbox = {
   places: PlaceInfo[];
+  currentPlace: number;
   setCurrentPlace: Function;
 };
 
-export default function SearchBox({ places, setCurrentPlace }: Searchbox) {
-  const [fromInput, setFromInput] = useState("");
+export default function SearchBox({
+  places,
+  currentPlace,
+  setCurrentPlace,
+}: Searchbox) {
+  const [fromInput, setFromInput] = useState(places[currentPlace].address);
   const inputRef = useRef<HTMLInputElement>(null!);
-  const [isActive, setIsActive] = useState(false);
+  const [isActiveInput, setIsActiveInput] = useState(false);
 
   const onItemClick = (e: MouseEvent) => {
     const address = (e.target as HTMLElement).innerText;
     setFromInput(address);
     setCurrentPlace(places.find((i) => i.address.includes(address))?.id);
-    setIsActive(false);
+    setIsActiveInput(false);
   };
 
-  const hideOverlay = (e: MouseEvent) => {
+  const hideOverlayWhenSelectItem = (e: MouseEvent) => {
     if ((e.target as HTMLLIElement).nodeName != "LI") {
-      setIsActive(true);
+      setIsActiveInput(true);
     }
+  };
+
+  const hideOverleyWhenClickOutside = () => {
+    setIsActiveInput(false);
+    if (fromInput != places[currentPlace].address)
+      setFromInput(places[currentPlace].address);
   };
 
   const searchboxItems = places
@@ -39,21 +50,23 @@ export default function SearchBox({ places, setCurrentPlace }: Searchbox) {
   return (
     <>
       <div
-        onClick={() => setIsActive(false)}
+        onClick={hideOverleyWhenClickOutside}
         className={`fixed transition-all duration-500 ${
-          isActive ? " opacity-100 " : " opacity-0 invisible"
+          isActiveInput ? " opacity-100 " : " opacity-0 invisible"
         } z-20 inset-0  bg-black bg-opacity-50`}
       ></div>
       <div
-        onClick={hideOverlay}
+        onClick={hideOverlayWhenSelectItem}
         className="absolute z-20 left-1/2 top-4 -translate-x-2/4 max-w-xl w-full px-4 "
       >
         <input
           ref={inputRef}
           value={fromInput}
           className={`block w-full px-5 py-2 pl-12 rounded-full border-solid border-2 ${
-            isActive ? "border-green-500" : "border-[#ccc]"
-          }  outline-none shadow-lg text-[#4A5568] font-medium transition`}
+            isActiveInput ? "border-green-500" : "border-[#ccc]"
+          }  outline-none shadow-lg   ${
+            searchboxItems.length > 0 ? "text-[#4A5568]" : "text-red-500"
+          }  font-medium transition`}
           type="text"
           placeholder="Название объекта"
           onChange={({ target }) => setFromInput(target.value)}
@@ -84,7 +97,7 @@ export default function SearchBox({ places, setCurrentPlace }: Searchbox) {
             className="close-icon absolute right-8 top-0 hover:opacity-100"
           ></div>
         )}
-        {isActive && searchboxItems.length > 0 && (
+        {isActiveInput && searchboxItems.length > 0 && (
           <div className="px-4">
             <ul className="relative -top-[2.6px] bg-white border-green-500 border-t-0 border-solid border-2 rounded-br-2xl rounded-bl-2xl text-[#4A5568] max-w-lg m-auto cursor-pointer">
               {searchboxItems}

@@ -42,6 +42,7 @@ export default function TreeMark(props: TreeProps) {
         options={{
           preset: "islands#darkGreenCircleIcon",
           hideIconOnBalloonOpen: false,
+          iconOffset: [2, 14],
         }}
         properties={{
           iconContent: props.id,

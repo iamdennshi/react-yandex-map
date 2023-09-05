@@ -39,7 +39,6 @@ ymaps .ymaps-2-1-79-balloon__content ymaps {
 
 .ymaps-2-1-79-balloon {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.04) !important;
-  transform: translateY(-10px);
 }
 
 .ymaps-2-1-79-balloon__content {

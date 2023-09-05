@@ -34,6 +34,7 @@ export default function FurnitureMark(props: FurnitureProps) {
         options={{
           preset: "islands#darkOrangeCircleIcon",
           hideIconOnBalloonOpen: false,
+          iconOffset: [2, 14],
         }}
         properties={{
           iconContent: props.id,

@@ -1,10 +1,10 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
-import TreeMark from "./TreeMark";
-import AddButton from "./AddButton";
-import { useEffect, useState } from "react";
-import { treesData, furnitureData, placesData } from "./data";
-import FurnitureMark from "./FurnitureMark";
-import SearchBox from "./SearchBox";
+import TreeMark from "./components/TreeMark";
+import AddButton from "./components/AddButton";
+import { useEffect, useMemo, useState } from "react";
+import { placesData } from "./data";
+import FurnitureMark from "./components/FurnitureMark";
+import SearchBox from "./components/SearchBox";
 
 declare global {
   interface Window {
@@ -17,8 +17,6 @@ window.editMark = (id: number) => {
 };
 
 export default function App() {
-  const [trees] = useState<TreeInfo[]>(treesData);
-  const [furniture] = useState<FurnitureInfo[]>(furnitureData);
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState<number>(0);
 
@@ -40,15 +38,20 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
-  useEffect(() => {
-    // document.querySelector("ymaps .ymaps-2-1-79-balloon__content ymaps").style.width="auto"
-  }, []);
+  function onOpenMark(id: number) {
+    console.log("open ", id);
+  }
+
+  function onCloseMark(id: number) {
+    console.log("close ", id);
+  }
+
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative overflow-hidden">
       <Map
         state={{
           center: places[currentPlace].cords,
-          zoom: 16,
+          zoom: 20,
           controls: [],
         }}
         width={"100vw"}
@@ -64,8 +67,13 @@ export default function App() {
             groupByCoordinates: false,
           }}
         >
-          {trees.map((item: TreeInfo) => (
-            <TreeMark key={item.id} {...item} />
+          {places[currentPlace].trees.map((item: TreeInfo) => (
+            <TreeMark
+              key={item.id}
+              onOpenMark={onOpenMark}
+              onCloseMark={onCloseMark}
+              {...item}
+            />
           ))}
         </Clusterer>
 
@@ -76,8 +84,13 @@ export default function App() {
             groupByCoordinates: false,
           }}
         >
-          {furniture.map((item: FurnitureInfo) => (
-            <FurnitureMark key={item.id} {...item} />
+          {places[currentPlace].furniture.map((item: FurnitureInfo) => (
+            <FurnitureMark
+              key={item.id}
+              onOpenMark={onOpenMark}
+              onCloseMark={onCloseMark}
+              {...item}
+            />
           ))}
         </Clusterer>
       </Map>

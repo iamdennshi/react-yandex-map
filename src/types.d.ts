@@ -1,4 +1,4 @@
-type TreeInfo = {
+interface TreeInfo {
   id: number;
   img: string;
   cords: number[];
@@ -8,23 +8,35 @@ type TreeInfo = {
   height: number;
   diameter: number;
   age: number;
-};
+}
 
-type FurnitureInfo = {
+interface TreeProps extends TreeInfo {
+  onOpenMark: Function;
+  onCloseMark: Function;
+}
+
+interface FurnitureInfo {
   id: number;
   img: string;
   cords: number[];
   name: string;
   state: number;
   comment: string;
-};
+}
 
-type PlaceInfo = {
+interface FurnitureProps extends FurnitureInfo {
+  onOpenMark: Function;
+  onCloseMark: Function;
+}
+
+interface PlaceInfo {
   id: number;
   cords: number[];
   address: string;
-};
+  trees: TreeInfo[];
+  furniture: FurnitureInfo[];
+}
 
-type AddButtonType = {
+interface AddButtonType {
   onAdd: MouseEventHandler;
-};
+}

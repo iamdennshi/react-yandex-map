@@ -1,7 +1,6 @@
 import { Placemark } from "@pbe/react-yandex-maps";
 
 export default function FurnitureMark(props: FurnitureProps) {
-  const id = props.id;
   const content = `<div class="w-[500px] my-balloon flex">
   <div class="basis-1/2 cursor-pointer mr-4">
     <img class="h-full w-full object-cover " src="${props.img}"/>

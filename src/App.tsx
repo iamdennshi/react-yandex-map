@@ -1,10 +1,11 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
 import AddButton from "./components/AddButton";
-import { useEffect, useMemo, useState } from "react";
+import { useRef, useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
+import ymaps from "yandex-maps";
 
 declare global {
   interface Window {
@@ -19,8 +20,12 @@ window.editMark = (id: number) => {
 export default function App() {
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState<number>(0);
+  const mapRef = useRef<ymaps.Map>(null);
 
-  // function onAdd() {
+  function onAdd() {
+    // mapRef.current.panTo([58.010829, 56.253604]);
+  }
+
   //   const newMark = {
   //     id: marks[marks.length - 1].id + 1,
   //     cords: [59.928194 + Math.random(), 30.347644 + Math.random()],
@@ -54,6 +59,11 @@ export default function App() {
           zoom: 20,
           controls: [],
         }}
+        options={{
+          minZoom: 18,
+        }}
+        instanceRef={mapRef}
+        // instanceRef={(ref) => ref && setMapRef(ref)}
         width={"100vw"}
         height={"100vh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
@@ -99,7 +109,7 @@ export default function App() {
         currentPlace={currentPlace}
         setCurrentPlace={setCurrentPlace}
       />
-      <AddButton onAdd={null} />
+      <AddButton onAdd={onAdd} />
     </div>
   );
 }

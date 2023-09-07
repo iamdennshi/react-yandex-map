@@ -39,4 +39,5 @@ interface PlaceInfo {
 
 interface AddButtonType {
   onAdd: MouseEventHandler;
+  hideAddButton: boolean;
 }

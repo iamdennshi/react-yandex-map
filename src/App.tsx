@@ -21,10 +21,11 @@ export default function App() {
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState<number>(0);
   const mapRef = useRef<ymaps.Map>(null);
+  const [hideSearch, setHideSearch] = useState(false);
+  const [hideAddButton, setHideAddButton] = useState(false);
 
-  function onAdd() {
-    // mapRef.current.panTo([58.010829, 56.253604]);
-  }
+  // function onAdd() {
+  // mapRef.current.panTo([58.010829, 56.253604]);
 
   //   const newMark = {
   //     id: marks[marks.length - 1].id + 1,
@@ -43,12 +44,19 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
+  function setHideUI(flag: boolean) {
+    setHideSearch(flag);
+    setHideAddButton(flag);
+  }
+
   function onOpenMark(id: number) {
     console.log("open ", id);
+    setHideUI(true);
   }
 
   function onCloseMark(id: number) {
     console.log("close ", id);
+    setHideUI(false);
   }
 
   return (
@@ -108,8 +116,10 @@ export default function App() {
         places={places}
         currentPlace={currentPlace}
         setCurrentPlace={setCurrentPlace}
+        hideSearch={hideSearch}
+        setHideAddButton={setHideAddButton}
       />
-      <AddButton onAdd={onAdd} />
+      <AddButton onAdd={null} hideAddButton={hideAddButton} />
     </div>
   );
 }

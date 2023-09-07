@@ -4,12 +4,16 @@ type Searchbox = {
   places: PlaceInfo[];
   currentPlace: number;
   setCurrentPlace: Function;
+  hideSearch: boolean;
+  setHideAddButton: Function;
 };
 
 export default function SearchBox({
   places,
   currentPlace,
   setCurrentPlace,
+  hideSearch,
+  setHideAddButton,
 }: Searchbox) {
   const [fromInput, setFromInput] = useState(places[currentPlace].address);
   const inputRef = useRef<HTMLInputElement>(null!);
@@ -20,18 +24,22 @@ export default function SearchBox({
     setFromInput(address);
     setCurrentPlace(places.find((i) => i.address.includes(address))?.id);
     setIsActiveInput(false);
+    setHideAddButton(false);
   };
 
-  const hideOverlayWhenSelectItem = (e: MouseEvent) => {
+  const onClickSearchbox = (e: MouseEvent) => {
     if ((e.target as HTMLLIElement).nodeName != "LI") {
       setIsActiveInput(true);
+      setHideAddButton(true);
     }
   };
 
   const hideOverleyWhenClickOutside = () => {
     setIsActiveInput(false);
-    if (fromInput != places[currentPlace].address)
+    setHideAddButton(false);
+    if (fromInput != places[currentPlace].address) {
       setFromInput(places[currentPlace].address);
+    }
   };
 
   const searchboxItems = places
@@ -56,8 +64,10 @@ export default function SearchBox({
         } inset-0  bg-black bg-opacity-50`}
       ></div>
       <div
-        onClick={hideOverlayWhenSelectItem}
-        className="absolute z-20 left-1/2 top-4 -translate-x-2/4 max-w-xl w-full px-4 "
+        onClick={onClickSearchbox}
+        className={`absolute z-20 left-1/2 ${
+          hideSearch ? "-top-11" : "top-4"
+        } -translate-x-2/4 max-w-xl w-full px-4 transition-all duration-500`}
       >
         <input
           ref={inputRef}

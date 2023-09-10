@@ -10,7 +10,9 @@ interface TreeInfo {
   age: number;
 }
 
-interface TreeProps extends TreeInfo {
+interface TreeProps {
+  info: TreeInfo;
+  placeID: number;
   onOpenMark: Function;
   onCloseMark: Function;
 }
@@ -24,7 +26,9 @@ interface FurnitureInfo {
   comment: string;
 }
 
-interface FurnitureProps extends FurnitureInfo {
+interface FurnitureProps {
+  info: FurnitureInfo;
+  placeID: number;
   onOpenMark: Function;
   onCloseMark: Function;
 }
@@ -41,3 +45,5 @@ interface AddButtonType {
   onAdd: MouseEventHandler;
   hideAddButton: boolean;
 }
+
+type TypeItem = "furniture" | "tree";

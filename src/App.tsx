@@ -9,18 +9,28 @@ import ymaps from "yandex-maps";
 
 declare global {
   interface Window {
-    editMark: (id: number) => void;
+    editMark: (
+      placeID: number,
+      infoItemStringify: string,
+      itemType: TypeItem
+    ) => void;
   }
 }
 
-window.editMark = (id: number) => {
-  console.log(id);
+window.editMark = (
+  placeID: number,
+  infoItemStringify: string,
+  itemType: TypeItem
+) => {
+  console.log(placeID);
+  console.log(infoItemStringify);
+  console.log(itemType);
 };
 
 export default function App() {
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState<number>(0);
-  const mapRef = useRef<ymaps.Map>(null);
+  // const mapRef = useRef<ymaps.Map>(null);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideAddButton, setHideAddButton] = useState(false);
 
@@ -70,7 +80,7 @@ export default function App() {
         options={{
           minZoom: 18,
         }}
-        instanceRef={mapRef}
+        // instanceRef={mapRef}
         // instanceRef={(ref) => ref && setMapRef(ref)}
         width={"100vw"}
         height={"100vh"}
@@ -88,9 +98,10 @@ export default function App() {
           {places[currentPlace].trees.map((item: TreeInfo) => (
             <TreeMark
               key={item.id}
+              placeID={currentPlace}
               onOpenMark={onOpenMark}
               onCloseMark={onCloseMark}
-              {...item}
+              info={item}
             />
           ))}
         </Clusterer>
@@ -105,9 +116,10 @@ export default function App() {
           {places[currentPlace].furniture.map((item: FurnitureInfo) => (
             <FurnitureMark
               key={item.id}
+              placeID={currentPlace}
               onOpenMark={onOpenMark}
               onCloseMark={onCloseMark}
-              {...item}
+              info={item}
             />
           ))}
         </Clusterer>

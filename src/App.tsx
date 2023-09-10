@@ -1,11 +1,10 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
 import AddButton from "./components/AddButton";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
-import ymaps from "yandex-maps";
 
 declare global {
   interface Window {

@@ -15,6 +15,8 @@ export default function SearchBox({
   hideSearch,
   setHideAddButton,
 }: Searchbox) {
+  console.log("serach");
+
   const [fromInput, setFromInput] = useState(places[currentPlace].address);
   const inputRef = useRef<HTMLInputElement>(null!);
   const [isActiveInput, setIsActiveInput] = useState(false);

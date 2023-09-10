@@ -1,6 +1,9 @@
 import { Placemark } from "@pbe/react-yandex-maps";
+import React from "react";
 
-export default function FurnitureMark(props: FurnitureProps) {
+export function FurnitureMark(props: FurnitureProps) {
+  console.log("FurnitureMark render");
+
   const stringify = JSON.stringify(props.info).replaceAll('"', "'");
   const handleEdit = `window.editMark(${props.placeID}, ${stringify}, 'furniture')`;
   const content = `<div class="md:w-[500px] w-[300px] my-balloon flex flex-col md:flex-row">
@@ -26,13 +29,15 @@ export default function FurnitureMark(props: FurnitureProps) {
   return (
     <>
       <Placemark
-        instanceRef={(ref) =>
+        instanceRef={(ref) => {
           ref &&
-          ref.events.add("balloonclose", () =>
-            props.onCloseMark(props.info.id)
-          ) &&
-          ref.events.add("balloonopen", () => props.onOpenMark(props.info.id))
-        }
+            ref.events.add("balloonclose", () =>
+              props.onClickMark(props.info.id)
+            ) &&
+            ref.events.add("balloonopen", () =>
+              props.onClickMark(props.info.id)
+            );
+        }}
         geometry={props.info.cords}
         options={{
           preset: "islands#darkOrangeCircleIcon",
@@ -47,3 +52,5 @@ export default function FurnitureMark(props: FurnitureProps) {
     </>
   );
 }
+
+export default React.memo(FurnitureMark);

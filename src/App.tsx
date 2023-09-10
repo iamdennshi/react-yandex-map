@@ -1,7 +1,7 @@
 import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
 import AddButton from "./components/AddButton";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
@@ -53,20 +53,11 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
-  function setHideUI(flag: boolean) {
-    setHideSearch(flag);
-    setHideAddButton(flag);
-  }
-
-  function onOpenMark(id: number) {
-    console.log("open ", id);
-    setHideUI(true);
-  }
-
-  function onCloseMark(id: number) {
-    console.log("close ", id);
-    setHideUI(false);
-  }
+  const onClickMark = useCallback((id: number) => {
+    console.log("onMark ", id);
+    setHideSearch((prev) => !prev);
+    setHideAddButton((prev) => !prev);
+  }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -98,8 +89,7 @@ export default function App() {
             <TreeMark
               key={item.id}
               placeID={currentPlace}
-              onOpenMark={onOpenMark}
-              onCloseMark={onCloseMark}
+              onClickMark={onClickMark}
               info={item}
             />
           ))}
@@ -116,8 +106,7 @@ export default function App() {
             <FurnitureMark
               key={item.id}
               placeID={currentPlace}
-              onOpenMark={onOpenMark}
-              onCloseMark={onCloseMark}
+              onClickMark={onClickMark}
               info={item}
             />
           ))}

@@ -13,8 +13,7 @@ interface TreeInfo {
 interface TreeProps {
   info: TreeInfo;
   placeID: number;
-  onOpenMark: Function;
-  onCloseMark: Function;
+  onClickMark: Function;
 }
 
 interface FurnitureInfo {
@@ -29,8 +28,7 @@ interface FurnitureInfo {
 interface FurnitureProps {
   info: FurnitureInfo;
   placeID: number;
-  onOpenMark: Function;
-  onCloseMark: Function;
+  onClickMark: Function;
 }
 
 interface PlaceInfo {

@@ -1,6 +1,9 @@
 import { Placemark } from "@pbe/react-yandex-maps";
+import React from "react";
 
-export default function TreeMark(props: TreeProps) {
+export function TreeMark(props: TreeProps) {
+  console.log("TreeMark render");
+
   const content = `<div class="md:w-[500px] w-[300px] my-balloon flex  flex-col md:flex-row">
   <div class="basis-1/2 cursor-pointer md:mr-4 mt-4 md:mt-0">
     <img class="h-full w-full object-cover rounded-2xl" src="${
@@ -38,9 +41,9 @@ export default function TreeMark(props: TreeProps) {
         instanceRef={(ref) =>
           ref &&
           ref.events.add("balloonclose", () =>
-            props.onCloseMark(props.info.id)
+            props.onClickMark(props.info.id)
           ) &&
-          ref.events.add("balloonopen", () => props.onOpenMark(props.info.id))
+          ref.events.add("balloonopen", () => props.onClickMark(props.info.id))
         }
         geometry={props.info.cords}
         options={{
@@ -56,3 +59,5 @@ export default function TreeMark(props: TreeProps) {
     </>
   );
 }
+
+export default React.memo(TreeMark);

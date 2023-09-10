@@ -1,12 +1,14 @@
 import { Placemark } from "@pbe/react-yandex-maps";
 
 export default function TreeMark(props: TreeProps) {
-  const content = `<div class="w-[500px] my-balloon flex">
-  <div class="basis-1/2 cursor-pointer mr-4">
-    <img class="h-full w-full object-cover " src="${props.info.img}"/>
+  const content = `<div class="md:w-[500px] w-[300px] my-balloon flex  flex-col md:flex-row">
+  <div class="basis-1/2 cursor-pointer md:mr-4 mt-4 md:mt-0">
+    <img class="h-full w-full object-cover rounded-2xl" src="${
+      props.info.img
+    }"/>
   </div>
   <div class="basis-1/2 flex flex-col">
-    <h2 class="text-center text-2xl font-bold text-[#4A5568] mb-2 ">${props.info.name.toLocaleUpperCase()}</h2>
+    <h2 class="text-center text-2xl font-bold text-[#4A5568] md:mb-2 my-2 ">${props.info.name.toLocaleUpperCase()}</h2>
     <h3 class="w-[61px] mx-auto text-center rounded-md bg-[#DDFFE0] text-[#58D364]">дерево</h3>
     <ul class="flex flex-col my-4 gap-2 max-h-44 overflow-y-scroll ">
       <li class="text-[#4A5568]">Высота: <span class="font-bold">${

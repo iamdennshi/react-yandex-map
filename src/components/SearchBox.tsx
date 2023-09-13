@@ -8,6 +8,8 @@ type Searchbox = {
   setHideAddButton: Function;
 };
 
+const relativeShow = window.isAndroid ? "top-11" : "top-4";
+
 export default function SearchBox({
   places,
   currentPlace,
@@ -68,9 +70,7 @@ export default function SearchBox({
       <div
         onClick={onClickSearchbox}
         className={`absolute z-20 left-1/2 ${
-          hideSearch ? "-top-11" : "top-4"
-        }  ${
-          window.isAndroid && "top-10"
+          hideSearch ? "-top-11" : relativeShow
         } -translate-x-2/4 max-w-xl w-full px-4 transition-all duration-500`}
       >
         <input

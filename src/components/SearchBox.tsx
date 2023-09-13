@@ -69,6 +69,8 @@ export default function SearchBox({
         onClick={onClickSearchbox}
         className={`absolute z-20 left-1/2 ${
           hideSearch ? "-top-11" : "top-4"
+        }  ${
+          window.isAndroid && "top-10"
         } -translate-x-2/4 max-w-xl w-full px-4 transition-all duration-500`}
       >
         <input

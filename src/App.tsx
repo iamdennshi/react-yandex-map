@@ -27,7 +27,7 @@ window.editMark = (
   console.log(itemType);
 };
 
-// Определяем, находимся ли мы в webview
+// Определяем, запущено ли приложение через webview (Android)
 try {
   window.isAndroid = Android && true;
 } catch {

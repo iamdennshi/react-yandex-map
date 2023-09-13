@@ -1,4 +1,10 @@
-import { Clusterer, Map, ZoomControl } from "@pbe/react-yandex-maps";
+import {
+  Clusterer,
+  Map,
+  RouteEditor,
+  RulerControl,
+  ZoomControl,
+} from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
 import AddButton from "./components/AddButton";
 import { useCallback, useState } from "react";
@@ -85,6 +91,7 @@ export default function App() {
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />
+        <RulerControl options={{ position: { left: 20, bottom: 10 } }} />
 
         {/* Деревья */}
         <Clusterer

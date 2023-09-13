@@ -8,8 +8,6 @@ type Searchbox = {
   setHideAddButton: Function;
 };
 
-const relativeShow = window.isAndroid ? "top-11" : "top-4";
-
 export default function SearchBox({
   places,
   currentPlace,
@@ -17,11 +15,11 @@ export default function SearchBox({
   hideSearch,
   setHideAddButton,
 }: Searchbox) {
-  console.log("serach");
-
   const [fromInput, setFromInput] = useState(places[currentPlace].address);
   const inputRef = useRef<HTMLInputElement>(null!);
   const [isActiveInput, setIsActiveInput] = useState(false);
+
+  const relativeShow = window.isAndroid ? "top-11" : "top-4";
 
   const onItemClick = (e: MouseEvent) => {
     const address = (e.target as HTMLElement).innerText;

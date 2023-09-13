@@ -6,7 +6,7 @@ export default function AddButton(props: AddButtonType) {
       }`}
     >
       <button
-        onClick={() => Android.showToast("Add button")}
+        onClick={() => window.isAndroid && Android.showToast("Add button")}
         title="Добавить новый объект"
         className={`rounded-full w-16 h-16 pl-2 ${
           window.isAndroid ? "bg-green-500" : "bg-red-500"

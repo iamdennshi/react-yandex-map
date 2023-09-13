@@ -1,3 +1,5 @@
+declare var Android;
+
 interface TreeInfo {
   id: number;
   img: string;

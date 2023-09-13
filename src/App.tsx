@@ -13,6 +13,7 @@ declare global {
       infoItemStringify: string,
       itemType: TypeItem
     ) => void;
+    isAndroid: boolean;
   }
 }
 
@@ -25,6 +26,13 @@ window.editMark = (
   console.log(infoItemStringify);
   console.log(itemType);
 };
+
+// Определяем, находимся ли мы в webview
+try {
+  window.isAndroid = Android && true;
+} catch {
+  window.isAndroid = false;
+}
 
 export default function App() {
   const [places] = useState(placesData);

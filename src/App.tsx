@@ -1,7 +1,6 @@
 import {
   Clusterer,
   Map,
-  RouteEditor,
   RulerControl,
   ZoomControl,
 } from "@pbe/react-yandex-maps";

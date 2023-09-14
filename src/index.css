@@ -24,6 +24,11 @@ button {
   opacity: 0.3;
 }
 
+/* YANDEX MAP API */
+/* Hide Rulete Button */
+.ymaps-2-1-79-user-selection-none[id^="id_"] {
+  display: none;
+}
 /* Hide watermarks */
 [class*="copyrights-pane"] {
   display: none !important;

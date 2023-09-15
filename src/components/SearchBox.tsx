@@ -5,7 +5,7 @@ type Searchbox = {
   currentPlace: number;
   setCurrentPlace: Function;
   hideSearch: boolean;
-  setHideAddButton: Function;
+  setHideActionBar: Function;
 };
 
 export default function SearchBox({
@@ -13,7 +13,7 @@ export default function SearchBox({
   currentPlace,
   setCurrentPlace,
   hideSearch,
-  setHideAddButton,
+  setHideActionBar,
 }: Searchbox) {
   const [fromInput, setFromInput] = useState(places[currentPlace].address);
   const inputRef = useRef<HTMLInputElement>(null!);
@@ -26,19 +26,19 @@ export default function SearchBox({
     setFromInput(address);
     setCurrentPlace(places.find((i) => i.address.includes(address))?.id);
     setIsActiveInput(false);
-    setHideAddButton(false);
+    setHideActionBar(false);
   };
 
   const onClickSearchbox = (e: MouseEvent) => {
     if ((e.target as HTMLLIElement).nodeName != "LI") {
       setIsActiveInput(true);
-      setHideAddButton(true);
+      setHideActionBar(true);
     }
   };
 
   const hideOverleyWhenClickOutside = () => {
     setIsActiveInput(false);
-    setHideAddButton(false);
+    setHideActionBar(false);
     if (fromInput != places[currentPlace].address) {
       setFromInput(places[currentPlace].address);
     }
@@ -69,25 +69,29 @@ export default function SearchBox({
         onClick={onClickSearchbox}
         className={`absolute z-20 left-1/2 ${
           hideSearch ? "-top-11" : relativeShow
-        } -translate-x-2/4 max-w-xl w-full px-4 transition-all duration-500`}
+        } -translate-x-1/2 max-w-xl w-full px-4 transition-all duration-500`}
       >
         <input
           ref={inputRef}
           value={fromInput}
-          className={`block w-full px-5 py-2 pl-12 rounded-full border-solid border-2 ${
-            isActiveInput ? "border-green-500" : "border-[#ccc]"
-          }  outline-none shadow-lg   ${
-            searchboxItems.length > 0 ? "text-[#4A5568]" : "text-red-500"
-          }  font-medium transition`}
+          className={`block w-full px-5 py-2 pl-12  border-solid border-2 
+          ${
+            searchboxItems.length > 0 && isActiveInput
+              ? "rounded-tr-2xl rounded-tl-2xl"
+              : "rounded-full"
+          }
+          ${searchboxItems.length > 0 ? "text-[#4A5568] " : "text-red-500 "} ${
+            isActiveInput ? "border-green-500 " : "border-[#ccc] "
+          }  outline-none shadow-lg  transition`}
           type="text"
           placeholder="Название объекта"
           onChange={({ target }) => setFromInput(target.value)}
         />
-        <div className="absolute top-2 left-8">
+        <div className="absolute top-3 left-9">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
           >
@@ -110,8 +114,8 @@ export default function SearchBox({
           ></div>
         )}
         {isActiveInput && searchboxItems.length > 0 && (
-          <div className="px-4">
-            <ul className="relative -top-[2.6px] bg-white border-green-500 border-t-0 border-solid border-2 rounded-br-2xl rounded-bl-2xl text-[#4A5568] max-w-lg m-auto cursor-pointer">
+          <div>
+            <ul className="relative  bg-white border-green-500 border-t-0 border-solid border-2 rounded-br-2xl rounded-bl-2xl text-[#4A5568] m-auto cursor-pointer">
               {searchboxItems}
             </ul>
           </div>

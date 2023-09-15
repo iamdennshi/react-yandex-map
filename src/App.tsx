@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
+import ActionBar from "./components/ActionBar";
 
 declare global {
   interface Window {
@@ -44,7 +45,7 @@ export default function App() {
   const [currentPlace, setCurrentPlace] = useState<number>(0);
   // const mapRef = useRef<ymaps.Map>(null);
   const [hideSearch, setHideSearch] = useState(false);
-  const [hideAddButton, setHideAddButton] = useState(false);
+  const [hideActionBar, setHideActionBar] = useState(false);
 
   // function onAdd() {
   // mapRef.current.panTo([58.010829, 56.253604]);
@@ -69,7 +70,7 @@ export default function App() {
   const onClickMark = useCallback((id: number) => {
     console.log("onMark ", id);
     setHideSearch((prev) => !prev);
-    setHideAddButton((prev) => !prev);
+    setHideActionBar((prev) => !prev);
   }, []);
 
   return (
@@ -90,7 +91,7 @@ export default function App() {
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />
-        <RulerControl options={{ position: { left: 20, bottom: 10 } }} />
+        <RulerControl options={{ position: { left: "50%", bottom: 10 } }} />
 
         {/* Деревья */}
         <Clusterer
@@ -131,9 +132,9 @@ export default function App() {
         currentPlace={currentPlace}
         setCurrentPlace={setCurrentPlace}
         hideSearch={hideSearch}
-        setHideAddButton={setHideAddButton}
+        setHideActionBar={setHideActionBar}
       />
-      <AddButton onAdd={null} hideAddButton={hideAddButton} />
+      <ActionBar onAdd={null} hideActionBar={hideActionBar} />
     </div>
   );
 }

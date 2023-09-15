@@ -43,7 +43,10 @@ interface PlaceInfo {
 
 interface AddButtonType {
   onAdd: MouseEventHandler;
-  hideAddButton: boolean;
+}
+
+interface ActionBarProps extends AddButtonType {
+  hideActionBar: boolean;
 }
 
 type TypeItem = "furniture" | "tree";

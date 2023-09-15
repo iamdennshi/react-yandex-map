@@ -8,6 +8,10 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+body {
+  font-family: "Roboto", serif;
+}
+
 .searchbox-item:last-of-type {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
@@ -25,6 +29,12 @@ button {
 }
 
 /* YANDEX MAP API */
+
+/* Center Rulet */
+.ymaps-2-1-79-controls__control [style^="display: inline"]:first-of-type {
+  transform: translateX(-50%);
+}
+
 /* Hide Rulete Button */
 .ymaps-2-1-79-user-selection-none[id^="id_"] {
   display: none;

@@ -17,6 +17,10 @@ body {
   border-bottom-right-radius: 1rem;
 }
 
+.button-shadow--active {
+  box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;
+}
+
 /* Close icon - x */
 .close-icon {
   display: block;

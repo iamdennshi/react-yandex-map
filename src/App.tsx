@@ -5,7 +5,6 @@ import {
   ZoomControl,
 } from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
-import AddButton from "./components/AddButton";
 import { useCallback, useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";

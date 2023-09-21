@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {TouchEvent, useState} from "react";
 import AddButton from "./AddButton";
 import settingsIcon from "../assets/settings-icon.svg";
 import bellIcon from "../assets/bell-icon.svg";
@@ -105,18 +105,31 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean }) {
+  function move(e: TouchEvent<HTMLDivElement>) {
+    const currentPositionY = e.changedTouches[0].pageY;
+    const currentTarget = e.currentTarget as HTMLElement;
+    console.log(e);
+    console.log(currentPositionY)
+
+    currentTarget.style.top = currentPositionY + 'px';
+
+
+
+
+  }
   return (
-    <div
-      className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 ${
-        props.isActive ? "top-0" : "top-full"
+    <div onTouchMove={move}
+      className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl ${
+        props.isActive ? "top-20" : "top-full"
       }`}
     >
-      <div className="  h-[520px] w-[360px] m-auto mt-[84px] px-6">
-        <h2 className="text-2xl font-bold text-primary text-center">
+      <div className="h-[520px] w-[360px] m-auto px-2 pt-2">
+        <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
+        <h2 className="text-2xl font-bold text-primary text-center mt-2">
           Характеристики объекта
         </h2>
         <h3 className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#B2ABA]">
-          Территория объекта{" "}
+          Территория объекта относится к{" "}
           <span className="text-secondary">II категории содержания</span>
         </h3>
       </div>

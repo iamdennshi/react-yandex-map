@@ -64,7 +64,7 @@ export default function App() {
   //   };
 
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
-  // }GGGGG;'hdsGGGGGG
+  // }
 
   const onClickMark = useCallback((id: number) => {
     console.log("onMark ", id);

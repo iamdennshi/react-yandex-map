@@ -104,21 +104,34 @@ function SettingsButton(props: ActionProps) {
   );
 }
 
-function Info(props: { isActive: boolean }) {
+function Info(props: { isActive: boolean, setActive: Function }) {
   function move(e: TouchEvent<HTMLDivElement>) {
-    const currentPositionY = e.changedTouches[0].pageY;
+    const posY = e.changedTouches[0].pageY;
     const currentTarget = e.currentTarget as HTMLElement;
     console.log(e);
-    console.log(currentPositionY)
+    console.log(posY)
 
-    currentTarget.style.top = currentPositionY + 'px';
-
-
-
-
+    currentTarget.style.top = posY + 'px';
   }
+  function beforeMove(e: TouchEvent<HTMLDivElement>) {
+    const target = e.currentTarget as HTMLElement
+    target.style.transitionDuration = "0ms";
+    console.log(target.style.transitionDuration)
+  }
+
+  function afterMove(e: TouchEvent<HTMLDivElement>) {
+    const posY = e.changedTouches[0].pageY;
+    const target = e.currentTarget as HTMLElement
+    target.style.transitionDuration = "500ms";
+    target.style.top = "";
+
+    if (posY >= 300) {
+      props.setActive(0);
+    }
+  }
+
   return (
-    <div onTouchMove={move}
+    <div onTouchStart={beforeMove} onTouchMove={move} onTouchEnd={afterMove}
       className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl ${
         props.isActive ? "top-20" : "top-full"
       }`}
@@ -146,7 +159,7 @@ export default function ActionBar(props: ActionBarProps) {
 
   return (
     <>
-      <Info isActive={active === 1 ? true : false} />
+      <Info isActive={active === 1 ? true : false} setActive={setActive} />
       <div
         className={`absolute max-w-sm h-[66px] w-full px-4 left-1/2 -translate-x-1/2 flex transition-all duration-500 ${
           props.hideActionBar ? "-bottom-24" : "bottom-8"

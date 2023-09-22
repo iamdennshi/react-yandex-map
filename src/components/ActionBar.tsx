@@ -146,7 +146,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   }
 
   function afterMove(e: TouchEvent<HTMLDivElement>) {
-    if (refBody.current!.scrollTop == 0) {
+    if (refBody.current!.scrollTop == 0 || difference > 0) {
       startPos = e.changedTouches[0].pageY;
       const target = e.currentTarget as HTMLElement
       target.style.transitionDuration = "";
@@ -168,7 +168,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
       className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl `}
          style={{top: props.isActive ? TOP_POS : "100%"}}
     >
-      <div className="h-[520px] w-[360px] m-auto px-2 pt-2">
+      <div className="h-[55%] px-[24px] pt-2">
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
         <h2 className="text-2xl font-bold text-primary text-center mt-2">
           Характеристики объекта
@@ -177,7 +177,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
           Территория объекта относится к{" "}
           <span className="text-secondary">II категории содержания</span>
         </h3>
-        <div ref={refBody} className="h-[70%] overflow-scroll">
+        <div ref={refBody} className="h-full overflow-scroll">
           <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
             <dl className='flex justify-between text-primary font-bold'>
               <dt>Общая площадь</dt>

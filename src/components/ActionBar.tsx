@@ -1,4 +1,4 @@
-import {TouchEvent, useState} from "react";
+import {MutableRefObject, TouchEvent, useRef, useState} from "react";
 import AddButton from "./AddButton";
 import settingsIcon from "../assets/settings-icon.svg";
 import bellIcon from "../assets/bell-icon.svg";
@@ -105,13 +105,13 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean, setActive: Function }) {
+  const refBody : MutableRefObject<HTMLElement | null> = useRef(null);
   let startPos = 0;
   let difference = 0;
   const TOP_POS = window.isAndroid ? 107 : 80;
-  let useScroll = true;
 
   function move(event: TouchEvent) {
-    if (!useScroll) {
+    if (refBody.current!.scrollTop == 0) {
       const target = event.currentTarget as HTMLElement
       const posX =  event.changedTouches[0].pageY;
       if (difference < 0) {
@@ -134,7 +134,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     }
   }
   function beforeMove(e: TouchEvent<HTMLDivElement>) {
-    if (!useScroll) {
+    if (refBody.current!.scrollTop == 0) {
       const target = e.currentTarget as HTMLElement
       startPos = e.changedTouches[0].pageY;
       target.style.transitionDuration = "0ms";
@@ -146,7 +146,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   }
 
   function afterMove(e: TouchEvent<HTMLDivElement>) {
-    if (!useScroll) {
+    if (refBody.current!.scrollTop == 0) {
       startPos = e.changedTouches[0].pageY;
       const target = e.currentTarget as HTMLElement
       target.style.transitionDuration = "";
@@ -162,13 +162,6 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     }
   }
 
-  function scroll(e : any) {
-    if (e.target.scrollTop == 0) {
-      useScroll = false
-    } else {
-      useScroll = true
-    }
-  }
 
   return (
     <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
@@ -184,11 +177,47 @@ function Info(props: { isActive: boolean, setActive: Function }) {
           Территория объекта относится к{" "}
           <span className="text-secondary">II категории содержания</span>
         </h3>
-        <div onScroll={scroll} className="h-[300px] overflow-scroll">
+        <div ref={refBody} className="h-[70%] overflow-scroll">
           <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
             <dl className='flex justify-between text-primary font-bold'>
               <dt>Общая площадь</dt>
               <dd>12 345 кв.м</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
             </dl>
           </div>
           <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">

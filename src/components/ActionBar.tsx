@@ -1,4 +1,4 @@
-import {MutableRefObject, TouchEvent, useRef, useState} from "react";
+import {TouchEvent, useRef, useState} from "react";
 import AddButton from "./AddButton";
 import settingsIcon from "../assets/settings-icon.svg";
 import bellIcon from "../assets/bell-icon.svg";
@@ -105,7 +105,7 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean, setActive: Function }) {
-  const refBody : MutableRefObject<HTMLElement | null> = useRef(null);
+  const refBody = useRef<HTMLDivElement>(null);
   let startPos = 0;
   let difference = 0;
   const TOP_POS = window.isAndroid ? 107 : 80;

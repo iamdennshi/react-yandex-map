@@ -1,4 +1,4 @@
-import {TouchEvent, useRef, useState} from "react";
+import {useState} from "react";
 import AddButton from "./AddButton";
 import settingsIcon from "../assets/settings-icon.svg";
 import bellIcon from "../assets/bell-icon.svg";
@@ -105,58 +105,10 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean, setActive: Function }) {
-  const refBody = useRef<HTMLDivElement>(null);
-  let startPos = 0;
-  let difference = 0;
   const TOP_POS = window.isAndroid ? 107 : 80;
 
-  function move(event: TouchEvent) {
-    if (refBody.current!.scrollTop == 0) {
-      const target = event.currentTarget as HTMLElement
-      const posX =  event.changedTouches[0].pageY;
-      if (difference < 0) {
-        startPos = posX
-        difference = 0
-      } else {
-        difference = Math.ceil(posX - startPos)
-      }
-
-      const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
-
-      if(result < 500) {
-        target.style.top = result + `px`;
-      }
-    }
-  }
-  function beforeMove(e: TouchEvent<HTMLDivElement>) {
-    if (refBody.current!.scrollTop == 0) {
-      const target = e.currentTarget as HTMLElement
-      startPos = e.changedTouches[0].pageY;
-      target.style.transitionDuration = "0ms";
-
-      // @ts-ignore
-      target.addEventListener('touchmove', move);
-    }
-  }
-
-  function afterMove(e: TouchEvent<HTMLDivElement>) {
-    if (refBody.current!.scrollTop == 0 || difference > 0) {
-      startPos = e.changedTouches[0].pageY;
-      const target = e.currentTarget as HTMLElement
-      target.style.transitionDuration = "";
-
-      if (parseInt(target.style.top) >= 300) {
-        props.setActive(0);
-      }
-      // @ts-ignore
-      target.removeEventListener('touchmove', move);
-      target.style.top = TOP_POS + "px";
-    }
-  }
-
-
   return (
-    <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
+    <div
       className={`absolute bg-white transition-all duration-500  h-full left-0 right-0  rounded-3xl `}
          style={{top: props.isActive ? TOP_POS : "100%"}}
     >
@@ -169,7 +121,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
           Территория объекта относится к{" "}
           <span className="text-secondary">II категории содержания</span>
         </h3>
-        <div ref={refBody} className="h-full overflow-y-scroll">
+        <div className="h-full overflow-y-scroll">
           <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
             <dl className='flex justify-between text-primary font-bold'>
               <dt>Общая площадь</dt>

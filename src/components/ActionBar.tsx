@@ -111,7 +111,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   const TOP_POS = window.isAndroid ? 107 : 80;
 
   function move(event: TouchEvent) {
-    if (refBody.current!.scrollTop == 0) {
+    if (true) {
       const target = event.currentTarget as HTMLElement
       const posX =  event.changedTouches[0].pageY;
       if (difference < 0) {
@@ -137,7 +137,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     if (refBody.current!.scrollTop == 0) {
       const target = e.currentTarget as HTMLElement
       startPos = e.changedTouches[0].pageY;
-      //target.style.transitionDuration = "0ms";
+      target.style.transitionDuration = "0ms";
       console.log("before ", startPos);
 
       // @ts-ignore
@@ -149,7 +149,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     if (refBody.current!.scrollTop == 0 || difference > 0) {
       startPos = e.changedTouches[0].pageY;
       const target = e.currentTarget as HTMLElement
-      //target.style.transitionDuration = "";
+      target.style.transitionDuration = "";
 
       console.log("after " + target.style.top);
 
@@ -165,10 +165,10 @@ function Info(props: { isActive: boolean, setActive: Function }) {
 
   return (
     <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
-      className={`absolute bg-white  h-full left-0 right-0  rounded-3xl `}
+      className={`absolute bg-white transition-all duration-500  h-full left-0 right-0  rounded-3xl `}
          style={{top: props.isActive ? TOP_POS : "100%"}}
     >
-      <div className="h-full px-[24px] pt-2 pb-[280px]">
+      <div className="h-full px-[24px] pt-2 pb-[280px] ">
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
         <h2 className="text-2xl font-bold text-primary text-center mt-2">
           Характеристики объекта

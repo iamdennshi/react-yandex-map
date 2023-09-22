@@ -111,7 +111,7 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   const TOP_POS = window.isAndroid ? 107 : 80;
 
   function move(event: TouchEvent) {
-    if (true) {
+    if (refBody.current!.scrollTop == 0) {
       const target = event.currentTarget as HTMLElement
       const posX =  event.changedTouches[0].pageY;
       if (difference < 0) {
@@ -123,11 +123,6 @@ function Info(props: { isActive: boolean, setActive: Function }) {
 
       const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
 
-      console.log("startPOS ", startPos);
-      console.log("posX: ", posX)
-      console.log("differenec: " ,difference)
-      console.log("MOVE RESULT: " + result);
-
       if(result < 500) {
         target.style.top = result + `px`;
       }
@@ -138,7 +133,6 @@ function Info(props: { isActive: boolean, setActive: Function }) {
       const target = e.currentTarget as HTMLElement
       startPos = e.changedTouches[0].pageY;
       target.style.transitionDuration = "0ms";
-      console.log("before ", startPos);
 
       // @ts-ignore
       target.addEventListener('touchmove', move);
@@ -150,8 +144,6 @@ function Info(props: { isActive: boolean, setActive: Function }) {
       startPos = e.changedTouches[0].pageY;
       const target = e.currentTarget as HTMLElement
       target.style.transitionDuration = "";
-
-      console.log("after " + target.style.top);
 
       if (parseInt(target.style.top) >= 300) {
         props.setActive(0);

@@ -11,8 +11,6 @@ interface ActionProps {
   onClick: Function;
 }
 
-
-
 function HomeButton(props: ActionProps) {
   return (
     <button
@@ -107,7 +105,7 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean, setActive: Function }) {
-  let POS = 0;
+  let startPos = 0;
   let difference = 0;
   const TOP_POS = window.isAndroid ? 107 : 80;
 
@@ -115,15 +113,15 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     const target = event.currentTarget as HTMLElement
     const posX =  event.changedTouches[0].pageY;
     if (difference < 0) {
-      POS = posX
+      startPos = posX
       difference = 0
     } else {
-      difference = Math.ceil(posX - POS)
+      difference = Math.ceil(posX - startPos)
     }
 
     const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
 
-    console.log("startPOS ", POS);
+    console.log("startPOS ", startPos);
     console.log("posX: ", posX)
     console.log("differenec: " ,difference)
     console.log("MOVE RESULT: " + result);
@@ -134,17 +132,17 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   }
   function beforeMove(e: TouchEvent<HTMLDivElement>) {
     const target = e.currentTarget as HTMLElement
-    POS = e.changedTouches[0].pageY;
+    startPos = e.changedTouches[0].pageY;
     target.style.transitionDuration = "0ms";
-    console.log("before ", POS);
+    console.log("before ", startPos);
     // @ts-ignore
     target.addEventListener('touchmove', move);
   }
 
   function afterMove(e: TouchEvent<HTMLDivElement>) {
-    POS = e.changedTouches[0].pageY;
+    startPos = e.changedTouches[0].pageY;
     const target = e.currentTarget as HTMLElement
-    target.style.transitionDuration = "500ms";
+    target.style.transitionDuration = "";
 
     console.log("after " + target.style.top);
 
@@ -153,15 +151,15 @@ function Info(props: { isActive: boolean, setActive: Function }) {
     }
     // @ts-ignore
     target.removeEventListener('touchmove', move);
-    target.style.top = "";
+    target.style.top = TOP_POS + "px";
 
   }
 
+
   return (
     <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
-      className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl ${
-        props.isActive ? "top-20" : "top-full"
-      }`}
+      className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl `}
+         style={{top: props.isActive ? TOP_POS : "100%"}}
     >
       <div className="h-[520px] w-[360px] m-auto px-2 pt-2">
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>

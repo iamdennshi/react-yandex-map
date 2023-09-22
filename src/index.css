@@ -19,11 +19,11 @@ body {
 }
 
 .accordion:checked ~ * .accordion-arrow {
-  rotate: -90deg;
+  transform: rotate(90deg);
 }
 
 .accordion:checked ~ * .accordion-item {
-  display: none;
+  display: block;
 }
 
 .searchbox-item:last-of-type {

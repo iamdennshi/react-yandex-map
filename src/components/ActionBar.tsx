@@ -109,6 +109,7 @@ function SettingsButton(props: ActionProps) {
 function Info(props: { isActive: boolean, setActive: Function }) {
   let POS = 0;
   let difference = 0;
+  const TOP_POS = window.isAndroid ? 107 : 80;
 
   function move(event: TouchEvent) {
     const target = event.currentTarget as HTMLElement
@@ -120,14 +121,14 @@ function Info(props: { isActive: boolean, setActive: Function }) {
       difference = Math.ceil(posX - POS)
     }
 
-    const result =  (difference > 0) ? 80 + difference : 80;
+    const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
 
     console.log("startPOS ", POS);
     console.log("posX: ", posX)
     console.log("differenec: " ,difference)
     console.log("MOVE RESULT: " + result);
 
-    if(result < 450 && result > 70) {
+    if(result < 500) {
       target.style.top = result + `px`;
     }
   }

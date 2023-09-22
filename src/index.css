@@ -12,6 +12,20 @@ body {
   font-family: "Roboto", serif;
 }
 
+
+/* Accordion Styles */
+.accordion {
+  display: none;
+}
+
+.accordion:checked ~ * .accordion-arrow {
+  rotate: -90deg;
+}
+
+.accordion:checked ~ * .accordion-item {
+  display: none;
+}
+
 .searchbox-item:last-of-type {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
@@ -33,7 +47,6 @@ body {
 }
 
 /* YANDEX MAP API */
-
 /* Center Rulet */
 .ymaps-2-1-79-controls__control [style^="display: inline"]:first-of-type {
   transform: translateX(-50%);

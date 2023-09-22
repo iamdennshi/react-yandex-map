@@ -108,53 +108,67 @@ function Info(props: { isActive: boolean, setActive: Function }) {
   let startPos = 0;
   let difference = 0;
   const TOP_POS = window.isAndroid ? 107 : 80;
+  let useScroll = true;
 
   function move(event: TouchEvent) {
-    const target = event.currentTarget as HTMLElement
-    const posX =  event.changedTouches[0].pageY;
-    if (difference < 0) {
-      startPos = posX
-      difference = 0
-    } else {
-      difference = Math.ceil(posX - startPos)
-    }
+    if (!useScroll) {
+      const target = event.currentTarget as HTMLElement
+      const posX =  event.changedTouches[0].pageY;
+      if (difference < 0) {
+        startPos = posX
+        difference = 0
+      } else {
+        difference = Math.ceil(posX - startPos)
+      }
 
-    const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
+      const result =  (difference > 0) ? TOP_POS + difference : TOP_POS;
 
-    console.log("startPOS ", startPos);
-    console.log("posX: ", posX)
-    console.log("differenec: " ,difference)
-    console.log("MOVE RESULT: " + result);
+      console.log("startPOS ", startPos);
+      console.log("posX: ", posX)
+      console.log("differenec: " ,difference)
+      console.log("MOVE RESULT: " + result);
 
-    if(result < 500) {
-      target.style.top = result + `px`;
+      if(result < 500) {
+        target.style.top = result + `px`;
+      }
     }
   }
   function beforeMove(e: TouchEvent<HTMLDivElement>) {
-    const target = e.currentTarget as HTMLElement
-    startPos = e.changedTouches[0].pageY;
-    target.style.transitionDuration = "0ms";
-    console.log("before ", startPos);
-    // @ts-ignore
-    target.addEventListener('touchmove', move);
+    if (!useScroll) {
+      const target = e.currentTarget as HTMLElement
+      startPos = e.changedTouches[0].pageY;
+      target.style.transitionDuration = "0ms";
+      console.log("before ", startPos);
+
+      // @ts-ignore
+      target.addEventListener('touchmove', move);
+    }
   }
 
   function afterMove(e: TouchEvent<HTMLDivElement>) {
-    startPos = e.changedTouches[0].pageY;
-    const target = e.currentTarget as HTMLElement
-    target.style.transitionDuration = "";
+    if (!useScroll) {
+      startPos = e.changedTouches[0].pageY;
+      const target = e.currentTarget as HTMLElement
+      target.style.transitionDuration = "";
 
-    console.log("after " + target.style.top);
+      console.log("after " + target.style.top);
 
-    if (parseInt(target.style.top) >= 300) {
-      props.setActive(0);
+      if (parseInt(target.style.top) >= 300) {
+        props.setActive(0);
+      }
+      // @ts-ignore
+      target.removeEventListener('touchmove', move);
+      target.style.top = TOP_POS + "px";
     }
-    // @ts-ignore
-    target.removeEventListener('touchmove', move);
-    target.style.top = TOP_POS + "px";
-
   }
 
+  function scroll(e : any) {
+    if (e.target.scrollTop == 0) {
+      useScroll = false
+    } else {
+      useScroll = true
+    }
+  }
 
   return (
     <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
@@ -170,6 +184,50 @@ function Info(props: { isActive: boolean, setActive: Function }) {
           Территория объекта относится к{" "}
           <span className="text-secondary">II категории содержания</span>
         </h3>
+        <div onScroll={scroll} className="h-[300px] overflow-scroll">
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Общая площадь</dt>
+              <dd>12 345 кв.м</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px]">
+            <dl className='flex justify-between text-primary font-bold'>
+              <dt>Зеленые насаждения</dt>
+              <dd>150 шт</dd>
+            </dl>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -184,7 +242,7 @@ export default function ActionBar(props: ActionBarProps) {
 
   return (
     <>
-      <Info isActive={active === 1 ? true : false} setActive={setActive} />
+      <Info isActive={active === 1} setActive={setActive} />
       <div
         className={`absolute max-w-sm h-[66px] w-full px-4 left-1/2 -translate-x-1/2 flex transition-all duration-500 ${
           props.hideActionBar ? "-bottom-24" : "bottom-8"
@@ -194,14 +252,14 @@ export default function ActionBar(props: ActionBarProps) {
           <li className="">
             <HomeButton
               id={0}
-              isActive={active === 0 ? true : false}
+              isActive={active === 0}
               onClick={onClickButton}
             />
           </li>
           <li className="">
             <InfoButton
               id={1}
-              isActive={active === 1 ? true : false}
+              isActive={active === 1}
               onClick={onClickButton}
             />
           </li>
@@ -215,8 +273,8 @@ export default function ActionBar(props: ActionBarProps) {
             fill="#024751"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M3 0H0V69H87V0H84C84 22.0914 65.8676 40 43.5 40C21.1324 40 3 22.0914 3 0Z"
             />
           </svg>
@@ -226,14 +284,14 @@ export default function ActionBar(props: ActionBarProps) {
           <li className="">
             <BellButton
               id={2}
-              isActive={active === 2 ? true : false}
+              isActive={active === 2}
               onClick={onClickButton}
             />
           </li>
           <li className="">
             <SettingsButton
               id={3}
-              isActive={active === 3 ? true : false}
+              isActive={active === 3}
               onClick={onClickButton}
             />
           </li>

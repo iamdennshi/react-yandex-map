@@ -11,6 +11,8 @@ interface ActionProps {
   onClick: Function;
 }
 
+
+
 function HomeButton(props: ActionProps) {
   return (
     <button
@@ -105,33 +107,57 @@ function SettingsButton(props: ActionProps) {
 }
 
 function Info(props: { isActive: boolean, setActive: Function }) {
-  function move(e: TouchEvent<HTMLDivElement>) {
-    const posY = e.changedTouches[0].pageY;
-    const currentTarget = e.currentTarget as HTMLElement;
-    console.log(e);
-    console.log(posY)
+  let POS = 0;
+  let difference = 0;
 
-    currentTarget.style.top = posY + 'px';
+  function move(event: TouchEvent) {
+    const target = event.currentTarget as HTMLElement
+    const posX =  event.changedTouches[0].pageY;
+    if (difference < 0) {
+      POS = posX
+      difference = 0
+    } else {
+      difference = Math.ceil(posX - POS)
+    }
+
+    const result =  (difference > 0) ? 80 + difference : 80;
+
+    console.log("startPOS ", POS);
+    console.log("posX: ", posX)
+    console.log("differenec: " ,difference)
+    console.log("MOVE RESULT: " + result);
+
+    if(result < 450 && result > 70) {
+      target.style.top = result + `px`;
+    }
   }
   function beforeMove(e: TouchEvent<HTMLDivElement>) {
     const target = e.currentTarget as HTMLElement
+    POS = e.changedTouches[0].pageY;
     target.style.transitionDuration = "0ms";
-    console.log(target.style.transitionDuration)
+    console.log("before ", POS);
+    // @ts-ignore
+    target.addEventListener('touchmove', move);
   }
 
   function afterMove(e: TouchEvent<HTMLDivElement>) {
-    const posY = e.changedTouches[0].pageY;
+    POS = e.changedTouches[0].pageY;
     const target = e.currentTarget as HTMLElement
     target.style.transitionDuration = "500ms";
-    target.style.top = "";
 
-    if (posY >= 300) {
+    console.log("after " + target.style.top);
+
+    if (parseInt(target.style.top) >= 300) {
       props.setActive(0);
     }
+    // @ts-ignore
+    target.removeEventListener('touchmove', move);
+    target.style.top = "";
+
   }
 
   return (
-    <div onTouchStart={beforeMove} onTouchMove={move} onTouchEnd={afterMove}
+    <div onTouchStart={beforeMove}  onTouchEnd={afterMove}
       className={`absolute bg-white  h-full left-0 right-0 transition-all duration-500 rounded-3xl ${
         props.isActive ? "top-20" : "top-full"
       }`}

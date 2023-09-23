@@ -13,6 +13,11 @@ body {
 }
 
 
+/* For input serachbox*/
+.searchbox--shadow {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
 /* Accordion Styles */
 .accordion {
   display: none;
@@ -26,16 +31,13 @@ body {
   display: block;
 }
 
-.searchbox-item:last-of-type {
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
+
 
 .button-shadow--active {
   box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;
 }
 
-/* Close icon - x */
+/* Close icon (x) for searchbox */
 .close-icon {
   display: block;
   width: 30px;
@@ -81,4 +83,9 @@ ymaps .ymaps-2-1-79-balloon__content ymaps {
 .ymaps-2-1-79-balloon__content {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* Disable shadow in arrow*/
+.ymaps-2-1-79-balloon__tail {
+  box-shadow: none !important;
 }

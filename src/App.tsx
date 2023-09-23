@@ -133,7 +133,7 @@ export default function App() {
         hideSearch={hideSearch}
         setHideActionBar={setHideActionBar}
       />
-      <ActionBar onAdd={null} hideActionBar={hideActionBar} />
+      <ActionBar onAdd={null} hideActionBar={hideActionBar} place={placesData[currentPlace]} />
     </div>
   );
 }

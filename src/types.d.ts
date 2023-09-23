@@ -37,8 +37,13 @@ interface PlaceInfo {
   id: number;
   cords: number[];
   address: string;
+  parameters: PlaceParams;
   trees: TreeInfo[];
   furniture: FurnitureInfo[];
+}
+
+interface PlaceParams {
+  totalArea: number;
 }
 
 interface AddButtonType {
@@ -47,6 +52,7 @@ interface AddButtonType {
 
 interface ActionBarProps extends AddButtonType {
   hideActionBar: boolean;
+  place: PlaceInfo;
 }
 
 type TypeItem = "furniture" | "tree";

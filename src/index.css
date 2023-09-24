@@ -37,18 +37,12 @@ body {
   box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;
 }
 
-/* Close icon (x) for searchbox */
-.close-icon {
-  display: block;
-  width: 30px;
-  height: 40px;
-  cursor: pointer;
-  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTQgLjdsLS43LS43TDcgNi4zLjcgMCAwIC43IDYuMyA3IDAgMTMuM2wuNy43TDcgNy43bDYuMyA2LjMuNy0uN0w3LjcgN3oiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==)
-    50% no-repeat;
-  opacity: 0.3;
+/* YANDEX MAP API */
+/* Hide icon in balloon */
+.ymaps-2-1-79-balloon__close-button {
+  opacity: 0 !important;
 }
 
-/* YANDEX MAP API */
 /* Center Rulet */
 .ymaps-2-1-79-controls__control [style^="display: inline"]:first-of-type {
   transform: translateX(-50%);

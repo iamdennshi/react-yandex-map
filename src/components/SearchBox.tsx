@@ -49,6 +49,7 @@ export default function SearchBox({
     .filter((i) => i.address.includes(fromInput))
     .map((i) => (
       <li
+          className={"active:bg-[#E6FBF3]  px-[28px] rounded-full py-[7px] transition-all"}
         key={i.id}
         tabIndex={i.id}
         onClick={onItemClick}
@@ -68,14 +69,14 @@ export default function SearchBox({
       <div
         onClick={onClickSearchbox}
         className={`absolute z-20 left-1/2 ${
-          hideSearch ? "-top-11" : relativeShow
+          hideSearch ? "-top-14" : relativeShow
         } -translate-x-1/2 max-w-[400px] w-full px-4 transition-all duration-500`}
       >
-        <div className={`bg-white   px-[15px]  border border-[#E6EDEE] searchbox--shadow ${searchboxItems.length > 0 && isActiveInput
+        <div className={`bg-white   pl-[15px] pr-[20px]  border border-[#E6EDEE] searchbox--shadow ${searchboxItems.length > 0 && isActiveInput
                         ? "rounded-2xl"
                         : "rounded-full"}
                 ` }>
-          <div className='flex py-[14px]'>
+          <div className='flex py-[14px] '>
             <img src={searchIcon} />
             <input
                 ref={inputRef}
@@ -88,7 +89,7 @@ export default function SearchBox({
                 onChange={({ target }) => setFromInput(target.value)}
             />
             {fromInput !== "" && (
-                <img className='w-[10px]'  src={closeIcon}
+                <img className='w-[14px]'  src={closeIcon}
                      onClick={() => {
                        setFromInput("");
                        inputRef.current.focus();
@@ -97,16 +98,11 @@ export default function SearchBox({
             )}
           </div>
           {isActiveInput && searchboxItems.length > 0 && (
-              <div className='border-t-2 border-[#E6EDEE] '>
-                <ul className="flex flex-col gap-[14px] bg-white text-primary px-7 py-[14px] cursor-pointer">
-                  {searchboxItems}
-                </ul>
-              </div>
+            <ul className="flex border-t-2 border-[#E6EDEE] flex-col gap-[7px] bg-white text-primary py-[7px] cursor-pointer">
+              {searchboxItems}
+            </ul>
           )}
         </div>
-
-
-
       </div>
     </>
   );

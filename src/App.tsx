@@ -8,8 +8,8 @@ import {useCallback, useState} from "react";
 import { placesData } from "./data";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
-import {FurnitureMark} from "./components/FurnitureMark.tsx";
-import {TreeMark} from "./components/TreeMark.tsx";
+import FurnitureMark from "./components/FurnitureMark.tsx";
+import TreeMark from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {

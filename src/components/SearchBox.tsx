@@ -62,7 +62,7 @@ export default function SearchBox({
     <>
       <div
         onClick={hideOverleyWhenClickOutside}
-        className={`fixed transition-all duration-500 ${
+        className={`fixed z-20 transition-all duration-500 ${
           isActiveInput ? " opacity-100 " : " opacity-0 invisible"
         } inset-0  bg-black bg-opacity-50`}
       ></div>

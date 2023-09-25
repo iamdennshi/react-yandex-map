@@ -53,6 +53,7 @@ interface AddButtonType {
 interface ActionBarProps extends AddButtonType {
   hideActionBar: boolean;
   place: PlaceInfo;
+  toggleUI: Function;
 }
 
 type TypeItem = "furniture" | "tree";

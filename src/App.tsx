@@ -1,11 +1,11 @@
 import {
-  Clusterer,
-  Map,
-  RulerControl,
-  ZoomControl,
+    Clusterer,
+    Map, Placemark,
+    RulerControl,
+    ZoomControl,
 } from "@pbe/react-yandex-maps";
 import TreeMark from "./components/TreeMark";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { placesData } from "./data";
 import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
@@ -45,7 +45,10 @@ export default function App() {
   // const mapRef = useRef<ymaps.Map>(null);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
-
+  const toggleUI = () => {
+        setHideSearch((prev) => !prev);
+        setHideActionBar((prev) => !prev);
+  }
   // function onAdd() {
   // mapRef.current.panTo([58.010829, 56.253604]);
 
@@ -68,8 +71,7 @@ export default function App() {
 
   const onClickMark = useCallback((id: number) => {
     console.log("onMark ", id);
-    setHideSearch((prev) => !prev);
-    setHideActionBar((prev) => !prev);
+      toggleUI()
   }, []);
 
   return (
@@ -93,47 +95,47 @@ export default function App() {
         <RulerControl options={{ position: { left: "50%", bottom: 10 } }} />
 
         {/* Деревья */}
-        <Clusterer
-          options={{
-            preset: "islands#darkGreenClusterIcons",
-            groupByCoordinates: false,
-          }}
-        >
-          {places[currentPlace].trees.map((item: TreeInfo) => (
-            <TreeMark
-              key={item.id}
-              placeID={currentPlace}
-              onClickMark={onClickMark}
-              info={item}
-            />
-          ))}
-        </Clusterer>
+        {/*<Clusterer*/}
+        {/*  options={{*/}
+        {/*    preset: "islands#darkGreenClusterIcons",*/}
+        {/*    groupByCoordinates: false,*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {places[currentPlace].trees.map((item: TreeInfo) => (*/}
+        {/*    <TreeMark*/}
+        {/*      key={item.id}*/}
+        {/*      placeID={currentPlace}*/}
+        {/*      onClickMark={onClickMark}*/}
+        {/*      info={item}*/}
+        {/*    />*/}
+        {/*  ))}*/}
+        {/*</Clusterer>*/}
 
         {/* МАФ */}
-        <Clusterer
-          options={{
-            preset: "islands#darkOrangeClusterIcons",
-            groupByCoordinates: false,
-          }}
-        >
-          {places[currentPlace].furniture.map((item: FurnitureInfo) => (
-            <FurnitureMark
-              key={item.id}
-              placeID={currentPlace}
-              onClickMark={onClickMark}
-              info={item}
-            />
-          ))}
-        </Clusterer>
+        {/*<Clusterer*/}
+        {/*  options={{*/}
+        {/*    preset: "islands#darkOrangeClusterIcons",*/}
+        {/*    groupByCoordinates: false,*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {places[currentPlace].furniture.map((item: FurnitureInfo) => (*/}
+        {/*    <FurnitureMark*/}
+        {/*      key={item.id}*/}
+        {/*      placeID={currentPlace}*/}
+        {/*      onClickMark={onClickMark}*/}
+        {/*      info={item}*/}
+        {/*    />*/}
+        {/*  ))}*/}
+        {/*</Clusterer>*/}
+          <SearchBox
+              places={places}
+              currentPlace={currentPlace}
+              setCurrentPlace={setCurrentPlace}
+              hideSearch={hideSearch}
+              setHideActionBar={setHideActionBar}
+          />
+          <ActionBar toggleUI={toggleUI}  hideActionBar={hideActionBar} place={placesData[currentPlace]} />
       </Map>
-      <SearchBox
-        places={places}
-        currentPlace={currentPlace}
-        setCurrentPlace={setCurrentPlace}
-        hideSearch={hideSearch}
-        setHideActionBar={setHideActionBar}
-      />
-      <ActionBar onAdd={null} hideActionBar={hideActionBar} place={placesData[currentPlace]} />
     </div>
   );
 }

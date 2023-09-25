@@ -46,11 +46,8 @@ interface PlaceParams {
   totalArea: number;
 }
 
-interface AddButtonType {
-  onAdd: MouseEventHandler;
-}
 
-interface ActionBarProps extends AddButtonType {
+interface ActionBarProps  {
   hideActionBar: boolean;
   place: PlaceInfo;
   toggleUI: Function;

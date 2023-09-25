@@ -1,13 +1,10 @@
 import {
-    Clusterer,
-    Map, Placemark,
+    Map,
     RulerControl,
     ZoomControl,
 } from "@pbe/react-yandex-maps";
-import TreeMark from "./components/TreeMark";
-import React, { useCallback, useState } from "react";
+import {  useState } from "react";
 import { placesData } from "./data";
-import FurnitureMark from "./components/FurnitureMark";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
 
@@ -69,10 +66,10 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
-  const onClickMark = useCallback((id: number) => {
-    console.log("onMark ", id);
-      toggleUI()
-  }, []);
+  // const onClickMark = useCallback((id: number) => {
+  //   console.log("onMark ", id);
+  //     toggleUI()
+  // }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden">

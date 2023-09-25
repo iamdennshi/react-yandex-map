@@ -1,12 +1,15 @@
 import {
+    Clusterer,
     Map,
     RulerControl,
     ZoomControl,
 } from "@pbe/react-yandex-maps";
-import {  useState } from "react";
+import {useCallback, useState} from "react";
 import { placesData } from "./data";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
+import {FurnitureMark} from "./components/FurnitureMark.tsx";
+import {TreeMark} from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {
@@ -66,10 +69,10 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
-  // const onClickMark = useCallback((id: number) => {
-  //   console.log("onMark ", id);
-  //     toggleUI()
-  // }, []);
+  const onClickMark = useCallback((id: number) => {
+    console.log("onMark ", id);
+      toggleUI()
+  }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -92,38 +95,38 @@ export default function App() {
         <RulerControl options={{ position: { left: "50%", bottom: 10 } }} />
 
         {/* Деревья */}
-        {/*<Clusterer*/}
-        {/*  options={{*/}
-        {/*    preset: "islands#darkGreenClusterIcons",*/}
-        {/*    groupByCoordinates: false,*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {places[currentPlace].trees.map((item: TreeInfo) => (*/}
-        {/*    <TreeMark*/}
-        {/*      key={item.id}*/}
-        {/*      placeID={currentPlace}*/}
-        {/*      onClickMark={onClickMark}*/}
-        {/*      info={item}*/}
-        {/*    />*/}
-        {/*  ))}*/}
-        {/*</Clusterer>*/}
+        <Clusterer
+          options={{
+            preset: "islands#darkGreenClusterIcons",
+            groupByCoordinates: false,
+          }}
+        >
+          {places[currentPlace].trees.map((item: TreeInfo) => (
+            <TreeMark
+              key={item.id}
+              placeID={currentPlace}
+              onClickMark={onClickMark}
+              info={item}
+            />
+          ))}
+        </Clusterer>
 
         {/* МАФ */}
-        {/*<Clusterer*/}
-        {/*  options={{*/}
-        {/*    preset: "islands#darkOrangeClusterIcons",*/}
-        {/*    groupByCoordinates: false,*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {places[currentPlace].furniture.map((item: FurnitureInfo) => (*/}
-        {/*    <FurnitureMark*/}
-        {/*      key={item.id}*/}
-        {/*      placeID={currentPlace}*/}
-        {/*      onClickMark={onClickMark}*/}
-        {/*      info={item}*/}
-        {/*    />*/}
-        {/*  ))}*/}
-        {/*</Clusterer>*/}
+        <Clusterer
+          options={{
+            preset: "islands#darkOrangeClusterIcons",
+            groupByCoordinates: false,
+          }}
+        >
+          {places[currentPlace].furniture.map((item: FurnitureInfo) => (
+            <FurnitureMark
+              key={item.id}
+              placeID={currentPlace}
+              onClickMark={onClickMark}
+              info={item}
+            />
+          ))}
+        </Clusterer>
           <SearchBox
               places={places}
               currentPlace={currentPlace}

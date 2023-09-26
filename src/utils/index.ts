@@ -1,7 +1,5 @@
 export function createContentMark(body: string, placeID: number, info: FurnitureInfo | TreeInfo, type: TypeItem):string {
 
-    const primaryColor = type == 'tree' ? '#58D364' : '#D39658'
-    const bgColor = type == 'tree' ? '#DDFFE0' : '#FFEEDD'
     const title = type == 'tree' ? 'дерево' : 'МАФ'
 const stringify = JSON.stringify(info).replaceAll('"', "'");
     const handleEdit = `window.editMark(${placeID}, ${stringify}, '${type}')`;
@@ -17,11 +15,11 @@ const stringify = JSON.stringify(info).replaceAll('"', "'");
   </div>
   <div>
     <h2 class="text-center text-2xl font-bold text-primary  my-2 ">${info.name.toLocaleUpperCase()}</h2>
-    <h3 class="w-[61px] mx-auto text-center rounded-md bg-[${bgColor}] text-[${primaryColor}]">${title}</h3>
+    <h3 class="w-[61px] mx-auto text-center rounded-md ${type == 'tree' ? 'text-[#58D364] bg-[#DDFFE0]' : 'text-[#D39658] bg-[#FFEEDD]'}">${title}</h3>
     <ul class="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll ">
         ${body}
     </ul>
-    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] text-[${primaryColor}] border-[${primaryColor}] rounded mb-2">Редактировать</button>
+    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] ${type == 'tree' ? 'text-[#58D364] border-[#58D364]' : 'text-[#D39658] border-[#D39658]' }  rounded mb-2">Редактировать</button>
     <div class="text-center text-gray mb-2"">Последнее изменение 02.07.2023 16:37</div>
   </div>
 </div>`;

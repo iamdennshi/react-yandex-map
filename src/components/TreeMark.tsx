@@ -19,7 +19,7 @@ export function TreeMark(props: TreeProps) {
       <li class="text-primary">Комментарий: <span class="font-bold break-words">${
       props.info.comment
   } </span>`
-  const content = createContentMark(body, props.placeID, props.info, 'tree' )
+  const content = createContentMark('tree', body, props.placeID, props.info,  )
 
   return (
     <>

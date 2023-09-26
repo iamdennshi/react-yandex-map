@@ -10,7 +10,7 @@ export function FurnitureMark(props: FurnitureProps) {
     <li class="text-primary">Состояние: <span class="font-bold">удовлетворительное</span></li>
     <li class="text-primary">Комментарий: <span class="font-bold break-words">${props.info.comment}</span>
   `
-  const content = createContentMark(body, props.placeID, props.info, 'furniture' )
+  const content = createContentMark('furniture', body, props.placeID, props.info,  )
 
 
 

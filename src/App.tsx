@@ -75,7 +75,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="relative overflow-hidden">
       <Map
         state={{
           center: places[currentPlace].cords,
@@ -87,8 +87,8 @@ export default function App() {
         }}
         // instanceRef={mapRef}
         // instanceRef={(ref) => ref && setMapRef(ref)}
-        width={"100vw"}
-        height={"100vh"}
+        width={"100%"}
+        height={"100dvh"}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />

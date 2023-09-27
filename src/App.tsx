@@ -45,6 +45,7 @@ export default function App() {
   // const mapRef = useRef<ymaps.Map>(null);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
+  const height = window.isAndroid ? "100vh" : "100dvh"
   const toggleUI = () => {
         setHideSearch((prev) => !prev);
         setHideActionBar((prev) => !prev);
@@ -87,8 +88,8 @@ export default function App() {
         }}
         // instanceRef={mapRef}
         // instanceRef={(ref) => ref && setMapRef(ref)}
-        width={"100%"}
-        height={"100dvh"}
+        width={"100vw"}
+        height={height}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
       >
         <ZoomControl options={{ visible: true }} />

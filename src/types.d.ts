@@ -46,8 +46,7 @@ interface PlaceParams {
   totalArea: number;
 }
 
-
-interface ActionBarProps  {
+interface ActionBarProps {
   hideActionBar: boolean;
   place: PlaceInfo;
   toggleUI: Function;

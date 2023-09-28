@@ -1,11 +1,15 @@
-export function createContentMark(type: TypeItem, body: string, placeID: number, info: FurnitureInfo | TreeInfo): string {
-
-    const title = type == 'tree' ? 'дерево' : 'МАФ'
-    const stringify = JSON.stringify(info).replaceAll('"', "'")
-    const handleEdit =   `window.editMark(${placeID}, ${stringify}, '${type}')`
-    const infoImg =  info.img
-    const infoTitle =  info.name.toLocaleUpperCase()
-    return `
+export function createContentMark(
+  type: TypeItem,
+  body: string,
+  placeID: number,
+  info: FurnitureInfo | TreeInfo,
+): string {
+  const title = type == "tree" ? "дерево" : "МАФ";
+  const stringify = JSON.stringify(info).replaceAll('"', "'");
+  const handleEdit = `window.editMark(${placeID}, ${stringify}, '${type}')`;
+  const infoImg = info.img;
+  const infoTitle = info.name.toLocaleUpperCase();
+  return `
   <div class="max-h-[600px] w-[300px]">
   <div class="absolute right-2 top-3 bg-white rounded-full p-2">
     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="#B2ABAB">
@@ -17,11 +21,19 @@ export function createContentMark(type: TypeItem, body: string, placeID: number,
   </div>
   <div>
     <h2 class="text-center text-2xl font-bold text-primary  my-2 ">${infoTitle}</h2>
-    <h3 class="w-[61px] mx-auto text-center rounded-md ${type == 'tree' ? 'text-[#58D364] bg-[#DDFFE0]' : 'text-[#D39658] bg-[#FFEEDD]'}">${title}</h3>
+    <h3 class="w-[61px] mx-auto text-center rounded-md ${
+      type == "tree"
+        ? "text-[#58D364] bg-[#DDFFE0]"
+        : "text-[#D39658] bg-[#FFEEDD]"
+    }">${title}</h3>
     <ul class="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll ">
         ${body}
     </ul>
-    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] ${type == 'tree' ? 'text-[#58D364] border-[#58D364]' : 'text-[#D39658] border-[#D39658]'}  rounded mb-2">Редактировать</button>
+    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] ${
+      type == "tree"
+        ? "text-[#58D364] border-[#58D364]"
+        : "text-[#D39658] border-[#D39658]"
+    }  rounded mb-2">Редактировать</button>
     <div class="text-center text-gray mb-2">Последнее изменение 02.07.2023 16:37</div>
   </div>
 </div>`;

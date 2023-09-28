@@ -1,10 +1,10 @@
 import {
-    Clusterer,
-    Map,
-    RulerControl,
-    ZoomControl,
+  Clusterer,
+  Map,
+  RulerControl,
+  ZoomControl,
 } from "@pbe/react-yandex-maps";
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 import { placesData } from "./data";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
@@ -16,16 +16,17 @@ declare global {
     editMark: (
       placeID: number,
       infoItemStringify: string,
-      itemType: TypeItem
+      itemType: TypeItem,
     ) => void;
     isAndroid: boolean;
+    ymap: ymaps.Map;
   }
 }
 
 window.editMark = (
   placeID: number,
   infoItemStringify: string,
-  itemType: TypeItem
+  itemType: TypeItem,
 ) => {
   console.log(placeID);
   console.log(infoItemStringify);
@@ -45,11 +46,11 @@ export default function App() {
   // const mapRef = useRef<ymaps.Map>(null);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
-  const height = window.isAndroid ? "100vh" : "100dvh"
+  const height = window.isAndroid ? "100vh" : "100dvh";
   const toggleUI = () => {
-        setHideSearch((prev) => !prev);
-        setHideActionBar((prev) => !prev);
-  }
+    setHideSearch((prev) => !prev);
+    setHideActionBar((prev) => !prev);
+  };
   // function onAdd() {
   // mapRef.current.panTo([58.010829, 56.253604]);
 
@@ -72,7 +73,7 @@ export default function App() {
 
   const onClickMark = useCallback((id: number) => {
     console.log("onMark ", id);
-      toggleUI()
+    toggleUI();
   }, []);
 
   return (
@@ -87,7 +88,7 @@ export default function App() {
           minZoom: 18,
         }}
         // instanceRef={mapRef}
-        // instanceRef={(ref) => ref && setMapRef(ref)}
+        instanceRef={(ref) => (window.ymap = ref)}
         width={"100vw"}
         height={height}
         modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
@@ -128,14 +129,18 @@ export default function App() {
             />
           ))}
         </Clusterer>
-          <SearchBox
-              places={places}
-              currentPlace={currentPlace}
-              setCurrentPlace={setCurrentPlace}
-              hideSearch={hideSearch}
-              setHideActionBar={setHideActionBar}
-          />
-          <ActionBar toggleUI={toggleUI}  hideActionBar={hideActionBar} place={placesData[currentPlace]} />
+        <SearchBox
+          places={places}
+          currentPlace={currentPlace}
+          setCurrentPlace={setCurrentPlace}
+          hideSearch={hideSearch}
+          setHideActionBar={setHideActionBar}
+        />
+        <ActionBar
+          toggleUI={toggleUI}
+          hideActionBar={hideActionBar}
+          place={placesData[currentPlace]}
+        />
       </Map>
     </div>
   );

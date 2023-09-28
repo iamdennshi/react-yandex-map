@@ -4,7 +4,7 @@ export const placesData: PlaceInfo[] = [
     cords: [58.013436, 56.260534],
     address: "сад Декабристов",
     parameters: {
-      totalArea: 2
+      totalArea: 2,
     },
     trees: [
       {
@@ -35,7 +35,7 @@ export const placesData: PlaceInfo[] = [
     cords: [58.010829, 56.253604],
     address: "сад имени Любимова",
     parameters: {
-      totalArea: 1
+      totalArea: 1,
     },
     trees: [
       {

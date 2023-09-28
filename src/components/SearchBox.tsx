@@ -1,6 +1,6 @@
 import { MouseEvent, useRef, useState } from "react";
-import searchIcon from '../assets/search-icon.svg'
-import closeIcon from '../assets/close.svg'
+import searchIcon from "../assets/search-icon.svg";
+import closeIcon from "../assets/close.svg";
 type Searchbox = {
   places: PlaceInfo[];
   currentPlace: number;
@@ -49,7 +49,9 @@ export default function SearchBox({
     .filter((i) => i.address.includes(fromInput))
     .map((i) => (
       <li
-          className={"active:bg-[#E6FBF3]  px-[28px] rounded-full py-[7px] transition-all"}
+        className={
+          "hover:bg-[#E6FBF3] active:bg-secondary active:text-white  px-[28px] rounded-full py-[7px] transition-all"
+        }
         key={i.id}
         tabIndex={i.id}
         onClick={onItemClick}
@@ -72,29 +74,37 @@ export default function SearchBox({
           hideSearch ? "-top-14" : relativeShow
         } -translate-x-1/2 max-w-[400px] w-full px-4 transition-all duration-500`}
       >
-        <div className={`bg-white   pl-[15px] pr-[20px]  border border-[#E6EDEE] searchbox--shadow ${searchboxItems.length > 0 && isActiveInput
-                        ? "rounded-2xl"
-                        : "rounded-full"}
-                ` }>
-          <div className='flex py-[14px] '>
+        <div
+          className={`bg-white   pl-[15px] pr-[20px]  border border-[#E6EDEE] searchbox--shadow ${
+            searchboxItems.length > 0 && isActiveInput
+              ? "rounded-2xl"
+              : "rounded-full"
+          }
+                `}
+        >
+          <div className="flex py-[14px] ">
             <img src={searchIcon} />
             <input
-                ref={inputRef}
-                value={fromInput}
-                className={`block placeholder:text-[#C1C1C1] font-bold w-full px-[10px] bg-transparent   
+              ref={inputRef}
+              value={fromInput}
+              className={`block placeholder:text-[#C1C1C1] font-bold w-full px-[10px] bg-transparent   
 
-          ${searchboxItems.length > 0 ? "text-primary " : "text-red-500 "}  outline-none `}
-                type="text"
-                placeholder="Название объекта"
-                onChange={({ target }) => setFromInput(target.value)}
+          ${
+            searchboxItems.length > 0 ? "text-primary " : "text-red-500 "
+          }  outline-none `}
+              type="text"
+              placeholder="Название объекта"
+              onChange={({ target }) => setFromInput(target.value)}
             />
             {fromInput !== "" && (
-                <img className='w-[14px]'  src={closeIcon}
-                     onClick={() => {
-                       setFromInput("");
-                       inputRef.current.focus();
-                     }}
-                />
+              <img
+                className="w-[14px]"
+                src={closeIcon}
+                onClick={() => {
+                  setFromInput("");
+                  inputRef.current.focus();
+                }}
+              />
             )}
           </div>
           {isActiveInput && searchboxItems.length > 0 && (

@@ -4,7 +4,8 @@
 @tailwind utilities;
 
 /* Hide blue background on click for Android */
-button {
+button,
+ul {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -12,10 +13,9 @@ body {
   font-family: "Roboto", serif;
 }
 
-
 /* For input serachbox*/
 .searchbox--shadow {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Accordion Styles */
@@ -30,8 +30,6 @@ body {
 .accordion:checked ~ * .accordion-item {
   display: block;
 }
-
-
 
 .button-shadow--active {
   box-shadow: rgba(9, 255, 0, 0.5) 0px 0px 16px;

@@ -9,5 +9,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <YMaps query={{ apikey: import.meta.env.VITE_API_KEY }}>
       <App />
     </YMaps>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -161,9 +161,14 @@ function Info(props: InfoParams) {
 
 interface AddModeProps {
   place: PlaceInfo;
+  onCloseAdding: Function;
 }
 
-function NewMark() {
+interface NewMarkProps {
+  onCloseAdding: Function;
+}
+
+function NewMark(props: NewMarkProps) {
   const imgRef = useRef(null);
   console.log("NewMark render");
 
@@ -178,7 +183,7 @@ function NewMark() {
   return (
     <div className="item_border absolute  left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 bg-white inset-0 max-h-fit w-[300px] overflow-hidden">
       <div className="absolute right-2 top-3 bg-white rounded-full p-2">
-        <img src={closeIcon} />
+        <img onClick={() => props.onCloseAdding()} src={closeIcon} />
       </div>
       <label className="cursor-pointer" htmlFor="itemImage">
         <img
@@ -270,7 +275,7 @@ function AddMode(props: AddModeProps) {
           }}
         />
       ) : (
-        <NewMark />
+        <NewMark onCloseAdding={props.onCloseAdding} />
       )}
 
       {showInfo && (
@@ -328,6 +333,11 @@ export default function ActionBar(props: ActionBarProps) {
     props.toggleUI();
   };
 
+  const onCloseAdding = () => {
+    setIsAddingMode(false);
+    props.toggleUI();
+  };
+
   // Hide Info when click on seachbar
   useEffect(() => {
     setActive(0);
@@ -335,7 +345,9 @@ export default function ActionBar(props: ActionBarProps) {
 
   return (
     <>
-      {isAddingMode && <AddMode place={props.place} />}
+      {isAddingMode && (
+        <AddMode place={props.place} onCloseAdding={onCloseAdding} />
+      )}
       <Info isActive={active === 1} setActive={setActive} place={props.place} />
       <div
         className={`absolute z-10 max-w-sm h-[66px] w-full px-4 left-1/2 -translate-x-1/2 flex transition-all duration-500 ${

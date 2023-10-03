@@ -20,21 +20,21 @@ export function createContentMark(
     <img class="h-[260px] w-full object-cover" src="${infoImg}"/>
   </div>
   <div>
-    <h2 class="text-center text-2xl font-bold text-primary  my-2 ">${infoTitle}</h2>
-    <h3 class="w-[61px] mx-auto text-center rounded-md ${
+    <h2 class="text-center text-2xl font-bold text-primary  my-2 uppercase ">${infoTitle}</h2>
+    <h3 class="w-[61px] mx-auto text-center rounded-md text-sm ${
       type == "tree"
         ? "text-[#58D364] bg-[#DDFFE0]"
         : "text-[#D39658] bg-[#FFEEDD]"
     }">${title}</h3>
-    <ul class="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll ">
+    <ul class="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll text-sm">
         ${body}
     </ul>
-    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] ${
+    <button onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] text-sm ${
       type == "tree"
         ? "text-[#58D364] border-[#58D364]"
         : "text-[#D39658] border-[#D39658]"
     }  rounded mb-2">Редактировать</button>
-    <div class="text-center text-gray mb-2">Последнее изменение 02.07.2023 16:37</div>
+    <div class="text-center text-gray mb-2 text-sm">Последнее изменение 02.07.2023 16:37</div>
   </div>
 </div>`;
 }

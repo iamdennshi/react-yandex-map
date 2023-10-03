@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import AddButton from "./AddButton";
 import settingsIcon from "../assets/settings-icon.svg";
 import bellIcon from "../assets/bell-icon.svg";
@@ -72,9 +72,9 @@ function Info(props: InfoParams) {
             </dl>
           </div>
 
-          <div className=" bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all">
+          <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all">
             <input className="accordion" id="one" type="checkbox" />
-            <label htmlFor="one" className="">
+            <label htmlFor="one">
               <div className="flex text-primary font-bold">
                 <div className="pr-2 ">
                   <svg
@@ -164,33 +164,69 @@ interface AddModeProps {
 }
 
 function NewMark() {
+  const imgRef = useRef(null);
   console.log("NewMark render");
 
+  const onChangeImage = (e: ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && imgRef.current && target.files[0]) {
+      const img = imgRef.current as HTMLInputElement;
+      img.src = URL.createObjectURL(target.files[0]);
+    }
+  };
+
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 bg-white inset-0 max-h-fit w-[300px]">
+    <div className="item_border absolute  left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 bg-white inset-0 max-h-fit w-[300px] overflow-hidden">
       <div className="absolute right-2 top-3 bg-white rounded-full p-2">
         <img src={closeIcon} />
       </div>
-      <div className="cursor-pointer">
+      <label className="cursor-pointer" htmlFor="itemImage">
         <img
+          ref={imgRef}
           className="h-[260px] w-full object-cover"
           src="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
         />
-      </div>
-      <div>
-        <h2 className="text-center text-2xl font-bold text-primary  my-2 ">
-          фывфывфыв
-        </h2>
-        <h3 className="w-[61px] mx-auto text-center rounded-md ${type == 'tree' ? 'text-[#58D364] bg-[#DDFFE0]' : 'text-[#D39658] bg-[#FFEEDD]'}">
-          title
-        </h3>
-        <ul className="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll "></ul>
-        <button className="block px-4 py-1 m-auto border-solid border-[1px] ${type == 'tree' ? 'text-[#58D364] border-[#58D364]' : 'text-[#D39658] border-[#D39658]'}  rounded mb-2">
-          Сохранить
-        </button>
-        <div className="text-center text-gray mb-2">
-          Последнее изменение 02.07.2023 16:37
-        </div>
+      </label>
+      <input
+        onChange={onChangeImage}
+        id="itemImage"
+        className="hidden"
+        type="file"
+        accept=".jpg, .jpeg, .png"
+      />
+      <input
+        type="text"
+        placeholder="название объекта"
+        className="block w-full text-center text-2xl font-bold text-primary my-2 uppercase outline-0"
+      />
+      <h3 className="w-[61px] mx-auto text-center rounded-md text-[#D39658] bg-[#FFEEDD] text-sm">
+        МАФ
+      </h3>
+      <ul className="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll text-sm text-primary">
+        <li className="flex">
+          <span>Состояние: </span>
+          <select className="outline-0 font-bold basis-full">
+            <option className="">отличное</option>
+            <option>хорошее</option>
+            <option>удовлетворительное</option>
+          </select>
+        </li>
+        <li className="">
+          <span>Комментарий: </span>
+          <textarea
+            placeholder="Ваш комментарий ..."
+            className="w-full font-bold break-words outline-0"
+          />
+        </li>
+      </ul>
+      <button
+        type="submit"
+        className="block px-4 py-1 m-auto border-solid border-[1px] text-[#D39658] border-[#D39658] rounded mb-2 text-sm"
+      >
+        Добавить
+      </button>
+      <div className="text-center text-gray mb-2 text-sm invisible">
+        Последнее изменение 02.07.2023 16:37
       </div>
     </div>
   );

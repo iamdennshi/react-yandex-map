@@ -63,7 +63,8 @@ ymaps .ymaps-2-1-79-balloon__content ymaps {
   overflow: visible !important;
 }
 
-.ymaps-2-1-79-balloon__layout {
+.ymaps-2-1-79-balloon__layout,
+.item_border {
   border-radius: 16px;
   border: solid 1px #ccc;
 }

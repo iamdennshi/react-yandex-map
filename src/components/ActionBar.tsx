@@ -182,13 +182,19 @@ function NewMark(props: NewMarkProps) {
   };
 
   const onFocusTextArea = () => {
-    if (!window.isAndroid) {
-      newMarkRef.current.style.top = "0px";
+    if (window.isAndroid) {
+      if (newMarkRef.current != null) {
+        const elem = newMarkRef.current as HTMLDivElement;
+        elem.style.top = "0px";
+      }
     }
   };
   const onLeaveTextArea = () => {
-    if (!window.isAndroid) {
-      newMarkRef.current.style.top = "";
+    if (window.isAndroid) {
+      if (newMarkRef.current != null) {
+        const elem = newMarkRef.current as HTMLDivElement;
+        elem.style.top = "";
+      }
     }
   };
 

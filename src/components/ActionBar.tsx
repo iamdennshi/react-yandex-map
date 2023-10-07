@@ -170,6 +170,7 @@ interface NewMarkProps {
 
 function NewMark(props: NewMarkProps) {
   const imgRef = useRef(null);
+  const newMarkRef = useRef(null);
   console.log("NewMark render");
 
   const onChangeImage = (e: ChangeEvent) => {
@@ -180,8 +181,22 @@ function NewMark(props: NewMarkProps) {
     }
   };
 
+  const onFocusTextArea = () => {
+    if (!window.isAndroid) {
+      newMarkRef.current.style.top = "0px";
+    }
+  };
+  const onLeaveTextArea = () => {
+    if (!window.isAndroid) {
+      newMarkRef.current.style.top = "";
+    }
+  };
+
   return (
-    <div className="item_border absolute  left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 bg-white inset-0 max-h-fit w-[300px] overflow-hidden">
+    <div
+      ref={newMarkRef}
+      className="item_border absolute  left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 transition-all duration-500 bg-white inset-0 max-h-fit w-[300px] overflow-hidden "
+    >
       <div className="absolute right-2 top-3 bg-white rounded-full p-2">
         <img onClick={() => props.onCloseAdding()} src={closeIcon} />
       </div>
@@ -219,6 +234,8 @@ function NewMark(props: NewMarkProps) {
         <li className="">
           <span>Комментарий: </span>
           <textarea
+            onFocus={onFocusTextArea}
+            onBlur={onLeaveTextArea}
             placeholder="Ваш комментарий ..."
             className="w-full font-bold break-words outline-0"
           />

@@ -218,7 +218,7 @@ function NewMark(props: NewMarkProps) {
         id="itemImage"
         className="hidden"
         type="file"
-        accept=".jpg, .jpeg, .png"
+        accept="image/*"
       />
       <input
         type="text"

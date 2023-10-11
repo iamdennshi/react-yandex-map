@@ -6,7 +6,7 @@ import infoIcon from "../assets/info-icon.svg";
 import homeIcon from "../assets/home-icon.svg";
 import { Placemark } from "@pbe/react-yandex-maps";
 import closeIcon from "../assets/close.svg";
-import { Info, InfoObject, Test } from "./InfoObject.tsx";
+import { Info } from "./InfoObject.tsx";
 
 interface ButtonItemProps {
   id: number;
@@ -225,10 +225,14 @@ function AddMode(props: AddModeProps) {
 
 export default function ActionBar(props: ActionBarProps) {
   const [active, setActive] = useState(0);
+  const [prevActive, setPrevActive] = useState(0);
   const [isAddingMode, setIsAddingMode] = useState(false);
 
   const onClickButton = (id: number) => {
-    setActive(id);
+    setActive((prev) => {
+      setPrevActive(prev);
+      return id;
+    });
   };
 
   const onAdd = () => {
@@ -251,7 +255,7 @@ export default function ActionBar(props: ActionBarProps) {
       {isAddingMode && (
         <AddMode place={props.place} onCloseAdding={onCloseAdding} />
       )}
-      <Info active={active} setActive={setActive} place={props.place} />
+      <Info prevActive={prevActive} active={active} place={props.place} />
       <div
         className={`absolute z-10 max-w-sm h-[66px] w-full px-4 left-1/2 -translate-x-1/2 flex transition-all duration-500 ${
           props.hideActionBar ? "-bottom-24" : "bottom-8"

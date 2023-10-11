@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Simulate } from "react-dom/test-utils";
-import transitionEnd = Simulate.transitionEnd;
 interface InfoParams {
   active: number;
-  setActive: Function;
+  prevActive: number;
   place: PlaceInfo;
 }
 
 interface InfoObjectParams {
-  setActive: Function;
   place: PlaceInfo;
 }
 
@@ -17,13 +14,17 @@ export function Info(props: InfoParams) {
   const refInfo = useRef(null);
   const [activeInfo, setActiveInfo] = useState(1);
 
-  console.log(activeInfo, props.active);
-
   const transitionEnd = () => {
     if (props.active != 0) {
       setActiveInfo(props.active);
     }
   };
+
+  useEffect(() => {
+    if (props.active != 0 && props.prevActive == 0) {
+      setActiveInfo(props.active);
+    }
+  }, [props.active]);
 
   return (
     <div
@@ -37,15 +38,14 @@ export function Info(props: InfoParams) {
       <div className="h-full px-[24px] pt-2 pb-[280px] ">
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
 
-        {activeInfo == 1 && (
-          <InfoObject setActive={props.setActive} place={props.place} />
-        )}
-        {activeInfo == 2 && <div>Hello World</div>}
+        {activeInfo == 1 && <InfoObject place={props.place} />}
+        {activeInfo == 2 && <InfoAlert />}
+        {activeInfo == 3 && <InfoConfig />}
       </div>
     </div>
   );
 }
-export function InfoObject(props: InfoObjectParams) {
+function InfoObject(props: InfoObjectParams) {
   const totalTrees = props.place.trees.length + " шт";
   const totalArea = props.place.parameters.totalArea + " кв.м";
   const totalFurniture = props.place.furniture.length + " шт";
@@ -150,6 +150,26 @@ export function InfoObject(props: InfoObjectParams) {
   );
 }
 
-export function Test(props: InfoObjectParams) {
-  return <p>Hello</p>;
+function InfoAlert() {
+  return (
+    <>
+      <h2 className="text-2xl font-bold text-primary text-center mt-2">
+        Уведомления
+      </h2>
+      <div className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#E6EDEE]"></div>
+      <div className="h-full overflow-y-scroll"></div>
+    </>
+  );
+}
+
+function InfoConfig() {
+  return (
+    <>
+      <h2 className="text-2xl font-bold text-primary text-center mt-2">
+        Конфигурация
+      </h2>
+      <div className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#E6EDEE]"></div>
+      <div className="h-full overflow-y-scroll"></div>
+    </>
+  );
 }

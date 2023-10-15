@@ -9,7 +9,7 @@ interface InfoObjectParams {
   place: PlaceInfo;
 }
 
-export function Info(props: InfoParams) {
+export default function Info(props: InfoParams) {
   const TOP_POS = window.isAndroid ? 107 : 80;
   const refInfo = useRef(null);
   const [activeInfo, setActiveInfo] = useState(1);
@@ -38,14 +38,31 @@ export function Info(props: InfoParams) {
       <div className="h-full px-[24px] pt-2 pb-[280px] ">
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
 
-        {activeInfo == 1 && <InfoObject place={props.place} />}
+        {activeInfo == 1 && <InfoStat place={props.place} />}
         {activeInfo == 2 && <InfoAlert />}
         {activeInfo == 3 && <InfoConfig />}
       </div>
     </div>
   );
 }
-function InfoObject(props: InfoObjectParams) {
+
+interface InfoItemWithDescProps {
+  title: string;
+  description: string;
+}
+
+function InfoItemWithDesc(props: InfoItemWithDescProps) {
+  return (
+    <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all text-primary font-bold">
+      <dl className="flex justify-between ">
+        <dt>{props.title}</dt>
+        <dd className={"whitespace-nowrap"}>{props.description}</dd>
+      </dl>
+    </div>
+  );
+}
+
+function InfoStat(props: InfoObjectParams) {
   const totalTrees = props.place.trees.length + " шт";
   const totalArea = props.place.parameters.totalArea + " кв.м";
   const totalFurniture = props.place.furniture.length + " шт";
@@ -54,17 +71,9 @@ function InfoObject(props: InfoObjectParams) {
       <h2 className="text-2xl font-bold text-primary text-center mt-2">
         Характеристики объекта
       </h2>
-      <h3 className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#E6EDEE]">
-        Территория объекта относится к{" "}
-        <span className="text-secondary">II категории содержания</span>
-      </h3>
+      <div className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#E6EDEE]"></div>
       <div className="h-full overflow-y-scroll">
-        <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all">
-          <dl className="flex justify-between text-primary font-bold">
-            <dt>Общая площадь</dt>
-            <dd>{totalArea}</dd>
-          </dl>
-        </div>
+        <InfoItemWithDesc title={"Общая площадь"} description={totalArea} />
 
         <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all">
           <input className="accordion" id="one" type="checkbox" />
@@ -157,7 +166,26 @@ function InfoAlert() {
         Уведомления
       </h2>
       <div className="text-xs text-center text-[#B2ABAB] pb-2 border-solid border-b-2 border-[#E6EDEE]"></div>
-      <div className="h-full overflow-y-scroll"></div>
+      <div className="h-full overflow-y-scroll">
+        <InfoItemWithDesc
+          title={
+            "Пользователь (Иван Иванов) добавил новый элемент (Уличный фонарь - ID 24)"
+          }
+          description={"15.10.23 08:44"}
+        />
+        <InfoItemWithDesc
+          title={
+            "Пользователь (Иван Иванов) добавил новый элемент (Липа мелколистная - ID 43)"
+          }
+          description={"14.10.23 15:05"}
+        />
+        <InfoItemWithDesc
+          title={
+            "Пользователь (Иван Иванов) изменил комментарий элемента (Клён остролистный - ID 32) с (нужнается в обработке) на (обработан)"
+          }
+          description={"14.10.23 12:45"}
+        />
+      </div>
     </>
   );
 }

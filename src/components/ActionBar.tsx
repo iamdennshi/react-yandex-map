@@ -6,7 +6,7 @@ import infoIcon from "../assets/info-icon.svg";
 import homeIcon from "../assets/home-icon.svg";
 import { Placemark } from "@pbe/react-yandex-maps";
 import closeIcon from "../assets/close.svg";
-import { Info } from "./InfoObject.tsx";
+import Info from "./Info.tsx";
 
 interface ButtonItemProps {
   id: number;

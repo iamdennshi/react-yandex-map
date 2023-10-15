@@ -56,7 +56,7 @@ function InfoItemWithDesc(props: InfoItemWithDescProps) {
     <div className="bg-[#F2F6F6] rounded-[15px] px-[18px] py-[16px] mt-[12px] active:bg-[#CCDADC] transition-all text-primary font-bold">
       <dl className="flex justify-between ">
         <dt>{props.title}</dt>
-        <dd className={"whitespace-nowrap"}>{props.description}</dd>
+        <dd className={"text-right"}>{props.description}</dd>
       </dl>
     </div>
   );
@@ -142,12 +142,12 @@ function InfoStat(props: InfoObjectParams) {
                 </span>
               </li>
               <li className="flex text-primary gap-1 mt-1">
-                <p className="pl-[15px] whitespace-nowrap">урны</p>
+                <p className="pl-[15px] whitespace-nowrap">мусорные урны</p>
                 <div className="basis-full h-[17px] border-b-[2px] border-[#ABC2C5] border-dotted"></div>
                 <span className="block whitespace-nowrap">0 шт</span>
               </li>
               <li className="flex text-primary gap-1 mt-1">
-                <p className="pl-[15px] whitespace-nowrap">фанари</p>
+                <p className="pl-[15px] whitespace-nowrap">фонари</p>
                 <div className="basis-full h-[17px] border-b-[2px] border-[#ABC2C5] border-dotted"></div>
                 <span className="block whitespace-nowrap">0 шт</span>
               </li>
@@ -169,7 +169,7 @@ function InfoAlert() {
       <div className="h-full overflow-y-scroll">
         <InfoItemWithDesc
           title={
-            "Пользователь (Иван Иванов) добавил новый элемент (Уличный фонарь - ID 24)"
+            "Пользователь (Иван Иванов) добавил новый элемент (Скамейка - ID 24)"
           }
           description={"15.10.23 08:44"}
         />

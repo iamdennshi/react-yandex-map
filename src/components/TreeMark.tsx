@@ -7,10 +7,10 @@ export function TreeMark(props: TreeProps) {
 
   const body = `
         <li class="text-primary">Высота: <span class="font-bold">${props.info.height} м</span></li>
-      <li class="text-primary">Диаметр: <span class="font-bold">${props.info.diameter} см</span></li>
-      <li class="text-primary">Возраст: <span class="font-bold">${props.info.age} лет</span></li>
+      <li class="text-primary">Диаметр ствола: <span class="font-bold">${props.info.diameter} см</span></li>
+      <li class="text-primary">Возраст: <span class="font-bold">${props.info.age} года</span></li>
       <li class="text-primary">Состояние: <span class="font-bold">хорошее</span></li>
-      <li class="text-primary">Комментарий: <span class="font-bold break-words">${props.info.comment} </span>`;
+      <li class="text-primary">Комментарий: <span class="font-bold break-words">${props.info.comment}</span>`;
   const content = createContentMark("tree", body, props.placeID, props.info);
 
   return (

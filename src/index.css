@@ -13,7 +13,21 @@ body {
   font-family: "Roboto", serif;
 }
 
-/* For input serachbox*/
+
+
+/* For card poster */
+#card-img {
+  height: 300px;
+}
+#card-height-toggle {
+  display: none;
+}
+#card-height-toggle:checked ~ #card-img {
+  height: 600px;
+}
+
+
+/* For input serachbox */
 .searchbox--shadow {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }

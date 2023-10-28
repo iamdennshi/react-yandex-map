@@ -1,28 +1,56 @@
 import { Placemark } from "@pbe/react-yandex-maps";
-import React from "react";
-import { createContentMark } from "../utils";
+import React, { useEffect, useState } from "react";
+import { createContentMark, createWrapperContent } from "../utils";
 
 export function TreeMark(props: TreeProps) {
   console.log("TreeMark render");
 
-  const body = `
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
+  const [content, setContent] = useState(createWrapperContent());
+
+  useEffect(() => {
+    if (isContentLoaded) {
+      const fetchData = async () => {
+        const data: string = await new Promise((resolve) =>
+          setTimeout(
+            () => resolve("Updated data " + Math.random().toString()),
+            2000,
+          ),
+        );
+        return data;
+      };
+      fetchData().then((data) => {
+        const body = `
         <li class="text-primary">Высота: <span class="font-bold">${props.info.height} м</span></li>
       <li class="text-primary">Диаметр ствола: <span class="font-bold">${props.info.diameter} см</span></li>
       <li class="text-primary">Возраст: <span class="font-bold">${props.info.age} года</span></li>
       <li class="text-primary">Состояние: <span class="font-bold">хорошее</span></li>
       <li class="text-primary">Комментарий: <span class="font-bold break-words">${props.info.comment}</span>`;
-  const content = createContentMark("tree", body, props.placeID, props.info);
+        setContent(() =>
+          createContentMark("tree", body, props.placeID, props.info),
+        );
+      });
+    }
+  }, [isContentLoaded]);
+
+  const onMarkOpen = () => {
+    props.onClickMark(props.info.id, true);
+    if (!isContentLoaded) {
+      setIsContentLoaded(() => true);
+    }
+  };
 
   return (
     <>
       <Placemark
-        instanceRef={(ref) =>
+        instanceRef={(ref) => {
           ref &&
-          ref.events.add("balloonclose", () => {
-            props.onClickMark(props.info.id);
-          }) &&
-          ref.events.add("balloonopen", () => props.onClickMark(props.info.id))
-        }
+            !isContentLoaded && // To avoid adding extra handlers
+            ref.events.add("balloonclose", () => {
+              props.onClickMark(props.info.id, false);
+            }) &&
+            ref.events.add("balloonopen", onMarkOpen);
+        }}
         geometry={props.info.cords}
         options={{
           preset: "islands#darkGreenCircleIcon",

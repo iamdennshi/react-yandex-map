@@ -49,7 +49,7 @@ interface PlaceParams {
 interface ActionBarProps {
   hideActionBar: boolean;
   place: PlaceInfo;
-  toggleUI: Function;
+  switchUI: Function;
 }
 
 type TypeItem = "furniture" | "tree";

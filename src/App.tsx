@@ -2,6 +2,7 @@ import {
   Clusterer,
   Map,
   RulerControl,
+  YMaps,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
 import { useCallback, useState } from "react";
@@ -15,23 +16,13 @@ declare global {
   interface Window {
     editMark: (
       placeID: number,
-      infoItemStringify: string,
+      itemInfo: FurnitureInfo | TreeInfo,
       itemType: TypeItem,
     ) => void;
     isAndroid: boolean;
     ymap: ymaps.Map;
   }
 }
-
-window.editMark = (
-  placeID: number,
-  infoItemStringify: string,
-  itemType: TypeItem,
-) => {
-  console.log(placeID);
-  console.log(infoItemStringify);
-  console.log(itemType);
-};
 
 // Определяем, запущено ли приложение через webview (Android)
 try {
@@ -47,9 +38,9 @@ export default function App() {
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
   const height = window.isAndroid ? "100vh" : "100dvh";
-  const toggleUI = () => {
-    setHideSearch((prev) => !prev);
-    setHideActionBar((prev) => !prev);
+  const switchUI = (type: boolean) => {
+    setHideSearch(() => type);
+    setHideActionBar(() => type);
   };
   // function onAdd() {
   // mapRef.current.panTo([58.010829, 56.253604]);
@@ -71,9 +62,9 @@ export default function App() {
   //   setMarks((prev: MarkInfo[]) => [...prev, newMark]);
   // }
 
-  const onClickMark = useCallback((id: number) => {
+  const onClickMark = useCallback((id: number, type: boolean) => {
     console.log("onMark ", id);
-    toggleUI();
+    switchUI(type);
   }, []);
 
   return (
@@ -137,7 +128,7 @@ export default function App() {
           setHideActionBar={setHideActionBar}
         />
         <ActionBar
-          toggleUI={toggleUI}
+          switchUI={switchUI}
           hideActionBar={hideActionBar}
           place={placesData[currentPlace]}
         />

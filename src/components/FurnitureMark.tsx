@@ -22,10 +22,10 @@ export function FurnitureMark(props: FurnitureProps) {
         instanceRef={(ref) => {
           ref &&
             ref.events.add("balloonclose", () =>
-              props.onClickMark(props.info.id),
+              props.onClickMark(props.info.id, false),
             ) &&
             ref.events.add("balloonopen", () =>
-              props.onClickMark(props.info.id),
+              props.onClickMark(props.info.id, true),
             );
         }}
         geometry={props.info.cords}

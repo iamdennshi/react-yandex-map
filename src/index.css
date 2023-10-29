@@ -3,18 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide blue background on click for Android */
-button,
-ul {
-  -webkit-tap-highlight-color: transparent;
-}
-
 body {
   font-family: "Roboto", serif;
 }
 
 .card-title {
   @apply text-center text-2xl font-bold text-primary  my-2 uppercase;
+}
+
+/* Hide blue background on click for Android */
+button,
+ul {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Loader */

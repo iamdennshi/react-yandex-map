@@ -237,12 +237,12 @@ export default function ActionBar(props: ActionBarProps) {
 
   const onAdd = () => {
     setIsAddingMode(true);
-    props.toggleUI();
+    props.switchUI();
   };
 
   const onCloseAdding = () => {
     setIsAddingMode(false);
-    props.toggleUI();
+    props.switchUI();
   };
 
   // Hide Info when click on seachbar

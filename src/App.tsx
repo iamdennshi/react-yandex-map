@@ -2,7 +2,6 @@ import {
   Clusterer,
   Map,
   RulerControl,
-  YMaps,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
 import { useCallback, useState } from "react";

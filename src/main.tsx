@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { flushSync } from "react-dom";
 import App from "./App.tsx";
 import "./index.css";
 import { YMaps } from "@pbe/react-yandex-maps";
@@ -29,9 +28,9 @@ window.editMark = (
     newTitle.setAttribute("type", "text");
     newTitle.setAttribute("placeholder", itemInfo.name);
     newTitle.className = "card-title";
-    parentTitle?.replaceChild(newTitle, oldTitle);
+    parentTitle?.replaceChild(newTitle, oldTitle as Node);
 
-    cardButton!.innerText = "Сохранить";
+    cardButton!.innerText = "Сохранить" + itemType + placeID;
   } else {
     cardButton!.innerText = "Редактировать";
   }

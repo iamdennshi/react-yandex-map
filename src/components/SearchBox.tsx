@@ -1,12 +1,12 @@
 import { MouseEvent, useRef, useState } from "react";
 import searchIcon from "../assets/search-icon.svg";
-import closeIcon from "../assets/close.svg";
-type Searchbox = {
+import closeIcon from "../assets/close-icon.svg";
+type SearchBoxProps = {
   places: PlaceInfo[];
   currentPlace: number;
-  setCurrentPlace: Function;
+  setCurrentPlace: (arg: number) => void;
   hideSearch: boolean;
-  setHideActionBar: Function;
+  setHideActionBar: (arg: boolean) => void;
 };
 
 export default function SearchBox({
@@ -15,22 +15,21 @@ export default function SearchBox({
   setCurrentPlace,
   hideSearch,
   setHideActionBar,
-}: Searchbox) {
+}: SearchBoxProps) {
   const [fromInput, setFromInput] = useState(places[currentPlace].address);
-  const inputRef = useRef<HTMLInputElement>(null!);
   const [isActiveInput, setIsActiveInput] = useState(false);
-
+  const inputRef = useRef<HTMLInputElement>(null!);
   const relativeShow = window.isAndroid ? "top-11" : "top-4";
 
   const onItemClick = (e: MouseEvent) => {
     const address = (e.target as HTMLElement).innerText;
     setFromInput(address);
-    setCurrentPlace(places.find((i) => i.address.includes(address))?.id);
+    setCurrentPlace(places.find((i) => i.address.includes(address))!.id);
     setIsActiveInput(false);
     setHideActionBar(false);
   };
 
-  const onClickSearchbox = (e: MouseEvent) => {
+  const onClickSearchBox = (e: MouseEvent) => {
     if ((e.target as HTMLLIElement).nodeName != "LI") {
       setIsActiveInput(true);
       setHideActionBar(true);
@@ -45,15 +44,15 @@ export default function SearchBox({
     }
   };
 
-  const searchboxItems = places
+  const searchBoxItems = places
     .filter((i) => i.address.includes(fromInput))
     .map((i) => (
       <li
         className={
-          "hover:bg-[#E6FBF3] active:bg-secondary active:text-white  px-[28px] rounded-full py-[7px] transition-all"
+          "hover:bg-[#E6FBF3] focus:bg-[#E6FBF3] outline-none active:bg-secondary active:text-white  px-[28px] rounded-full py-[7px] transition-all"
         }
         key={i.id}
-        tabIndex={i.id}
+        tabIndex={i.id + 3}
         onClick={onItemClick}
       >
         {i.address}
@@ -69,14 +68,14 @@ export default function SearchBox({
         } inset-0  bg-black bg-opacity-50`}
       ></div>
       <div
-        onClick={onClickSearchbox}
+        onClick={onClickSearchBox}
         className={`absolute z-20 left-1/2 ${
           hideSearch ? "-top-14" : relativeShow
         } -translate-x-1/2 max-w-[400px] w-full px-4 transition-all duration-500`}
       >
         <div
           className={`bg-white   pl-[15px] pr-[20px]  border border-[#E6EDEE] searchbox--shadow ${
-            searchboxItems.length > 0 && isActiveInput
+            searchBoxItems.length > 0 && isActiveInput
               ? "rounded-2xl"
               : "rounded-full"
           }
@@ -87,29 +86,32 @@ export default function SearchBox({
             <input
               ref={inputRef}
               value={fromInput}
+              tabIndex={1}
               className={`block placeholder:text-[#C1C1C1] font-bold w-full px-[10px] bg-transparent   
 
           ${
-            searchboxItems.length > 0 ? "text-primary " : "text-red-500 "
+            searchBoxItems.length > 0 ? "text-primary " : "text-red-500 "
           }  outline-none `}
               type="text"
               placeholder="Название объекта"
               onChange={({ target }) => setFromInput(target.value)}
             />
             {fromInput !== "" && (
-              <img
-                className="w-[14px]"
-                src={closeIcon}
+              <button
+                className=" hover:bg-[#E6FBF3] focus:bg-[#E6FBF3] outline-none p-2 rounded-full transition-all"
+                tabIndex={2}
                 onClick={() => {
                   setFromInput("");
                   inputRef.current.focus();
                 }}
-              />
+              >
+                <img className="w-[14px] cursor-pointer" src={closeIcon} />
+              </button>
             )}
           </div>
-          {isActiveInput && searchboxItems.length > 0 && (
+          {isActiveInput && searchBoxItems.length > 0 && (
             <ul className="flex border-t-2 border-[#E6EDEE] flex-col gap-[7px] bg-white text-primary py-[7px] cursor-pointer">
-              {searchboxItems}
+              {searchBoxItems}
             </ul>
           )}
         </div>

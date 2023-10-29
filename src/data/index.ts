@@ -31,7 +31,7 @@ export const placesData: PlaceInfo[] = [
         age: 4,
       },
       {
-        id: 3,
+        id: 2,
         cords: [58.01320823677178, 56.259917091923946],
         name: "Лиственица",
         img: "https://github.com/iamdennshi/react-yandex-map/assets/89966869/f7ec6293-1171-4a66-a71b-6c4a77f17f84",
@@ -102,7 +102,7 @@ export const placesData: PlaceInfo[] = [
     ],
     furniture: [
       {
-        id: 10,
+        id: 12,
         cords: [58.010685, 56.253854],
         name: "Лавочка",
         img: "https://hozotdel.ru/wa-data/public/shop/products/39/51/5139/images/21410/21410.970.jpg",

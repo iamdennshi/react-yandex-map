@@ -1,4 +1,4 @@
-declare var Android;
+declare let Android;
 
 interface TreeInfo {
   id: number;
@@ -12,10 +12,13 @@ interface TreeInfo {
   age: number;
 }
 
-interface TreeProps {
+interface Mark {
+  onClickMark: (id: number, type: boolean) => void;
+}
+
+interface TreeMarkProps extends Mark {
   info: TreeInfo;
   placeID: number;
-  onClickMark: Function;
 }
 
 interface FurnitureInfo {
@@ -27,10 +30,9 @@ interface FurnitureInfo {
   comment: string;
 }
 
-interface FurnitureProps {
+interface FurnitureProps extends Mark {
   info: FurnitureInfo;
   placeID: number;
-  onClickMark: Function;
 }
 
 interface PlaceInfo {
@@ -49,7 +51,43 @@ interface PlaceParams {
 interface ActionBarProps {
   hideActionBar: boolean;
   place: PlaceInfo;
-  switchUI: Function;
+  hideUI: (type: boolean) => void;
 }
 
 type TypeItem = "furniture" | "tree";
+
+interface SectionStatProps {
+  place: PlaceInfo;
+  children: string;
+}
+
+interface SectionProps {
+  active: number;
+  prevActive: number;
+  place: PlaceInfo;
+}
+
+interface ItemWithDescProps {
+  title: string;
+  description: string;
+}
+
+interface AddingModeProps {
+  place: PlaceInfo;
+  onCloseAdding: () => void;
+}
+
+interface NewMarkProps {
+  onCloseAdding: () => void;
+}
+
+interface SectionButtonProps {
+  id: number;
+  isActive: boolean;
+  onClick: (id: number) => void;
+  icon: string;
+}
+
+interface AddNewItemButtonProps {
+  onClick: MouseEventHandler;
+}

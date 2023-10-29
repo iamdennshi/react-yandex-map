@@ -2,11 +2,17 @@ import { Placemark } from "@pbe/react-yandex-maps";
 import React, { useEffect, useState } from "react";
 import { createContentMark, createWrapperContent } from "../utils";
 
-export function TreeMark(props: TreeProps) {
+export function TreeMark(props: TreeMarkProps) {
   console.log("TreeMark render");
-
   const [isContentLoaded, setIsContentLoaded] = useState(false);
   const [content, setContent] = useState(createWrapperContent());
+
+  const onMarkOpen = () => {
+    props.onClickMark(props.info.id, true);
+    if (!isContentLoaded) {
+      setIsContentLoaded(() => true);
+    }
+  };
 
   useEffect(() => {
     if (isContentLoaded) {
@@ -38,14 +44,6 @@ export function TreeMark(props: TreeProps) {
       });
     }
   }, [isContentLoaded]);
-
-  const onMarkOpen = () => {
-    props.onClickMark(props.info.id, true);
-    if (!isContentLoaded) {
-      setIsContentLoaded(() => true);
-    }
-  };
-
   return (
     <>
       <Placemark

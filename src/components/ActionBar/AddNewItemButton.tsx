@@ -1,14 +1,8 @@
-import { MouseEventHandler } from "react";
-
-interface AddButtonProps {
-  onAdd: MouseEventHandler;
-}
-
-export default function AddButton(props: AddButtonProps) {
+export default function AddNewItemButton(props: AddNewItemButtonProps) {
   return (
     <div className={`absolute z-10 bottom-7  left-[11.5px]`}>
       <button
-        onClick={props.onAdd}
+        onClick={props.onClick}
         title="Добавить новый объект"
         className={`rounded-full w-16 h-16 flex items-center justify-center bg-secondary text-center text-white cursor-pointer active:scale-90 transition`}
       >

@@ -1,6 +1,7 @@
 export default function SectionButton(props: SectionButtonProps) {
   return (
     <button
+      tabIndex={props.tabIndex}
       onClick={() => props.onClick(props.id)}
       className={`relative block p-2 cursor-pointer z-20`}
     >

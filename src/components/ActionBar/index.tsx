@@ -53,6 +53,7 @@ export default function ActionBar(props: ActionBarProps) {
               isActive={active === 0}
               onClick={onClickSectionButton}
               icon={homeIcon}
+              tabIndex={props.hideActionBar ? -1 : 0}
             />
           </li>
           <li className="">
@@ -61,6 +62,7 @@ export default function ActionBar(props: ActionBarProps) {
               isActive={active === 1}
               onClick={onClickSectionButton}
               icon={infoIcon}
+              tabIndex={props.hideActionBar ? -1 : 0}
             />
           </li>
         </ul>
@@ -78,7 +80,10 @@ export default function ActionBar(props: ActionBarProps) {
               d="M3 0H0V69H87V0H84C84 22.0914 65.8676 40 43.5 40C21.1324 40 3 22.0914 3 0Z"
             />
           </svg>
-          <AddNewItemButton onClick={onAddNewItem} />
+          <AddNewItemButton
+            onClick={onAddNewItem}
+            tabIndex={props.hideActionBar ? -1 : 0}
+          />
         </div>
         <ul className="flex justify-evenly items-center w-full h-full -ml-[3px] bg-primary rounded-r-full max-w-xs">
           <li className="">
@@ -87,6 +92,7 @@ export default function ActionBar(props: ActionBarProps) {
               isActive={active === 2}
               onClick={onClickSectionButton}
               icon={bellIcon}
+              tabIndex={props.hideActionBar ? -1 : 0}
             />
           </li>
           <li className="">
@@ -95,6 +101,7 @@ export default function ActionBar(props: ActionBarProps) {
               isActive={active === 3}
               onClick={onClickSectionButton}
               icon={settingsIcon}
+              tabIndex={props.hideActionBar ? -1 : 0}
             />
           </li>
         </ul>

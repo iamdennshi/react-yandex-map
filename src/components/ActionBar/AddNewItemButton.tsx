@@ -2,6 +2,7 @@ export default function AddNewItemButton(props: AddNewItemButtonProps) {
   return (
     <div className={`absolute z-10 bottom-7  left-[11.5px]`}>
       <button
+        tabIndex={props.tabIndex}
         onClick={props.onClick}
         title="Добавить новый объект"
         className={`rounded-full w-16 h-16 flex items-center justify-center bg-secondary text-center text-white cursor-pointer active:scale-90 transition`}

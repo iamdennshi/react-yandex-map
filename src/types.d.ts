@@ -86,8 +86,10 @@ interface SectionButtonProps {
   isActive: boolean;
   onClick: (id: number) => void;
   icon: string;
+  tabIndex: number;
 }
 
 interface AddNewItemButtonProps {
   onClick: MouseEventHandler;
+  tabIndex: number;
 }

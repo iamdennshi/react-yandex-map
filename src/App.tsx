@@ -18,6 +18,8 @@ declare global {
       itemInfo: FurnitureInfo | TreeInfo,
       itemType: TypeItem,
     ) => void;
+    removeMark: (itemInfo: FurnitureInfo | TreeInfo) => void;
+
     isAndroid: boolean;
     ymap: ymaps.Map;
   }
@@ -28,21 +30,25 @@ window.editMark = (
   itemInfo: FurnitureInfo | TreeInfo,
   itemType: TypeItem,
 ) => {
-  const cardButton = document.getElementById("card-item__button");
-  if (cardButton!.innerText == "Редактировать") {
-    const oldTitle = document.getElementById("card-item__title");
-    const newTitle = document.createElement("input");
-    const parentTitle = oldTitle?.parentNode;
-
-    newTitle.setAttribute("type", "text");
-    newTitle.setAttribute("placeholder", itemInfo.name);
-    newTitle.className = "card-title";
-    parentTitle?.replaceChild(newTitle, oldTitle as Node);
-
-    cardButton!.innerText = "Сохранить" + itemType + placeID;
+  // Нахождение элемента по ИД быстрее, чем по классу
+  const saveBtn = document.getElementById("card-item__save");
+  const removeBtn = document.getElementById("card-item__remove");
+  const title = document.getElementById("card-item__title");
+  if (saveBtn!.innerText == "Редактировать") {
+    title?.removeAttribute("disabled");
+    removeBtn?.classList.remove("hidden");
+    saveBtn!.innerText = "Сохранить" + itemType + placeID;
   } else {
-    cardButton!.innerText = "Редактировать";
+    title?.setAttribute("disabled", "true");
+    removeBtn?.classList.add("hidden");
+
+    // Обновляем данные по API
+    saveBtn!.innerText = "Редактировать";
   }
+};
+
+window.removeMark = (itemInfo: FurnitureInfo | TreeInfo) => {
+  console.log(`${itemInfo.id} do remove mark`);
 };
 
 // Определяем, запущено ли приложение через webview (Android)
@@ -53,6 +59,7 @@ try {
 }
 
 export default function App() {
+  // setPlaces используется только для демонстрации изменения значений элементов
   const [places] = useState(placesData);
   const [currentPlace, setCurrentPlace] = useState(0);
   const [hideSearch, setHideSearch] = useState(false);
@@ -60,8 +67,8 @@ export default function App() {
   const height = window.isAndroid ? "100vh" : "100dvh";
 
   const hideUI = (type: boolean) => {
-    setHideSearch(() => type);
-    setHideActionBar(() => type);
+    setHideSearch(type);
+    setHideActionBar(type);
   };
 
   const onClickMark = useCallback((id: number, type: boolean) => {

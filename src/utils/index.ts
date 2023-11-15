@@ -23,6 +23,7 @@ export function createContentMark(
   const title = type == "tree" ? "дерево" : "МАФ";
   const stringify = JSON.stringify(info).replaceAll('"', "'");
   const handleEdit = `window.editMark(${placeID}, ${stringify}, '${type}')`;
+  const handleRemove = `window.removeMark(${stringify})`;
   const infoImg = info.img;
   const infoTitle = info.name.toLocaleUpperCase();
 
@@ -40,7 +41,7 @@ export function createContentMark(
     <img id="card-img" class="transition-all duration-500 w-full object-cover" src="${infoImg}"/>
   </div>
   <div  class="flex flex-col h-[300px]">
-    <h2 id="card-item__title" class="card-title">${infoTitle}</h2>
+    <input type="text"  id="card-item__title" class="card-title" disabled value="${infoTitle}"/>
     <h3 class="w-[61px] mx-auto text-center rounded-md text-sm mb-2 ${
       type == "tree"
         ? "text-[#58D364] bg-[#DDFFE0]"
@@ -49,11 +50,16 @@ export function createContentMark(
     <ul class="flex flex-col px-4 my-auto gap-2 max-h-44 overflow-y-scroll text-sm">
         ${body}
     </ul>
-    <button id="card-item__button" onclick="${handleEdit}" class="block px-4 py-1 m-auto border-solid border-[1px] text-sm ${
+    <div class="flex">
+    <button id="card-item__save" onclick="${handleEdit}" class="block  px-4 py-1 m-auto  border-solid border-[1px] text-sm ${
       type == "tree"
         ? "text-[#58D364] border-[#58D364]"
         : "text-[#D39658] border-[#D39658]"
-    }  rounded my-2">Редактировать</button>
+    }  rounded my-2">Редактировать</button>      
+    <button id="card-item__remove" onclick="${handleRemove}" class="block hidden px-4 py-1 m-auto  border-solid border-[1px] text-sm rounded my-2 text-red-500 border-red-500">Удалить</button>
+
+    </div>
+
     <div class="text-center text-gray mb-2 text-sm">Последнее изменение 02.07.2023 16:37</div>
   </div>
 </div>`);

@@ -30,6 +30,7 @@ window.editMark = (
   itemInfo: FurnitureInfo | TreeInfo,
   itemType: TypeItem,
 ) => {
+  console.log(itemInfo);
   // Нахождение элемента по ИД быстрее, чем по классу
   const saveBtn = document.getElementById("card-item__save");
   const removeBtn = document.getElementById("card-item__remove");

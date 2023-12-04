@@ -4,7 +4,7 @@ import {
   RulerControl,
   ZoomControl,
 } from "@pbe/react-yandex-maps";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { placesData } from "./data";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
@@ -75,6 +75,16 @@ export default function App() {
   const onClickMark = useCallback((id: number, type: boolean) => {
     console.log("onMark ", id);
     hideUI(type);
+  }, []);
+
+  React.useEffect(() => {
+    async function getData() {
+      const test = await fetch("http://localhost:8500/objects/0/elements");
+      const data = await test.json();
+      console.log(data);
+    }
+
+    getData();
   }, []);
 
   return (

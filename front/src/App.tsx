@@ -5,20 +5,19 @@ import {
   ZoomControl,
 } from "@pbe/react-yandex-maps";
 import React, { useCallback, useState } from "react";
-import { placesData } from "./data";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
-import FurnitureMark from "./components/FurnitureMark.tsx";
+// import FurnitureMark from "./components/FurnitureMark.tsx";
 import TreeMark from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {
     editMark: (
-      placeID: number,
-      itemInfo: FurnitureInfo | TreeInfo,
-      itemType: TypeItem,
+      objectID: number,
+      elementInfo: TreeInfo | FurnitureInfo,
+      elementType: ElementType,
     ) => void;
-    removeMark: (itemInfo: FurnitureInfo | TreeInfo) => void;
+    removeMark: (itemInfo: TreeInfo | FurnitureInfo) => void;
 
     isAndroid: boolean;
     ymap: ymaps.Map;
@@ -26,11 +25,11 @@ declare global {
 }
 
 window.editMark = (
-  placeID: number,
-  itemInfo: FurnitureInfo | TreeInfo,
-  itemType: TypeItem,
+  objectID: number,
+  element: TreeInfo | FurnitureInfo,
+  elementType: ElementType,
 ) => {
-  console.log(itemInfo);
+  console.log(element);
   // Нахождение элемента по ИД быстрее, чем по классу
   const saveBtn = document.getElementById("card-item__save");
   const removeBtn = document.getElementById("card-item__remove");
@@ -38,7 +37,7 @@ window.editMark = (
   if (saveBtn!.innerText == "Редактировать") {
     title?.removeAttribute("disabled");
     removeBtn?.classList.remove("hidden");
-    saveBtn!.innerText = "Сохранить" + itemType + placeID;
+    saveBtn!.innerText = "Сохранить" + elementType + objectID;
   } else {
     title?.setAttribute("disabled", "true");
     removeBtn?.classList.add("hidden");
@@ -48,8 +47,8 @@ window.editMark = (
   }
 };
 
-window.removeMark = (itemInfo: FurnitureInfo | TreeInfo) => {
-  console.log(`${itemInfo.id} do remove mark`);
+window.removeMark = (element: TreeInfo | FurnitureInfo) => {
+  console.log(`${element.id} do remove mark`);
 };
 
 // Определяем, запущено ли приложение через webview (Android)
@@ -60,9 +59,20 @@ try {
 }
 
 export default function App() {
-  // setPlaces используется только для демонстрации изменения значений элементов
-  const [places] = useState(placesData);
-  const [currentPlace, setCurrentPlace] = useState(0);
+  const [objects, setObjects] = useState([
+    { id: 0, cords: [0, 0], address: "Парк" },
+  ]);
+  const [elements, setElements] = useState({
+    trees: [
+      {
+        id: 0,
+        cords: [0.0, 0.0],
+        name: "",
+      },
+    ],
+    furnitures: [{ id: 0, cords: [0.0, 0.0], name: "" }],
+  });
+  const [currentObjectID, setCurrentObjectID] = useState(0);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
   const height = window.isAndroid ? "100vh" : "100dvh";
@@ -78,19 +88,33 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    async function getData() {
-      const test = await fetch("http://localhost:8500/objects/0/elements");
-      const data = await test.json();
-      console.log(data);
+    async function getObjects() {
+      const tempFetchObjects = await fetch("http://localhost:8000/objects/");
+      const tempObjects = await tempFetchObjects.json();
+      setObjects(tempObjects);
+      console.log(tempObjects);
     }
 
-    getData();
+    getObjects();
   }, []);
+
+  React.useEffect(() => {
+    async function getElements() {
+      const tempFetchElements = await fetch(
+        `http://localhost:8000/objects/${currentObjectID}/elements`,
+      );
+      const tempElements = await tempFetchElements.json();
+      setElements(tempElements);
+      console.log(tempElements);
+    }
+
+    getElements();
+  }, [currentObjectID]);
 
   return (
     <Map
       state={{
-        center: places[currentPlace].cords,
+        center: objects[currentObjectID].cords,
         zoom: 20,
         controls: [],
       }}
@@ -112,43 +136,48 @@ export default function App() {
           groupByCoordinates: false,
         }}
       >
-        {places[currentPlace].trees.map((item: TreeInfo) => (
+        {elements.trees.map((element) => (
           <TreeMark
-            key={item.id}
-            placeID={currentPlace}
+            key={element.id}
+            id={element.id}
+            cords={element.cords}
+            currentObjectID={currentObjectID}
             onClickMark={onClickMark}
-            info={item}
           />
         ))}
       </Clusterer>
 
       {/* МАФ */}
-      <Clusterer
+      {/* <Clusterer
         options={{
           preset: "islands#darkOrangeClusterIcons",
           groupByCoordinates: false,
         }}
       >
-        {places[currentPlace].furniture.map((item: FurnitureInfo) => (
+        {elements.furnitures.map((item: FurnitureInfo) => (
           <FurnitureMark
             key={item.id}
-            placeID={currentPlace}
+            placeID={currentObjectID}
             onClickMark={onClickMark}
             info={item}
           />
         ))}
-      </Clusterer>
+      </Clusterer> */}
       <SearchBox
-        places={places}
-        currentPlace={currentPlace}
-        setCurrentPlace={setCurrentPlace}
+        objects={objects}
+        currentObjectID={currentObjectID}
+        setCurrentObjectID={setCurrentObjectID}
         hideSearch={hideSearch}
         setHideActionBar={setHideActionBar}
       />
       <ActionBar
         hideUI={hideUI}
         hideActionBar={hideActionBar}
-        place={placesData[currentPlace]}
+        currentObjectCords={objects[currentObjectID].cords}
+        totalElements={{
+          trees: elements.trees.length,
+          furnitures: elements.furnitures.length,
+        }}
       />
     </Map>
   );

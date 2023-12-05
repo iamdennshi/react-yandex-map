@@ -1,30 +1,32 @@
 import { MouseEvent, useRef, useState } from "react";
 import searchIcon from "../assets/search-icon.svg";
 import closeIcon from "../assets/close-icon.svg";
-type SearchBoxProps = {
-  places: PlaceInfo[];
-  currentPlace: number;
-  setCurrentPlace: (arg: number) => void;
-  hideSearch: boolean;
-  setHideActionBar: (arg: boolean) => void;
-};
+// type SearchBoxProps = {
+//   places: PlaceInfo[];
+//   currentPlace: number;
+//   setCurrentPlace: (arg: number) => void;
+//   hideSearch: boolean;
+//   setHideActionBar: (arg: boolean) => void;
+// };
 
 export default function SearchBox({
-  places,
-  currentPlace,
-  setCurrentPlace,
-  hideSearch,
+  objects,
+  currentObjectID,
+  setCurrentObjectID,
   setHideActionBar,
+  hideSearch,
 }: SearchBoxProps) {
-  const [fromInput, setFromInput] = useState(places[currentPlace].address);
+  const [fromInput, setFromInput] = useState(objects[currentObjectID].address);
   const [isActiveInput, setIsActiveInput] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null!);
   const relativeShow = window.isAndroid ? "top-11" : "top-4";
 
+  console.log(objects[currentObjectID].address);
+
   const onItemClick = (e: MouseEvent) => {
     const address = (e.target as HTMLElement).innerText;
     setFromInput(address);
-    setCurrentPlace(places.find((i) => i.address.includes(address))!.id);
+    setCurrentObjectID(objects.find((i) => i.address.includes(address))!.id);
     setIsActiveInput(false);
     setHideActionBar(false);
   };
@@ -39,12 +41,12 @@ export default function SearchBox({
   const hideOverleyWhenClickOutside = () => {
     setIsActiveInput(false);
     setHideActionBar(false);
-    if (fromInput != places[currentPlace].address) {
-      setFromInput(places[currentPlace].address);
+    if (fromInput != objects[currentObjectID].address) {
+      setFromInput(objects[currentObjectID].address);
     }
   };
 
-  const searchBoxItems = places
+  const searchBoxItems = objects
     .filter((i) => i.address.includes(fromInput))
     .map((i) => (
       <li

@@ -33,7 +33,9 @@ export default function Section(props: SectionProps) {
         <div className="w-[40px] h-[4px] bg-primary opacity-30 rounded m-auto"></div>
 
         {activeSection == 1 && (
-          <SectionStat place={props.place}>Характеристика объекта</SectionStat>
+          <SectionStat totalElements={props.totalElements}>
+            Характеристика объекта
+          </SectionStat>
         )}
         {activeSection == 2 && <SectionAlert>Уведомления</SectionAlert>}
         {activeSection == 3 && <SectionConfig>Конфигурация</SectionConfig>}

@@ -1,9 +1,9 @@
 import ItemWithDesc from "./ItemWithDesc";
 
 export default function SectionStat(props: SectionStatProps) {
-  const totalTrees = props.place.trees.length + " шт";
-  const totalArea = props.place.parameters.totalArea + " кв.м";
-  const totalFurniture = props.place.furniture.length + " шт";
+  const totalTrees = props.totalElements.trees + " шт";
+  const totalArea = "1000 кв.м"; // FIXME
+  const totalFurnitures = props.totalElements.furnitures + " шт";
   return (
     <>
       <h2 className="text-2xl font-bold text-primary text-center mt-2">
@@ -69,14 +69,14 @@ export default function SectionStat(props: SectionStatProps) {
                 </svg>
               </div>
               <p>МАФ</p>
-              <span className="block flex-1 text-right">{totalFurniture}</span>
+              <span className="block flex-1 text-right">{totalFurnitures}</span>
             </div>
             <ul className="hidden accordion-item border-t-2 border-[#E6EDEE] mt-2 pt-1">
               <li className="flex text-primary gap-1 mt-1">
                 <p className="pl-[15px] whitespace-nowrap">скамьи</p>
                 <div className="basis-full h-[17px] border-b-[2px] border-[#ABC2C5] border-dotted"></div>
                 <span className="block whitespace-nowrap">
-                  {totalFurniture}
+                  {totalFurnitures}
                 </span>
               </li>
               <li className="flex text-primary gap-1 mt-1">

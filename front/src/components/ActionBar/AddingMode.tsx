@@ -8,7 +8,7 @@ export default function AddingMode(props: AddingModeProps) {
   const [showCoords, setShowCoords] = useState(true);
 
   useEffect(() => {
-    window.ymap.panTo(props.place.cords);
+    window.ymap.panTo(props.currentObjectCords);
   }, []);
   return (
     <>
@@ -31,7 +31,7 @@ export default function AddingMode(props: AddingModeProps) {
                 }
               });
           }}
-          geometry={props.place.cords}
+          geometry={props.currentObjectCords}
           options={{
             preset: "islands#darkOrangeCircleIcon",
             hideIconOnBalloonOpen: false,

@@ -38,9 +38,16 @@ export default function ActionBar(props: ActionBarProps) {
   return (
     <>
       {isAddingMode && (
-        <AddingMode place={props.place} onCloseAdding={onCloseAdding} />
+        <AddingMode
+          currentObjectCords={props.currentObjectCords}
+          onCloseAdding={onCloseAdding}
+        />
       )}
-      <Section prevActive={prevActive} active={active} place={props.place} />
+      <Section
+        prevActive={prevActive}
+        active={active}
+        totalElements={props.totalElements}
+      />
       <div
         className={`absolute z-10 max-w-sm h-[66px] w-full px-4 left-1/2 -translate-x-1/2 flex transition-all duration-500 ${
           props.hideActionBar ? "-bottom-24" : "bottom-8"

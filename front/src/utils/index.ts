@@ -15,17 +15,17 @@ export function createWrapperContent(body: string = "") {
 }
 
 export function createContentMark(
-  type: TypeItem,
+  elementType: ElementType,
   body: string,
-  placeID: number,
-  info: FurnitureInfo | TreeInfo,
+  objectID: number,
+  elementInfo: TreeInfo | FurnitureInfo,
 ): string {
-  const title = type == "tree" ? "дерево" : "МАФ";
-  const stringify = JSON.stringify(info).replaceAll('"', "'");
-  const handleEdit = `window.editMark(${placeID}, ${stringify}, '${type}')`;
+  const title = elementType == "tree" ? "дерево" : "МАФ";
+  const stringify = JSON.stringify(elementInfo).replaceAll('"', "'");
+  const handleEdit = `window.editMark(${objectID}, ${stringify}, '${elementType}')`;
   const handleRemove = `window.removeMark(${stringify})`;
-  const infoImg = info.img;
-  const infoTitle = info.name.toLocaleUpperCase();
+  const infoImg = elementInfo.photos[0];
+  const infoTitle = elementInfo.name.toLocaleUpperCase();
 
   return createWrapperContent(`
   <div id="card-item" class=' relative h-[600px] w-[300px]'>
@@ -43,7 +43,7 @@ export function createContentMark(
   <div  class="flex flex-col h-[300px]">
     <input type="text"  id="card-item__title" class="card-title" disabled value="${infoTitle}"/>
     <h3 class="w-[61px] mx-auto text-center rounded-md text-sm mb-2 ${
-      type == "tree"
+      elementType == "tree"
         ? "text-[#58D364] bg-[#DDFFE0]"
         : "text-[#D39658] bg-[#FFEEDD]"
     }">${title}</h3>
@@ -52,7 +52,7 @@ export function createContentMark(
     </ul>
     <div class="flex">
     <button id="card-item__save" onclick="${handleEdit}" class="block  px-4 py-1 m-auto  border-solid border-[1px] text-sm ${
-      type == "tree"
+      elementType == "tree"
         ? "text-[#58D364] border-[#58D364]"
         : "text-[#D39658] border-[#D39658]"
     }  rounded my-2">Редактировать</button>      

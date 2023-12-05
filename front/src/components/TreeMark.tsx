@@ -2,13 +2,13 @@ import { Placemark } from "@pbe/react-yandex-maps";
 import React, { useEffect, useState } from "react";
 import { createContentMark, createWrapperContent } from "../utils";
 
-export function TreeMark(props: TreeMarkProps) {
+export function TreeMark(props: MarkProps) {
   console.log("TreeMark render");
   const [isContentLoaded, setIsContentLoaded] = useState(false);
   const [content, setContent] = useState(createWrapperContent());
 
   const onMarkOpen = () => {
-    props.onClickMark(props.info.id, true);
+    props.onClickMark(props.id, true);
     if (!isContentLoaded) {
       setIsContentLoaded(() => true);
     }
@@ -16,31 +16,21 @@ export function TreeMark(props: TreeMarkProps) {
 
   useEffect(() => {
     if (isContentLoaded) {
-      const fetchData = async () => {
-        const data: string = await new Promise((resolve) =>
-          setTimeout(
-            () => resolve("Updated data " + Math.random().toString()),
-            2000,
-          ),
+      const getTree = async () => {
+        const tempFetchTree = await fetch(
+          `http://localhost:8000/objects/${props.currentObjectID}/elements/trees/${props.id}`,
         );
-        return data;
+        const tempTree = await tempFetchTree.json();
+        console.log(tempTree);
+        return tempTree;
       };
-      fetchData().then((data) => {
+      getTree().then((data) => {
         const body = `
-        <li class="text-primary">Высота: <span class="font-bold">${
-          props.info.height
-        } м</span></li>
-      <li class="text-primary">Диаметр ствола: <span class="font-bold">${
-        props.info.diameter
-      } см</span></li>
-      <li class="text-primary">Возраст: <span class="font-bold">${
-        props.info.age
-      } года</span></li>
-      <li class="text-primary">Состояние: <span class="font-bold">хорошее</span></li>
-      <li class="text-primary">Комментарий: <span class="font-bold break-words">${data.toString()}</span>`;
-        setContent(() =>
-          createContentMark("tree", body, props.placeID, props.info),
-        );
+        <li class="text-primary">Высота: <span class="font-bold">${data.height} м</span></li>
+      <li class="text-primary">Диаметр ствола: <span class="font-bold">${data.trunkDiameter} см</span></li>
+      <li class="text-primary">Эстетическая оценка: <span class="font-bold">${data.aestaticAssessment}</span></li>
+      <li class="text-primary">Комментарий: <span class="font-bold break-words">${data.comment}</span>`;
+        setContent(() => createContentMark("tree", body, props.id, data));
       });
     }
   }, [isContentLoaded]);
@@ -51,18 +41,18 @@ export function TreeMark(props: TreeMarkProps) {
           ref &&
             !isContentLoaded && // To avoid adding extra handlers
             ref.events.add("balloonclose", () => {
-              props.onClickMark(props.info.id, false);
+              props.onClickMark(props.id, false);
             }) &&
             ref.events.add("balloonopen", onMarkOpen);
         }}
-        geometry={props.info.cords}
+        geometry={props.cords}
         options={{
           preset: "islands#darkGreenCircleIcon",
           hideIconOnBalloonOpen: false,
           iconOffset: [2, 14],
         }}
         properties={{
-          iconContent: props.info.id,
+          iconContent: props.id,
           balloonContent: content,
         }}
       />

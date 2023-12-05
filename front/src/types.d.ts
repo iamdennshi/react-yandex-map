@@ -1,70 +1,53 @@
 declare let Android;
 
-interface TreeInfo {
+interface Base {
   id: number;
-  img: string;
   cords: number[];
-  name: string;
-  state: number;
-  comment: string;
-  height: number;
-  diameter: number;
-  age: number;
 }
 
-interface Mark {
+interface MarkProps extends Base {
   onClickMark: (id: number, type: boolean) => void;
+  currentObjectID: number;
 }
 
-interface TreeMarkProps extends Mark {
-  info: TreeInfo;
-  placeID: number;
-}
+type ElementType = "furniture" | "tree";
 
-interface FurnitureInfo {
-  id: number;
-  img: string;
-  cords: number[];
+interface ElementInfo extends Base {
   name: string;
-  state: number;
   comment: string;
 }
 
-interface FurnitureProps extends Mark {
-  info: FurnitureInfo;
-  placeID: number;
+interface TreeInfo extends ElementInfo {
+  height: number;
+  photos: number[];
+  trunkDiameter: number;
+  aestaticAssessment: string;
 }
 
-interface PlaceInfo {
-  id: number;
-  cords: number[];
+interface FurnitureInfo extends ElementInfo {
+  photos: number[];
+}
+
+interface ObjectInfo extends Base {
   address: string;
-  parameters: PlaceParams;
-  trees: TreeInfo[];
-  furniture: FurnitureInfo[];
-}
-
-interface PlaceParams {
-  totalArea: number;
 }
 
 interface ActionBarProps {
   hideActionBar: boolean;
-  place: PlaceInfo;
+  totalElements: { trees: number; furnitures: number };
+  currentObjectCords: number[];
   hideUI: (type: boolean) => void;
 }
 
-type TypeItem = "furniture" | "tree";
-
 interface SectionStatProps {
-  place: PlaceInfo;
+  totalElements: { trees: number; furnitures: number };
   children: string;
 }
 
 interface SectionProps {
   active: number;
   prevActive: number;
-  place: PlaceInfo;
+  totalElements: { trees: number; furnitures: number };
 }
 
 interface ItemWithDescProps {
@@ -73,7 +56,7 @@ interface ItemWithDescProps {
 }
 
 interface AddingModeProps {
-  place: PlaceInfo;
+  currentObjectCords: number[];
   onCloseAdding: () => void;
 }
 
@@ -92,4 +75,12 @@ interface SectionButtonProps {
 interface AddNewItemButtonProps {
   onClick: MouseEventHandler;
   tabIndex: number;
+}
+
+interface SearchBoxProps {
+  objects: ObjectInfo[];
+  currentObjectID: number;
+  setCurrentObjectID: (number) => void;
+  hideSearch: boolean;
+  setHideActionBar: (boolean) => void;
 }

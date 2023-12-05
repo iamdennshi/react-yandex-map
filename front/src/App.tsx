@@ -72,10 +72,13 @@ export default function App() {
     ],
     furnitures: [{ id: 0, cords: [0.0, 0.0], name: "" }],
   });
-  const [currentObjectID, setCurrentObjectID] = useState(0);
+  const [currentObjectID, setCurrentObjectID] = useState(
+    Number(localStorage.getItem("currentObjectID")),
+  );
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
   const height = window.isAndroid ? "100vh" : "100dvh";
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const hideUI = (type: boolean) => {
     setHideSearch(type);
@@ -92,6 +95,7 @@ export default function App() {
       const tempFetchObjects = await fetch("http://localhost:8000/objects/");
       const tempObjects = await tempFetchObjects.json();
       setObjects(tempObjects);
+      setIsLoaded(true);
       console.log(tempObjects);
     }
 
@@ -111,7 +115,9 @@ export default function App() {
     getElements();
   }, [currentObjectID]);
 
-  return (
+  console.log(elements.trees);
+
+  return isLoaded ? (
     <Map
       state={{
         center: objects[currentObjectID].cords,
@@ -138,7 +144,7 @@ export default function App() {
       >
         {elements.trees.map((element) => (
           <TreeMark
-            key={element.id}
+            key={element.cords[0] + element.cords[1]}
             id={element.id}
             cords={element.cords}
             currentObjectID={currentObjectID}
@@ -180,5 +186,7 @@ export default function App() {
         }}
       />
     </Map>
+  ) : (
+    <div className="loader"></div>
   );
 }

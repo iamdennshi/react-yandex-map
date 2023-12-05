@@ -25,8 +25,10 @@ export default function SearchBox({
 
   const onItemClick = (e: MouseEvent) => {
     const address = (e.target as HTMLElement).innerText;
+    const objectID = objects.find((i) => i.address.includes(address))!.id;
     setFromInput(address);
-    setCurrentObjectID(objects.find((i) => i.address.includes(address))!.id);
+    setCurrentObjectID(objectID);
+    localStorage.setItem("currentObjectID", objectID.toString());
     setIsActiveInput(false);
     setHideActionBar(false);
   };

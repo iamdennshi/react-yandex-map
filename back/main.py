@@ -40,7 +40,7 @@ async def get_elements(object_id: int) -> Elements:
 
 
 @app.get("/objects/{object_id}/elements/trees/{tree_id}")
-async def get_tree_by_id(object_id: int, tree_id: int) -> Tree:
+async def get_tree_by_id(object_id: int, tree_id: int) -> TreeWithId:
     if object_id >= len(objects):
          raise HTTPException(status_code=404, detail="Object not found")
 

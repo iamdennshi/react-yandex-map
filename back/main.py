@@ -85,5 +85,19 @@ async def update_tree(object_id: int, tree_id: int, element: TreeWithoutId) -> T
     return requiredElement
 
 
+@app.delete("/object/{object_id}/elements/trees/{tree_id}")
+async def update_tree(object_id: int, tree_id: int):
+    treeElements = elements[object_id]['trees']
+    index = -1
+    for i in range(len(treeElements)):
+        if treeElements[i]["id"] == tree_id:
+            index = i
+            break
+    
+    if (index != -1):
+        del treeElements[i]
+        return {"message": "Successfuly deleted"}
+    return {"message": f"Not found tree with tree_id = {tree_id}"}       
+        
 
 

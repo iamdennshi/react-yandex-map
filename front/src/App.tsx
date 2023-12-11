@@ -31,19 +31,39 @@ window.editMark = (
 ) => {
   console.log(element);
   // Нахождение элемента по ИД быстрее, чем по классу
-  const saveBtn = document.getElementById("card-item__save");
-  const removeBtn = document.getElementById("card-item__remove");
-  const title = document.getElementById("card-item__title");
-  if (saveBtn!.innerText == "Редактировать") {
-    title?.removeAttribute("disabled");
-    removeBtn?.classList.remove("hidden");
-    saveBtn!.innerText = "Сохранить" + elementType + objectID;
+  const saveBtn = document.getElementById(
+    "card-item__save",
+  ) as HTMLButtonElement;
+  const removeBtn = document.getElementById(
+    "card-item__remove",
+  ) as HTMLButtonElement;
+  const title = document.getElementById("card-item__title") as HTMLInputElement;
+
+  if (saveBtn.innerText == "Редактировать") {
+    title.removeAttribute("disabled");
+    removeBtn.classList.remove("hidden");
+    saveBtn.innerText = "Сохранить" + elementType + objectID;
   } else {
-    title?.setAttribute("disabled", "true");
-    removeBtn?.classList.add("hidden");
+    title.setAttribute("disabled", "true");
+    removeBtn.classList.add("hidden");
 
     // Обновляем данные по API
-    saveBtn!.innerText = "Редактировать";
+    const dataToSave = {
+      name: title.value,
+    };
+    console.log(dataToSave);
+    fetch(
+      `http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(dataToSave),
+      },
+    );
+
+    saveBtn.innerText = "Редактировать";
   }
 };
 
@@ -114,8 +134,6 @@ export default function App() {
 
     getElements();
   }, [currentObjectID]);
-
-  console.log(elements.trees);
 
   return isLoaded ? (
     <Map

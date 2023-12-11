@@ -79,9 +79,7 @@ export default function SearchBox({
       >
         <div
           className={`bg-white   pl-[15px] pr-[20px]  border border-[#E6EDEE] searchbox--shadow ${
-            searchBoxItems.length > 0 && isActiveInput
-              ? "rounded-2xl"
-              : "rounded-full"
+            searchBoxItems.length > 0 && isActiveInput ? "rounded-2xl" : "rounded-full"
           }
                 `}
         >
@@ -93,9 +91,7 @@ export default function SearchBox({
               tabIndex={1}
               className={`block placeholder:text-[#C1C1C1] font-bold w-full px-[10px] bg-transparent   
 
-          ${
-            searchBoxItems.length > 0 ? "text-primary " : "text-red-500 "
-          }  outline-none `}
+          ${searchBoxItems.length > 0 ? "text-primary " : "text-red-500 "}  outline-none `}
               type="text"
               placeholder="Название объекта"
               onChange={({ target }) => setFromInput(target.value)}

@@ -1,9 +1,4 @@
-import {
-  Clusterer,
-  Map,
-  RulerControl,
-  ZoomControl,
-} from "@pbe/react-yandex-maps";
+import { Clusterer, Map, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
 import React, { useCallback, useState } from "react";
 import SearchBox from "./components/SearchBox";
 import ActionBar from "./components/ActionBar";
@@ -31,12 +26,8 @@ window.editMark = (
 ) => {
   console.log(element);
   // Нахождение элемента по ИД быстрее, чем по классу
-  const saveBtn = document.getElementById(
-    "card-item__save",
-  ) as HTMLButtonElement;
-  const removeBtn = document.getElementById(
-    "card-item__remove",
-  ) as HTMLButtonElement;
+  const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
+  const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
   const title = document.getElementById("card-item__title") as HTMLInputElement;
 
   if (saveBtn.innerText == "Редактировать") {
@@ -46,24 +37,26 @@ window.editMark = (
   } else {
     title.setAttribute("disabled", "true");
     removeBtn.classList.add("hidden");
+    saveBtn.innerText = "Редактировать";
 
-    // Обновляем данные по API
-    const dataToSave = {
+    const oldData = {
+      name: element.name,
+    };
+
+    const newData = {
       name: title.value,
     };
-    console.log(dataToSave);
-    fetch(
-      `http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`,
-      {
+
+    if (JSON.stringify(oldData) != JSON.stringify(newData)) {
+      console.log(newData);
+      fetch(`http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(dataToSave),
-      },
-    );
-
-    saveBtn.innerText = "Редактировать";
+        body: JSON.stringify(newData),
+      });
+    }
   }
 };
 
@@ -79,9 +72,7 @@ try {
 }
 
 export default function App() {
-  const [objects, setObjects] = useState([
-    { id: 0, cords: [0, 0], address: "Парк" },
-  ]);
+  const [objects, setObjects] = useState([{ id: 0, cords: [0, 0], address: "Парк" }]);
   const [elements, setElements] = useState({
     trees: [
       {

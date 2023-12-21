@@ -7,23 +7,15 @@ import TreeMark from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {
-    editMark: (
-      objectID: number,
-      elementInfo: TreeInfo | FurnitureInfo,
-      elementType: ElementType,
-    ) => void;
-    removeMark: (itemInfo: TreeInfo | FurnitureInfo) => void;
+    editMark: (objectID: number, elementInfo: TreeInfo | FurnitureInfo) => void;
+    removeMark: (objectID: number, itemInfo: TreeInfo | FurnitureInfo) => void;
 
     isAndroid: boolean;
     ymap: ymaps.Map;
   }
 }
 
-window.editMark = (
-  objectID: number,
-  element: TreeInfo | FurnitureInfo,
-  elementType: ElementType,
-) => {
+window.editMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
   console.log(element);
   // Нахождение элемента по ИД быстрее, чем по классу
   const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
@@ -33,7 +25,7 @@ window.editMark = (
   if (saveBtn.innerText == "Редактировать") {
     title.removeAttribute("disabled");
     removeBtn.classList.remove("hidden");
-    saveBtn.innerText = "Сохранить" + elementType + objectID;
+    saveBtn.innerText = "Сохранить";
   } else {
     title.setAttribute("disabled", "true");
     removeBtn.classList.add("hidden");
@@ -60,8 +52,18 @@ window.editMark = (
   }
 };
 
-window.removeMark = (element: TreeInfo | FurnitureInfo) => {
+window.removeMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
   console.log(`${element.id} do remove mark`);
+
+  window.dispatchEvent(
+    new CustomEvent("onRemoveMark", {
+      detail: { id: element.id },
+    }),
+  );
+
+  // fetch(`http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`, {
+  //   method: "DELETE",
+  // });
 };
 
 // Определяем, запущено ли приложение через webview (Android)
@@ -125,6 +127,25 @@ export default function App() {
 
     getElements();
   }, [currentObjectID]);
+
+  React.useEffect(() => {
+    const handle = (deleteElement: CustomEvent) => {
+      console.log("handle " + deleteElement.detail.id);
+
+      setElements((prev) => {
+        return {
+          ...prev,
+          trees: prev.trees.filter((element) => element.id != deleteElement.detail.id),
+        };
+      });
+    };
+
+    window.addEventListener("onRemoveMark", handle as EventListener);
+
+    return () => {
+      window.removeEventListener("onRemoveMark", handle as EventListener);
+    };
+  }, []);
 
   return isLoaded ? (
     <Map

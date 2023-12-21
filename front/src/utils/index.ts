@@ -22,8 +22,8 @@ export function createContentMark(
 ): string {
   const title = elementType == "tree" ? "дерево" : "МАФ";
   const stringify = JSON.stringify(elementInfo).replaceAll('"', "'");
-  const handleEdit = `window.editMark(${objectID}, ${stringify}, '${elementType}')`;
-  const handleRemove = `window.removeMark(${stringify})`;
+  const handleEdit = `window.editMark(${objectID}, ${stringify})`;
+  const handleRemove = `window.removeMark(${objectID}, ${stringify})`;
   const infoImg = elementInfo.photos[0];
   const infoTitle = elementInfo.name.toLocaleUpperCase();
 

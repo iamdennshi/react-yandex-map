@@ -21,7 +21,14 @@ interface TreeInfo extends ElementInfo {
   height: number;
   photos: number[];
   trunkDiameter: number;
-  aestaticAssessment: string;
+  aestaticAssessment: int;
+  ageClass: number[];
+  trunkDiameter: number;
+  crownProjection: number;
+  typeOfDamage: number[];
+  sanitaryCondition: number;
+  recommendation: number[];
+  trunkNumber: number;
 }
 
 interface FurnitureInfo extends ElementInfo {

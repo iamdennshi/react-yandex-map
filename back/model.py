@@ -23,17 +23,14 @@ class Tree(ElementWithoutId):
     photos: list[str] | None = None
     height: int | None = None
     trunkDiameter: int | None = None
-    aestaticAssessment: str | None = None
+    aestaticAssessment: int | None = None
     comment: str | None = None
-
-    typeOfPlantGroup: str | None = None
-    typeOfDamage: str | None = None
-    recommendation: str | None = None
-    typeOfPlant: str | None = None
-    ageClass: int | None = None
+    ageClass: list[int] | None = None
     crownProjection: int | None = None
+    typeOfDamage: list[int] | None = None
+    recommendation: list[int] | None = None
     trunkNumber: int | None = None
-    sanitaryCondition: str | None = None
+    sanitaryCondition: int | None = None
 
 class TreeWithId(Tree, Id):
      pass

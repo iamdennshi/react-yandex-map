@@ -58,8 +58,8 @@ export default function NewMark(props: NewMarkProps) {
         placeholder="название объекта"
         className="block w-full text-center text-2xl font-bold text-primary my-2 uppercase outline-0"
       />
-      <h3 className="w-[61px] mx-auto text-center rounded-md text-[#D39658] bg-[#FFEEDD] text-sm">
-        МАФ
+      <h3 className="w-fit px-2 mx-auto text-center rounded-md text-[#D39658] bg-[#FFEEDD] text-sm">
+        благоустройство
       </h3>
       <ul className="flex flex-col px-4 my-4 gap-2 max-h-44 overflow-y-scroll text-sm text-primary">
         <li className="flex">

@@ -8,6 +8,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:5500",
+    "http://localhost:8000",
 ]
 
 app.add_middleware(
@@ -86,7 +87,7 @@ async def update_tree(object_id: int, tree_id: int, element: TreeWithoutId) -> T
 
 
 @app.delete("/object/{object_id}/elements/trees/{tree_id}")
-async def update_tree(object_id: int, tree_id: int):
+async def delete_tree(object_id: int, tree_id: int):
     treeElements = elements[object_id]['trees']
     index = -1
     for i in range(len(treeElements)):

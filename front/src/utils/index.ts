@@ -20,12 +20,12 @@ export function createContentMark(
   objectID: number,
   elementInfo: TreeInfo | FurnitureInfo,
 ): string {
-  const title = elementType == "tree" ? "дерево" : "МАФ";
+  const title = elementType == "tree" ? "дерево" : "Элемент благоустройства";
   const stringify = JSON.stringify(elementInfo).replaceAll('"', "'");
   const handleEdit = `window.editMark(${objectID}, ${stringify})`;
   const handleRemove = `window.removeMark(${objectID}, ${stringify})`;
   const infoImg = elementInfo.photos[0];
-  const infoTitle = elementInfo.name.toLocaleUpperCase();
+  const infoTitle = elementInfo.name;
 
   return createWrapperContent(`
   <div id="card-item" class=' relative h-[600px] w-[300px]'>

@@ -2,14 +2,7 @@ import { Placemark } from "@pbe/react-yandex-maps";
 import React, { useState } from "react";
 import { createContentMark, createWrapperContent } from "../utils";
 
-const AESTATIC = [
-  "отличная",
-  "хорошая",
-  "удовлетворительная",
-  "неудовлетворительная",
-  "крайне неудовлетворительная",
-  "аварийное",
-];
+const AESTATIC = ["отличная", "хорошая", "удовлетворительная", "неудовлетворительная", "аварийное"];
 
 const DAMAGE = [
   "1 дупло",
@@ -135,7 +128,7 @@ export function TreeMark(props: MarkProps) {
         <li class="text-primary">Примечание: <span class="font-bold break-words">${
           data.comment
         }</span>`;
-        setContent(() => createContentMark("tree", body, props.id, data));
+        setContent(() => createContentMark("tree", body, props.currentObjectID, data));
       });
     }
   };

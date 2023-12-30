@@ -8,7 +8,7 @@ body {
 }
 
 .card-title {
-  @apply text-center text-2xl font-bold text-primary my-2 uppercase bg-white;
+  @apply text-center text-2xl font-bold text-primary my-2 bg-white;
 }
 
 /* Hide blue background on click for Android */

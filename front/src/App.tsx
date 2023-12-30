@@ -40,7 +40,7 @@ window.editMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
     };
 
     if (JSON.stringify(oldData) != JSON.stringify(newData)) {
-      console.log(newData);
+      console.log(oldData, newData);
       fetch(`http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`, {
         method: "PUT",
         headers: {
@@ -183,7 +183,7 @@ export default function App() {
         ))}
       </Clusterer>
 
-      {/* МАФ */}
+      {/* Элементы благоустройства */}
       {/* <Clusterer
         options={{
           preset: "islands#darkOrangeClusterIcons",

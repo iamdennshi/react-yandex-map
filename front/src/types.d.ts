@@ -23,7 +23,6 @@ interface TreeInfo extends ElementInfo {
   trunkDiameter: number;
   aestaticAssessment: int;
   ageClass: number[];
-  trunkDiameter: number;
   crownProjection: number;
   typeOfDamage: number[];
   sanitaryCondition: number;

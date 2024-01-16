@@ -7,41 +7,48 @@ import TreeMark from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {
-    editMark: (objectID: number, elementInfo: TreeInfo | FurnitureInfo) => void;
-    removeMark: (objectID: number, itemInfo: TreeInfo | FurnitureInfo) => void;
+    editMark: (objectID: number, elementInfo: TreeInfo) => void;
+    removeMark: (objectID: number, itemInfo: TreeInfo) => void;
 
     isAndroid: boolean;
     ymap: ymaps.Map;
   }
 }
 
-window.editMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
+window.editMark = (objectID: number, element: TreeInfo) => {
   console.log(element);
   // Нахождение элемента по ИД быстрее, чем по классу
   const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
   const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
   const title = document.getElementById("card-item__title") as HTMLInputElement;
+  const height = document.getElementById("card-item__height") as HTMLInputElement;
 
   if (saveBtn.innerText == "Редактировать") {
     title.removeAttribute("disabled");
+    height.removeAttribute("disabled");
+
     removeBtn.classList.remove("hidden");
     saveBtn.innerText = "Сохранить";
   } else {
     title.setAttribute("disabled", "true");
+    height.setAttribute("disabled", "true");
+
     removeBtn.classList.add("hidden");
     saveBtn.innerText = "Редактировать";
 
     const oldData = {
       name: element.name,
+      height: element.height,
     };
 
     const newData = {
       name: title.value,
+      height: Number(height.value),
     };
 
     if (JSON.stringify(oldData) != JSON.stringify(newData)) {
       console.log(oldData, newData);
-      fetch(`http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`, {
+      fetch(`http://192.168.1.100:8000/objects/${objectID}/elements/trees/${element.id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
@@ -61,7 +68,7 @@ window.removeMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
     }),
   );
 
-  // fetch(`http://localhost:8000/objects/${objectID}/elements/trees/${element.id}`, {
+  // fetch(`http://192.168.1.100:8000/objects/${objectID}/elements/trees/${element.id}`, {
   //   method: "DELETE",
   // });
 };
@@ -85,9 +92,9 @@ export default function App() {
     ],
     furnitures: [{ id: 0, cords: [0.0, 0.0], name: "" }],
   });
-  const [currentObjectID, setCurrentObjectID] = useState(
-    Number(localStorage.getItem("currentObjectID")),
-  );
+  // Ошибка в webview нету getItem
+  // localStorage.getItem != undefined ? Number(localStorage.getItem("currentObjectID")) : 0,
+  const [currentObjectID, setCurrentObjectID] = useState(0);
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
   const height = window.isAndroid ? "100vh" : "100dvh";
@@ -105,7 +112,7 @@ export default function App() {
 
   React.useEffect(() => {
     async function getObjects() {
-      const tempFetchObjects = await fetch("http://localhost:8000/objects/");
+      const tempFetchObjects = await fetch("http://192.168.1.100:8000/objects/");
       const tempObjects = await tempFetchObjects.json();
       setObjects(tempObjects);
       setIsLoaded(true);
@@ -118,7 +125,7 @@ export default function App() {
   React.useEffect(() => {
     async function getElements() {
       const tempFetchElements = await fetch(
-        `http://localhost:8000/objects/${currentObjectID}/elements`,
+        `http://192.168.1.100:8000/objects/${currentObjectID}/elements`,
       );
       const tempElements = await tempFetchElements.json();
       setElements(tempElements);

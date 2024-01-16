@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         if (isNetworkAvailable()) {
             myWebView.webViewClient = WebViewClient()
             myWebView.webChromeClient = WebChromeClient()
-            myWebView.loadUrl("https://react-yandex-map-seven.vercel.app/")
+            myWebView.loadUrl("http://192.168.1.100:5500/")
 
 
         } else {

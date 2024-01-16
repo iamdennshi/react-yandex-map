@@ -7,8 +7,19 @@ body {
   font-family: "Roboto", serif;
 }
 
+/* Card (Tested for Tree) */
+
+/* Any card input element */
+.card-input {
+  @apply bg-white text-primary font-bold;
+}
+
 .card-title {
-  @apply text-center text-2xl font-bold text-primary my-2 bg-white;
+  @apply card-input text-center text-2xl my-2;
+}
+
+.card-height {
+  @apply card-input text-left w-24;
 }
 
 /* Hide blue background on click for Android */

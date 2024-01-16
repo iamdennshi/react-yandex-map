@@ -41,7 +41,7 @@ export function createContentMark(
     <img id="card-img" class="transition-all duration-500 w-full object-cover" src="${infoImg}"/>
   </div>
   <div  class="flex flex-col h-[300px]">
-    <input type="text"  id="card-item__title" class="card-title" disabled value="${infoTitle}"/>
+    <input type="text" id="card-item__title" class="card-title" disabled value="${infoTitle}"/>
     <h3 class="w-[61px] mx-auto text-center rounded-md text-sm mb-2 ${
       elementType == "tree" ? "text-[#58D364] bg-[#DDFFE0]" : "text-[#D39658] bg-[#FFEEDD]"
     }">${title}</h3>

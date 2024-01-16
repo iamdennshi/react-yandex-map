@@ -94,7 +94,7 @@ export function TreeMark(props: MarkProps) {
       setContent(createWrapperContent());
       const getTree = async () => {
         const tempFetchTree = await fetch(
-          `http://localhost:8000/objects/${props.currentObjectID}/elements/trees/${props.id}`,
+          `http://192.168.1.100:8000/objects/${props.currentObjectID}/elements/trees/${props.id}`,
         );
         const tempTree = await tempFetchTree.json();
         console.log(tempTree);
@@ -102,7 +102,9 @@ export function TreeMark(props: MarkProps) {
       };
       getTree().then((data: TreeInfo) => {
         const body = `
-          <li class="text-primary">Высота: <span class="font-bold">${data.height} м</span></li>
+          <li class="text-primary">Высота: <input id="card-item__height" class="card-height" min="1" type="number" disabled value="${
+            data.height
+          }">см</li>
         <li class="text-primary">Диаметр ствола: <span class="font-bold">${
           data.trunkDiameter
         } см</span></li>

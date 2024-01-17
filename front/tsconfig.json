@@ -5,6 +5,7 @@
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "noImplicitAny": false,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

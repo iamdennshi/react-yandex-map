@@ -7,7 +7,8 @@ import TreeMark from "./components/TreeMark.tsx";
 
 declare global {
   interface Window {
-    editMark: (objectID: number, elementInfo: TreeInfo) => void;
+    makeEditMark: () => (objectID: number, element: TreeInfo) => void;
+    editMark: (objectID: number, element: TreeInfo) => void;
     removeMark: (objectID: number, itemInfo: TreeInfo) => void;
 
     isAndroid: boolean;
@@ -15,49 +16,61 @@ declare global {
   }
 }
 
-window.editMark = (objectID: number, element: TreeInfo) => {
-  console.log(element);
-  // Нахождение элемента по ИД быстрее, чем по классу
-  const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
-  const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
-  const title = document.getElementById("card-item__title") as HTMLInputElement;
-  const height = document.getElementById("card-item__height") as HTMLInputElement;
+window.makeEditMark = () => {
+  let lastElementID = -1;
+  let lastData = {};
 
-  if (saveBtn.innerText == "Редактировать") {
-    title.removeAttribute("disabled");
-    height.removeAttribute("disabled");
+  return function (objectID: number, element: TreeInfo) {
+    // Нахождение элемента по ИД быстрее, чем по классу
+    const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
+    const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
+    const title = document.getElementById("card-item__title") as HTMLInputElement;
+    const height = document.getElementById("card-item__height") as HTMLInputElement;
 
-    removeBtn.classList.remove("hidden");
-    saveBtn.innerText = "Сохранить";
-  } else {
-    title.setAttribute("disabled", "true");
-    height.setAttribute("disabled", "true");
+    if (saveBtn.innerText == "Редактировать") {
+      title.removeAttribute("disabled");
+      height.removeAttribute("disabled");
 
-    removeBtn.classList.add("hidden");
-    saveBtn.innerText = "Редактировать";
+      removeBtn.classList.remove("hidden");
+      saveBtn.innerText = "Сохранить";
 
-    const oldData = {
-      name: element.name,
-      height: element.height,
-    };
+      if (lastElementID != element.id) {
+        lastElementID = element.id;
 
-    const newData = {
-      name: title.value,
-      height: Number(height.value),
-    };
+        lastData = {
+          name: element.name,
+          height: element.height,
+        };
+      }
+    } else {
+      title.setAttribute("disabled", "true");
+      height.setAttribute("disabled", "true");
 
-    if (JSON.stringify(oldData) != JSON.stringify(newData)) {
-      console.log(oldData, newData);
-      fetch(`http://192.168.1.100:8000/objects/${objectID}/elements/trees/${element.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(newData),
-      });
+      removeBtn.classList.add("hidden");
+      saveBtn.innerText = "Редактировать";
+
+      const newData = {
+        name: title.value,
+        height: Number(height.value),
+      };
+
+      if (JSON.stringify(lastData) != JSON.stringify(newData)) {
+        console.log("UPDATE DATA ", newData);
+        lastData = newData;
+
+        fetch(`http://192.168.1.100:8000/objects/${objectID}/elements/trees/${element.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(newData),
+        });
+      }
     }
-  }
+  };
 };
+
+window.editMark = window.makeEditMark();
 
 window.removeMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
   console.log(`${element.id} do remove mark`);

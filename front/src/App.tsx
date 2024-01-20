@@ -26,10 +26,21 @@ window.makeEditMark = () => {
     const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
     const title = document.getElementById("card-item__title") as HTMLInputElement;
     const height = document.getElementById("card-item__height") as HTMLInputElement;
+    const bodyUlElement = document.getElementById("card-item__body") as HTMLInputElement;
 
     if (saveBtn.innerText == "Редактировать") {
+      if (bodyUlElement) {
+        const liElements = bodyUlElement.querySelectorAll("li");
+
+        liElements.forEach((liElement) => {
+          if (liElement.hasAttribute("hidden")) {
+            liElement.removeAttribute("hidden");
+          } else {
+            liElement.setAttribute("hidden", "true");
+          }
+        });
+      }
       title.removeAttribute("disabled");
-      height.removeAttribute("disabled");
 
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
@@ -43,8 +54,29 @@ window.makeEditMark = () => {
         };
       }
     } else {
+      if (bodyUlElement) {
+        const liElements = bodyUlElement.querySelectorAll("li");
+        let prevElement: HTMLSpanElement | null = null;
+
+        liElements.forEach((liElement) => {
+          if (liElement.hasAttribute("hidden")) {
+            liElement.removeAttribute("hidden");
+            prevElement = liElement.querySelector("span");
+          } else {
+            liElement.setAttribute("hidden", "true");
+            const val = liElement.querySelector("input")!.value;
+            if (prevElement) {
+              if (val.length == 0) {
+                prevElement.innerText = `0 см`;
+                liElement.querySelector("input")!.value = "0";
+              } else {
+                prevElement.innerText = `${val} см`;
+              }
+            }
+          }
+        });
+      }
       title.setAttribute("disabled", "true");
-      height.setAttribute("disabled", "true");
 
       removeBtn.classList.add("hidden");
       saveBtn.innerText = "Редактировать";

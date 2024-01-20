@@ -100,11 +100,16 @@ export function TreeMark(props: MarkProps) {
         console.log(tempTree);
         return tempTree;
       };
+
       getTree().then((data: TreeInfo) => {
         const body = `
-          <li class="text-primary">Высота: <input id="card-item__height" class="card-height" min="1" type="number" disabled value="${
-            data.height
-          }">см</li>
+        <li class="text-primary">Высота: <span class="font-bold">${data.height} см</span></li>
+        <li class="text-primary" hidden>
+        Высота, см:
+        <input id="card-item__height" class="card-height" min="1" type="number" value="${
+          data.height
+        }">
+        </li>
         <li class="text-primary">Диаметр ствола: <span class="font-bold">${
           data.trunkDiameter
         } см</span></li>

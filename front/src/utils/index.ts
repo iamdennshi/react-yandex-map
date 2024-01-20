@@ -45,7 +45,7 @@ export function createContentMark(
     <h3 class="w-[61px] mx-auto text-center rounded-md text-sm mb-2 ${
       elementType == "tree" ? "text-[#58D364] bg-[#DDFFE0]" : "text-[#D39658] bg-[#FFEEDD]"
     }">${title}</h3>
-    <ul class="flex flex-col px-4 my-auto gap-2 max-h-44 overflow-y-scroll text-sm">
+    <ul id="card-item__body" class="flex flex-col px-4 my-auto gap-2 max-h-44 overflow-y-scroll text-sm">
         ${body}
     </ul>
     <div class="flex">

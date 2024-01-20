@@ -11,15 +11,15 @@ body {
 
 /* Any card input element */
 .card-input {
-  @apply bg-white text-primary font-bold;
+  @apply font-bold rounded-md focus:bg-secondary focus:text-white outline-none;
 }
 
 .card-title {
-  @apply card-input text-center text-2xl my-2;
+  @apply bg-white card-input text-center text-2xl my-2;
 }
 
 .card-height {
-  @apply card-input text-left w-24;
+  @apply text-[#58D364] bg-[#DDFFE0] card-input w-32 text-center;
 }
 
 /* Hide blue background on click for Android */

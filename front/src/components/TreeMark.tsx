@@ -81,7 +81,7 @@ const RECOMMENDATION = [
   "обработка химикатами",
 ];
 
-export function TreeMark(props: MarkProps) {
+export const TreeMark = React.memo((props: MarkProps) => {
   console.log("TreeMark render");
   const [isContentLoaded, setIsContentLoaded] = useState(false);
   const [content, setContent] = useState(createWrapperContent());
@@ -165,6 +165,6 @@ export function TreeMark(props: MarkProps) {
       />
     </>
   );
-}
+});
 
-export default React.memo(TreeMark);
+export default TreeMark;

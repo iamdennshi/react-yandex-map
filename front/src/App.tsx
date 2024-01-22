@@ -137,9 +137,9 @@ export default function App() {
     ],
     furnitures: [{ id: 0, cords: [0.0, 0.0], name: "" }],
   });
-  // Ошибка в webview нету getItem
-  // localStorage.getItem != undefined ? Number(localStorage.getItem("currentObjectID")) : 0,
-  const [currentObjectID, setCurrentObjectID] = useState(0);
+  const [currentObjectID, setCurrentObjectID] = useState(
+    window.isAndroid ? 0 : localStorage.getItem("currentObjectID"),
+  );
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);
   const height = window.isAndroid ? "100vh" : "100dvh";

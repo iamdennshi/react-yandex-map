@@ -4,6 +4,7 @@ import SearchBox from "../SearchBox";
 import ActionBar from "../ActionBar";
 // import FurnitureMark from "../FurnitureMark.tsx";
 import TreeMark from "../TreeMark.tsx";
+import "./window.ts";
 
 // Определяем, запущено ли приложение через webview (Android)
 try {
@@ -25,7 +26,7 @@ export default function App() {
     furnitures: [{ id: 0, cords: [0.0, 0.0], name: "" }],
   });
   const [currentObjectID, setCurrentObjectID] = useState(
-    window.isAndroid ? 0 : localStorage.getItem("currentObjectID"),
+    window.isAndroid ? 0 : Number(localStorage.getItem("currentObjectID")),
   );
   const [hideSearch, setHideSearch] = useState(false);
   const [hideActionBar, setHideActionBar] = useState(false);

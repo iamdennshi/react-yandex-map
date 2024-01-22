@@ -100,7 +100,7 @@ export default function SearchBox({
             />
             {fromInput !== "" && (
               <button
-                className=" hover:bg-[#E6FBF3] focus:bg-[#E6FBF3] outline-none p-2 rounded-full transition-all"
+                className=" hover:bg-[#E6FBF3] focus:bg-[#E6FBF3] outline-none mr-2 rounded-full transition-all"
                 tabIndex={2}
                 onClick={() => {
                   setFromInput("");

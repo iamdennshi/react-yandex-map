@@ -15,7 +15,7 @@ body {
 }
 
 .card-title {
-  @apply bg-white card-input text-center text-2xl my-2;
+  @apply block w-full bg-white card-input text-center text-2xl;
 }
 
 .card-height {

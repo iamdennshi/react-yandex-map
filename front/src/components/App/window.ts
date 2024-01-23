@@ -8,6 +8,7 @@ window.makeEditMark = () => {
   const onInput = (event: Event) => {
     const elem = event.currentTarget as HTMLInputElement;
     elem.nextElementSibling?.classList.add("hidden");
+    console.log("onInput");
   };
 
   return function (objectID: number, element: TreeInfo) {
@@ -23,6 +24,7 @@ window.makeEditMark = () => {
       if (bodyUlElement) {
         const liElements = bodyUlElement.querySelectorAll("li");
 
+        // Добавление обработчиков (можно только добавлять когда первый раз показываем элемент)
         liElements.forEach((liElement) => {
           if (!liElement.classList.toggle("hidden")) {
             liElement.querySelector("input")!.addEventListener("click", onInput);
@@ -30,6 +32,8 @@ window.makeEditMark = () => {
           }
         });
       }
+      title.addEventListener("click", onInput);
+
       title.removeAttribute("disabled");
 
       removeBtn.classList.remove("hidden");
@@ -51,7 +55,16 @@ window.makeEditMark = () => {
         const liElements = bodyUlElement.querySelectorAll("li");
         let prevElement: HTMLSpanElement | null = null;
 
-        // Проверка корректности введенных значений
+        // Проверка корректности введенного title
+        // Если введена пуста строка
+        // или при попытки преобразования к числу не получили NaN (т.е в value не записаны числа)
+        if (title.value == "" || !isNaN(Number(title.value))) {
+          isError = true;
+          title.nextElementSibling?.classList.remove("hidden");
+          console.log("title.value ", title.value);
+        }
+
+        // Проверка корректности введенных значений характеристик
         liElements.forEach((liElement) => {
           if (!liElement.classList.contains("hidden")) {
             // Проверка выстоты
@@ -74,6 +87,7 @@ window.makeEditMark = () => {
         if (bodyUlElement) {
           const liElements = bodyUlElement.querySelectorAll("li");
 
+          // Удаление обработчиков
           liElements.forEach((liElement) => {
             if (liElement.classList.toggle("hidden")) {
               console.log("remove event ");
@@ -81,10 +95,14 @@ window.makeEditMark = () => {
             }
           });
         }
+        title.removeEventListener("click", onInput);
+
         console.log("not error");
         title.setAttribute("disabled", "true");
 
         removeBtn.classList.add("hidden");
+        title.nextElementSibling?.classList.add("hidden");
+
         saveBtn.innerText = "Редактировать";
 
         const newData = {

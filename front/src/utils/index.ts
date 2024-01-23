@@ -41,7 +41,10 @@ export function createContentMark(
     <img id="card-img" class="transition-all duration-500 w-full object-cover" src="${infoImg}"/>
   </div>
   <div  class="flex flex-col h-[300px]">
-    <input type="text" id="card-item__title" maxlength="18" class="card-title" disabled value="${infoTitle}"/>
+    <div class="my-2">
+      <input type="text" id="card-item__title" maxlength="18" class="card-title" disabled value="${infoTitle}"/>
+      <p class="hidden text-red-500 text-sm font-bold text-center">⚠ Введите коректное название элемента</p>
+    </div>
     <h3 class="w-[61px] mx-auto text-center rounded-md text-sm mb-2 ${
       elementType == "tree" ? "text-[#58D364] bg-[#DDFFE0]" : "text-[#D39658] bg-[#FFEEDD]"
     }">${title}</h3>
@@ -52,7 +55,7 @@ export function createContentMark(
     <button id="card-item__save" onclick="${handleEdit}" class="block  px-4 py-1 m-auto  border-solid border-[1px] text-sm ${
       elementType == "tree" ? "text-[#58D364] border-[#58D364]" : "text-[#D39658] border-[#D39658]"
     }  rounded my-2">Редактировать</button>      
-    <button id="card-item__remove" onclick="${handleRemove}" class="block hidden px-4 py-1 m-auto  border-solid border-[1px] text-sm rounded my-2 text-red-500 border-red-500">Удалить</button>
+    <button id="card-item__remove" onclick="${handleRemove}" class="hidden px-4 py-1 m-auto  border-solid border-[1px] text-sm rounded my-2 text-red-500 border-red-500">Удалить</button>
 
     </div>
 

@@ -5,10 +5,18 @@ window.makeEditMark = () => {
   let lastData = {};
 
   // В режиме редактирования
+  // FIXME: Срабатывает в хар-ки повреждения, удаляя button
   const onInput = (event: Event) => {
     const elem = event.currentTarget as HTMLInputElement;
     elem.nextElementSibling?.classList.add("hidden");
     console.log("onInput");
+  };
+
+  // При выборе повреждения
+  const onSelect = (event: Event) => {
+    const elem = event.currentTarget as HTMLSelectElement;
+
+    console.log("onSelect");
   };
 
   return function (objectID: number, element: TreeInfo) {
@@ -17,18 +25,25 @@ window.makeEditMark = () => {
     const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
     const title = document.getElementById("card-item__title") as HTMLInputElement;
     const height = document.getElementById("card-item__height") as HTMLInputElement;
+    const trunkDiameter = document.getElementById("card-item__trunk-diameter") as HTMLInputElement;
     const bodyUlElement = document.getElementById("card-item__body") as HTMLInputElement;
+    const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
+
+    selectDamage.addEventListener("input", onSelect);
 
     // При нажатии на Редактировать
     if (saveBtn.innerText == "Редактировать") {
       if (bodyUlElement) {
-        const liElements = bodyUlElement.querySelectorAll("li");
+        const liElements = bodyUlElement.querySelectorAll(":scope > li");
 
         // Добавление обработчиков (можно только добавлять когда первый раз показываем элемент)
         liElements.forEach((liElement) => {
           if (!liElement.classList.toggle("hidden")) {
-            liElement.querySelector("input")!.addEventListener("click", onInput);
-            console.log("add event");
+            const inputElement = liElement.querySelector("input");
+            if (inputElement) {
+              inputElement.addEventListener("click", onInput);
+              console.log("add event");
+            }
           }
         });
       }
@@ -45,6 +60,7 @@ window.makeEditMark = () => {
         lastData = {
           name: element.name,
           height: element.height,
+          trunkDiameter: element.trunkDiameter,
         };
       }
     } else {
@@ -52,7 +68,7 @@ window.makeEditMark = () => {
       let isError = false;
 
       if (bodyUlElement) {
-        const liElements = bodyUlElement.querySelectorAll("li");
+        const liElements = bodyUlElement.querySelectorAll(":scope > li");
         let prevElement: HTMLSpanElement | null = null;
 
         // Проверка корректности введенного title
@@ -85,13 +101,16 @@ window.makeEditMark = () => {
       }
       if (!isError) {
         if (bodyUlElement) {
-          const liElements = bodyUlElement.querySelectorAll("li");
+          const liElements = bodyUlElement.querySelectorAll(":scope > li");
 
           // Удаление обработчиков
           liElements.forEach((liElement) => {
             if (liElement.classList.toggle("hidden")) {
-              console.log("remove event ");
-              liElement.querySelector("input")!.removeEventListener("click", onInput);
+              const inputElement = liElement.querySelector("input");
+              if (inputElement) {
+                inputElement.removeEventListener("click", onInput);
+                console.log("remove event ");
+              }
             }
           });
         }
@@ -108,6 +127,7 @@ window.makeEditMark = () => {
         const newData = {
           name: title.value,
           height: Number(height.value),
+          trunkDiameter: Number(trunkDiameter.value),
         };
 
         if (JSON.stringify(lastData) != JSON.stringify(newData)) {

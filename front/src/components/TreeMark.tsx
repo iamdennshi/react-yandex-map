@@ -114,12 +114,19 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="text-primary">Диаметр ствола: <span class="font-bold">${
           data.trunkDiameter
         } см</span></li>
+        <li class="hidden text-primary">
+          <label for="card-item__trunk-diameter">Диаметр ствола, см:</label>
+          <input id="card-item__trunk-diameter" class="card-trunk-diameter" min="1" type="number" value="${
+            data.trunkDiameter
+          }">
+          <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретный диаметр ствола</p>
+        </li>
         <li class="text-primary">Класс возраста: <span class="font-bold">${data.ageClass[0]}-${
           data.ageClass[1]
         } лет</span></li>
         <li class="text-primary">Проекция кроны: <span class="font-bold">${
           data.crownProjection
-        }</span></li>
+        } см</span></li>
         <li class="text-primary">Стволов: <span class="font-bold">${data.trunkNumber} шт</span></li>
         <li class="text-primary">Санитарное состояние: <span class="font-bold">${
           SANITARY[data.sanitaryCondition]
@@ -130,6 +137,20 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="text-primary">Повреждения: <span class="font-bold">${data.typeOfDamage.map(
           (elem) => DAMAGE[elem],
         )}</span></li>
+        <li class="hidden text-primary">
+          <p>Повреждения:</p>
+          <ul class="flex gap-2 flex-wrap text-green-500">
+            <li class="flex items-center ">
+              <p class="bg-white px-2 border-l border-y border-green-500 rounded-l">${DAMAGE[0]}</p>
+              <button class="bg-white px-2 border-r border-y border-green-500 rounded-r">x</button>
+            </li>
+            <select id="card-item__select-damage" class="bg-white px-2 border border-green-500 rounded w-28">
+              <option>выбирите повреждение</option>
+              ${DAMAGE.map((i) => `<option value="${i}">${i}</option>`)}
+            </select>
+          </ul>
+          <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретный диаметр ствола</p>
+        </li>
         <li class="text-primary">Рекомендации по уходу: <span class="font-bold">${data.recommendation.map(
           (elem) => RECOMMENDATION[elem],
         )}</span></li>

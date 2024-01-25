@@ -16,40 +16,38 @@ window.makeEditMark = () => {
 
   // При удалении повреждения
   const handleDeleteDamage = (event: Event) => {
-    const elem = event.currentTarget as HTMLSelectElement;
-    const target = event.target as HTMLElement;
+    const damageElement = event.currentTarget as HTMLSelectElement;
+    const clickedElement = event.target as HTMLElement;
 
-    if (target.nodeName === "BUTTON") {
-      const pElem = elem.firstChild as HTMLParagraphElement;
+    if (clickedElement instanceof HTMLButtonElement) {
+      const damageText = (damageElement.firstElementChild as HTMLParagraphElement).innerText;
 
-      // Получаем удаляемый объект
-      const selectedObj = selectedDamages.find((obj) => obj.value == pElem.innerText);
-      if (selectedObj) {
+      // Получаем объект удаляемого повреждения
+      const selectedDamageObj = selectedDamages.find((obj) => obj.value == damageText);
+      if (selectedDamageObj) {
         // Удаляем из selectedDamages
-        console.log("Удаляем из selectedDamages");
-        selectedDamages = selectedDamages.filter((obj) => obj.value !== pElem.innerText);
+        console.log(`handleDeleteDamage: ${selectedDamageObj.value}`);
+        selectedDamages = selectedDamages.filter((obj) => obj.value !== damageText);
 
-        const selectDamage = document.getElementById(
+        const selectorDamages = document.getElementById(
           "card-item__select-damage",
         ) as HTMLSelectElement;
-        selectDamage.options[selectedObj.id].classList.remove("hidden");
-        elem.remove();
+        selectorDamages.options[selectedDamageObj.id].classList.remove("hidden");
+        damageElement.remove();
       }
-
-      console.log(selectedObj);
     }
   };
 
   // При выборе повреждения
   const handleSelectDamage = (event: Event) => {
-    const elem = event.currentTarget as HTMLSelectElement;
-    const prevElem = elem.previousSibling as HTMLLIElement;
+    const selectedElement = event.currentTarget as HTMLSelectElement;
+    const prevLiToAdd = selectedElement.previousElementSibling as HTMLLIElement;
 
-    const newLiElem = document.createElement("li");
-    newLiElem.addEventListener("click", handleDeleteDamage);
-    newLiElem.classList.add("flex");
-    const newPElem = document.createElement("p");
-    newPElem.classList.add(
+    const newLiElement = document.createElement("li");
+    newLiElement.addEventListener("click", handleDeleteDamage);
+    newLiElement.classList.add("flex");
+    const newPElement = document.createElement("p");
+    newPElement.classList.add(
       "bg-white",
       "px-2",
       "border-l",
@@ -57,9 +55,9 @@ window.makeEditMark = () => {
       "border-green-500",
       "rounded-l",
     );
-    newPElem.innerText = elem.value;
-    const newBtnElem = document.createElement("button");
-    newBtnElem.classList.add(
+    newPElement.innerText = selectedElement.value;
+    const newBtnElement = document.createElement("button");
+    newBtnElement.classList.add(
       "bg-white",
       "px-2",
       "border-r",
@@ -67,20 +65,20 @@ window.makeEditMark = () => {
       "border-green-500",
       "rounded-r",
     );
-    newBtnElem.innerText = "x";
+    newBtnElement.innerText = "x";
 
-    newLiElem.appendChild(newPElem);
-    newLiElem.appendChild(newBtnElem);
-    prevElem.parentNode?.insertBefore(newLiElem, prevElem.nextSibling);
+    newLiElement.appendChild(newPElement);
+    newLiElement.appendChild(newBtnElement);
+    prevLiToAdd.parentElement?.insertBefore(newLiElement, prevLiToAdd.nextElementSibling);
 
-    selectedDamages.push({ id: elem.selectedIndex, value: elem.value });
-    console.log(`handleSelectDamage ${elem.value}`);
+    selectedDamages.push({ id: selectedElement.selectedIndex, value: selectedElement.value });
+    console.log(`handleSelectDamage: ${selectedElement.value}`);
     console.log(selectedDamages);
 
     // Скрывем выбранный option
-    elem.options[elem.selectedIndex].classList.add("hidden");
+    selectedElement.options[selectedElement.selectedIndex].classList.add("hidden");
     // Устанавливаем значание select по умолчанию
-    elem.value = "выбирите повреждение";
+    selectedElement.value = "выбирите повреждение";
   };
 
   return function (objectID: number, element: TreeInfo) {

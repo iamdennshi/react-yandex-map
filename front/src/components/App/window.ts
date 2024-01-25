@@ -43,7 +43,6 @@ window.makeEditMark = () => {
 
   const insertDamage = (damage: SelectDamage) => {
     const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
-    const prevLiToAdd = selectDamage.previousElementSibling as HTMLLIElement;
 
     const newLiElement = document.createElement("li");
     newLiElement.addEventListener("click", handleDeleteDamage);
@@ -55,7 +54,7 @@ window.makeEditMark = () => {
       "border-l",
       "border-y",
       "border-green-500",
-      "rounded-l",
+      "rounded-l-md",
     );
     newPElement.innerText = damage.value;
     const newBtnElement = document.createElement("button");
@@ -65,13 +64,13 @@ window.makeEditMark = () => {
       "border-r",
       "border-y",
       "border-green-500",
-      "rounded-r",
+      "rounded-r-md",
     );
     newBtnElement.innerText = "x";
 
     newLiElement.appendChild(newPElement);
     newLiElement.appendChild(newBtnElement);
-    prevLiToAdd.parentElement?.insertBefore(newLiElement, prevLiToAdd.nextElementSibling);
+    selectDamage.parentElement?.insertBefore(newLiElement, selectDamage.nextElementSibling);
     // Скрывем выбранный option
     selectDamage.options[damage.id].classList.add("hidden");
     console.log(`insert: ${damage.id} ${damage.value}`);

@@ -13,10 +13,43 @@ window.makeEditMark = () => {
   };
 
   // При выборе повреждения
-  const onSelect = (event: Event) => {
+  const handleSelectDamage = (event: Event) => {
     const elem = event.currentTarget as HTMLSelectElement;
+    const prevElem = elem.previousSibling as HTMLLIElement;
 
-    console.log("onSelect");
+    const newLiElem = document.createElement("li");
+    newLiElem.classList.add("flex");
+    const newPElem = document.createElement("p");
+    newPElem.classList.add(
+      "bg-white",
+      "px-2",
+      "border-l",
+      "border-y",
+      "border-green-500",
+      "rounded-l",
+    );
+    newPElem.innerText = elem.value;
+    const newBtnElem = document.createElement("button");
+    newBtnElem.classList.add(
+      "bg-white",
+      "px-2",
+      "border-r",
+      "border-y",
+      "border-green-500",
+      "rounded-r",
+    );
+    newBtnElem.innerText = "x";
+
+    newLiElem.appendChild(newPElem);
+    newLiElem.appendChild(newBtnElem);
+    prevElem.parentNode?.insertBefore(newLiElem, prevElem.nextSibling);
+
+    console.log(`handleSelectDamage ${elem.value}`);
+
+    // Скрывем выбранный option
+    elem.options[elem.selectedIndex].classList.add("hidden");
+    // Устанавливаем значание select по умолчанию
+    elem.value = "выбирите повреждение";
   };
 
   return function (objectID: number, element: TreeInfo) {
@@ -29,7 +62,7 @@ window.makeEditMark = () => {
     const bodyUlElement = document.getElementById("card-item__body") as HTMLInputElement;
     const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
 
-    selectDamage.addEventListener("input", onSelect);
+    selectDamage.addEventListener("change", handleSelectDamage); // В чем отличие change от input?
 
     // При нажатии на Редактировать
     if (saveBtn.innerText == "Редактировать") {

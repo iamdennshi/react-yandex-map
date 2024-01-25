@@ -141,7 +141,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
           <p>Повреждения:</p>
           <ul class="flex gap-2 flex-wrap text-green-500">
             <li class="flex">
-              <p class="bg-white px-2 border-l border-y border-green-500 rounded-l">${DAMAGE[0]}</p>
+              <p class="bg-white px-2 border-l border-y border-green-500 rounded-l">test</p>
               <button class="bg-white px-2 border-r border-y border-green-500 rounded-r">x</button>
             </li><select id="card-item__select-damage" class="bg-white px-2 border border-green-500 rounded w-28">
               <option>выбирите повреждение</option>

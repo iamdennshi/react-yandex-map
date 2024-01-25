@@ -3,6 +3,8 @@ import "./types.d";
 window.makeEditMark = () => {
   let lastElementID = -1;
   let lastData = {};
+  // id - номер option в select (для удаления)
+  let selectedDamages: { id: number; value: string }[] = [];
 
   // В режиме редактирования
   // FIXME: Срабатывает в хар-ки повреждения, удаляя button
@@ -12,12 +14,39 @@ window.makeEditMark = () => {
     console.log("onInput");
   };
 
+  // При удалении повреждения
+  const handleDeleteDamage = (event: Event) => {
+    const elem = event.currentTarget as HTMLSelectElement;
+    const target = event.target as HTMLElement;
+
+    if (target.nodeName === "BUTTON") {
+      const pElem = elem.firstChild as HTMLParagraphElement;
+
+      // Получаем удаляемый объект
+      const selectedObj = selectedDamages.find((obj) => obj.value == pElem.innerText);
+      if (selectedObj) {
+        // Удаляем из selectedDamages
+        console.log("Удаляем из selectedDamages");
+        selectedDamages = selectedDamages.filter((obj) => obj.value !== pElem.innerText);
+
+        const selectDamage = document.getElementById(
+          "card-item__select-damage",
+        ) as HTMLSelectElement;
+        selectDamage.options[selectedObj.id].classList.remove("hidden");
+        elem.remove();
+      }
+
+      console.log(selectedObj);
+    }
+  };
+
   // При выборе повреждения
   const handleSelectDamage = (event: Event) => {
     const elem = event.currentTarget as HTMLSelectElement;
     const prevElem = elem.previousSibling as HTMLLIElement;
 
     const newLiElem = document.createElement("li");
+    newLiElem.addEventListener("click", handleDeleteDamage);
     newLiElem.classList.add("flex");
     const newPElem = document.createElement("p");
     newPElem.classList.add(
@@ -44,7 +73,9 @@ window.makeEditMark = () => {
     newLiElem.appendChild(newBtnElem);
     prevElem.parentNode?.insertBefore(newLiElem, prevElem.nextSibling);
 
+    selectedDamages.push({ id: elem.selectedIndex, value: elem.value });
     console.log(`handleSelectDamage ${elem.value}`);
+    console.log(selectedDamages);
 
     // Скрывем выбранный option
     elem.options[elem.selectedIndex].classList.add("hidden");
@@ -83,11 +114,15 @@ window.makeEditMark = () => {
       title.addEventListener("click", onInput);
 
       title.removeAttribute("disabled");
+      selectedDamages = []; // Удалям все ранее выбранные повреждения
 
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
 
       if (lastElementID != element.id) {
+        // Срабатывает каждый раз когда зашли в редактировать на элементе
+        console.log("first visit card");
+
         lastElementID = element.id;
 
         lastData = {

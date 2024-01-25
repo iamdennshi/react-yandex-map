@@ -1,10 +1,13 @@
 import "./types.d";
+import { DAMAGE } from "../../utils";
+
+type SelectDamage = { id: number; value: string };
 
 window.makeEditMark = () => {
   let lastElementID = -1;
   let lastData = {};
   // id - номер option в select (для удаления)
-  let selectedDamages: { id: number; value: string }[] = [];
+  let selectedDamages: SelectDamage[] = [];
 
   // В режиме редактирования
   // FIXME: Срабатывает в хар-ки повреждения, удаляя button
@@ -38,10 +41,9 @@ window.makeEditMark = () => {
     }
   };
 
-  // При выборе повреждения
-  const handleSelectDamage = (event: Event) => {
-    const selectedElement = event.currentTarget as HTMLSelectElement;
-    const prevLiToAdd = selectedElement.previousElementSibling as HTMLLIElement;
+  const insertDamage = (damage: SelectDamage) => {
+    const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
+    const prevLiToAdd = selectDamage.previousElementSibling as HTMLLIElement;
 
     const newLiElement = document.createElement("li");
     newLiElement.addEventListener("click", handleDeleteDamage);
@@ -55,7 +57,7 @@ window.makeEditMark = () => {
       "border-green-500",
       "rounded-l",
     );
-    newPElement.innerText = selectedElement.value;
+    newPElement.innerText = damage.value;
     const newBtnElement = document.createElement("button");
     newBtnElement.classList.add(
       "bg-white",
@@ -70,13 +72,25 @@ window.makeEditMark = () => {
     newLiElement.appendChild(newPElement);
     newLiElement.appendChild(newBtnElement);
     prevLiToAdd.parentElement?.insertBefore(newLiElement, prevLiToAdd.nextElementSibling);
+    // Скрывем выбранный option
+    selectDamage.options[damage.id].classList.add("hidden");
+    console.log(`insert: ${damage.id} ${damage.value}`);
+  };
 
-    selectedDamages.push({ id: selectedElement.selectedIndex, value: selectedElement.value });
+  // При выборе повреждения
+  const handleSelectDamage = (event: Event) => {
+    const selectedElement = event.currentTarget as HTMLSelectElement;
+    const damage: SelectDamage = {
+      id: selectedElement.selectedIndex,
+      value: selectedElement.value,
+    };
+
+    insertDamage(damage);
+
+    selectedDamages.push(damage);
     console.log(`handleSelectDamage: ${selectedElement.value}`);
     console.log(selectedDamages);
 
-    // Скрывем выбранный option
-    selectedElement.options[selectedElement.selectedIndex].classList.add("hidden");
     // Устанавливаем значание select по умолчанию
     selectedElement.value = "выбирите повреждение";
   };
@@ -112,7 +126,14 @@ window.makeEditMark = () => {
       title.addEventListener("click", onInput);
 
       title.removeAttribute("disabled");
-      selectedDamages = []; // Удалям все ранее выбранные повреждения
+      // Получаем уже установленные повреждения
+      selectedDamages = element.typeOfDamage.map((elem) => ({ id: elem + 1, value: DAMAGE[elem] }));
+      console.log(selectedDamages);
+
+      // Вставляем повреждения для редактированя
+      for (const i of selectedDamages) {
+        insertDamage(i);
+      }
 
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";

@@ -25,13 +25,15 @@ export const TreeMark = React.memo((props: MarkProps) => {
           `http://192.168.1.100:8000/objects/${props.currentObjectID}/elements/trees/${props.id}`,
         );
         const tempTree = await tempFetchTree.json();
-        console.log(tempTree);
+        console.log("GET tree", tempTree);
         return tempTree;
       };
 
       getTree().then((data: TreeInfo) => {
         const body = `
-        <li class="text-primary">Высота: <span class="font-bold">${data.height} см</span></li>
+        <li class="text-primary">Высота: <span data-type="sm" class="font-bold">${
+          data.height
+        } см</span></li>
         <li class="hidden text-primary">
           <label for="card-item__height">Высота, см:</label>
           <input id="card-item__height" class="card-height" min="1" type="number" value="${
@@ -39,7 +41,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
           }">
           <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретную высоту</p>
         </li>
-        <li class="text-primary">Диаметр ствола: <span class="font-bold">${
+        <li class="text-primary">Диаметр ствола: <span data-type="sm" class="font-bold">${
           data.trunkDiameter
         } см</span></li>
         <li class="hidden text-primary">
@@ -62,9 +64,11 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="text-primary">Эстетическая оценка: <span class="font-bold">${
           AESTATIC[data.aestaticAssessment]
         }</span></li>
-        <li class="text-primary">Повреждения: <span class="font-bold">${data.typeOfDamage.map(
-          (elem) => DAMAGE[elem],
-        )}</span></li>
+        <li class="text-primary">Повреждения: <span data-type="list" class="font-bold">${
+          data.typeOfDamage.length != 0
+            ? data.typeOfDamage.map((elem) => DAMAGE[elem])
+            : "Отсутствуют"
+        }</span></li>
         <li class="hidden text-primary">
           <p>Повреждения:</p>
           <ul class="flex gap-2 flex-wrap text-green-500">

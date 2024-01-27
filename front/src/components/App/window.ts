@@ -10,7 +10,6 @@ window.makeEditMark = () => {
   let selectedDamages: SelectDamage[] = [];
 
   // В режиме редактирования
-  // FIXME: Срабатывает в хар-ки повреждения, удаляя button
   const onInput = (event: Event) => {
     const elem = event.currentTarget as HTMLInputElement;
     elem.nextElementSibling?.classList.add("hidden");
@@ -111,7 +110,7 @@ window.makeEditMark = () => {
       if (bodyUlElement) {
         const liElements = bodyUlElement.querySelectorAll(":scope > li");
 
-        // Добавление обработчиков (можно только добавлять когда первый раз показываем элемент)
+        // Добавление обработчиков
         liElements.forEach((liElement) => {
           if (!liElement.classList.toggle("hidden")) {
             const inputElement = liElement.querySelector("input");
@@ -125,14 +124,6 @@ window.makeEditMark = () => {
       title.addEventListener("click", onInput);
 
       title.removeAttribute("disabled");
-      // Получаем уже установленные повреждения
-      selectedDamages = element.typeOfDamage.map((elem) => ({ id: elem + 1, value: DAMAGE[elem] }));
-      console.log(selectedDamages);
-
-      // Вставляем повреждения для редактированя
-      for (const i of selectedDamages) {
-        insertDamage(i);
-      }
 
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
@@ -140,6 +131,12 @@ window.makeEditMark = () => {
       if (lastElementID != element.id) {
         // Срабатывает каждый раз когда зашли в редактировать на элементе
         console.log("first visit card");
+        // Получаем уже установленные повреждения
+        selectedDamages = element.typeOfDamage.map((elem) => ({
+          id: elem + 1,
+          value: DAMAGE[elem],
+        }));
+        console.log(selectedDamages);
 
         lastElementID = element.id;
 
@@ -147,43 +144,70 @@ window.makeEditMark = () => {
           name: element.name,
           height: element.height,
           trunkDiameter: element.trunkDiameter,
+          typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };
+      }
+
+      // Вставляем повреждения для редактированя
+      for (const i of selectedDamages) {
+        insertDamage(i);
       }
     } else {
       // При нажатии на Сохранить
       let isError = false;
 
       if (bodyUlElement) {
-        const liElements = bodyUlElement.querySelectorAll(":scope > li");
-        let prevElement: HTMLSpanElement | null = null;
+        const liElements = bodyUlElement.querySelectorAll(":scope > :not(:first-child)");
+        let prevElement: HTMLSpanElement | null = bodyUlElement.firstElementChild
+          ?.firstElementChild as HTMLSpanElement;
 
-        // Проверка корректности введенного title
-        // Если введена пуста строка
-        // или при попытки преобразования к числу не получили NaN (т.е в value не записаны числа)
-        if (title.value == "" || !isNaN(Number(title.value))) {
-          isError = true;
-          title.nextElementSibling?.classList.remove("hidden");
-          console.log("title.value ", title.value);
-        }
-
-        // Проверка корректности введенных значений характеристик
-        liElements.forEach((liElement) => {
-          if (!liElement.classList.contains("hidden")) {
-            // Проверка выстоты
-            const val = Number(liElement.querySelector("input")!.value);
-            if (val <= 0) {
-              liElement.querySelector("p")?.classList.remove("hidden");
-              console.log("error 1");
-              isError = true;
-            } else {
-              if (prevElement) {
-                prevElement.innerText = `${val} см`;
-              }
-            }
-          } else {
-            prevElement = liElement.querySelector("span");
+        if (prevElement instanceof HTMLSpanElement) {
+          if (title.value == "" || !isNaN(Number(title.value))) {
+            // Проверка корректности введенного title
+            // Если введена пуста строка
+            // или при попытки преобразования к числу не получили NaN (т.е в value не записаны числа)
+            isError = true;
+            title.nextElementSibling?.classList.remove("hidden");
+            console.log("title.value ", title.value);
           }
-        });
+
+          // Проверка корректности введенных значений характеристик
+          // FIXME -- разметка обновляются даже если характеристики не изменены
+          liElements.forEach((liElement) => {
+            if (!liElement.classList.contains("hidden")) {
+              const dataset = prevElement?.dataset.type;
+              console.log(prevElement);
+
+              // Все характериситки, которые измеряются в сантиметрах
+              if (dataset === "sm") {
+                // Проверка выстоты
+                const val = Number(liElement.querySelector("input")!.value);
+                if (val <= 0) {
+                  liElement.querySelector("p")?.classList.remove("hidden");
+                  console.log("error 1");
+                  isError = true;
+                } else {
+                  if (prevElement) {
+                    prevElement.textContent = `${val} см`;
+                  }
+                }
+              }
+              // Все характериситики, которые имеют список значений
+              else if (dataset === "list") {
+                if (prevElement) {
+                  console.log(selectedDamages);
+                  if (selectedDamages.length != 0) {
+                    prevElement.textContent = selectedDamages.map((i) => i.value).join();
+                  } else {
+                    prevElement.textContent = "Отсутсвуют";
+                  }
+                }
+              }
+            } else {
+              prevElement = liElement.querySelector("span");
+            }
+          });
+        }
       }
       if (!isError) {
         if (bodyUlElement) {
@@ -210,10 +234,16 @@ window.makeEditMark = () => {
 
         saveBtn.innerText = "Редактировать";
 
+        // Удаление повреждений из разметки, добавленные в режиме редактирования
+        while (selectDamage.nextElementSibling) {
+          selectDamage.nextElementSibling.remove();
+        }
+
         const newData = {
           name: title.value,
           height: Number(height.value),
           trunkDiameter: Number(trunkDiameter.value),
+          typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };
 
         if (JSON.stringify(lastData) != JSON.stringify(newData)) {
@@ -235,7 +265,7 @@ window.makeEditMark = () => {
 
 window.editMark = window.makeEditMark();
 
-window.removeMark = (objectID: number, element: TreeInfo | FurnitureInfo) => {
+window.removeMark = (_objectID: number, element: TreeInfo | FurnitureInfo) => {
   console.log(`${element.id} do remove mark`);
 
   window.dispatchEvent(

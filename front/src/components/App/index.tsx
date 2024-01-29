@@ -4,7 +4,7 @@ import SearchBox from "../SearchBox";
 import ActionBar from "../ActionBar";
 // import FurnitureMark from "../FurnitureMark.tsx";
 import TreeMark from "../TreeMark.tsx";
-import "./window.ts";
+import "./logic";
 
 // Определяем, запущено ли приложение через webview (Android)
 try {

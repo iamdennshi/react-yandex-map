@@ -72,7 +72,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="hidden text-primary">
           <p>Повреждения:</p>
           <ul class="flex gap-2 flex-wrap text-green-500">
-            <select id="card-item__select-damage" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
+            <select id="card-item__selector-damages" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
               <option>выбирите повреждение</option>
               ${DAMAGE.map((i) => `<option value="${i}">${i}</option>`)}
             </select>

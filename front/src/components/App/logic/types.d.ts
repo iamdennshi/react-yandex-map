@@ -8,3 +8,6 @@ export declare global {
     ymap: ymaps.Map;
   }
 }
+
+// id - номер option в select (для удаления)
+export type SelectedDamage = { id: number; value: string };

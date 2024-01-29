@@ -1,112 +1,99 @@
-import "./types.d";
-import { DAMAGE } from "../../utils";
-
-type SelectDamage = { id: number; value: string };
+import { DAMAGE } from "../../../utils";
+import { SelectedDamage } from "./types";
 
 window.makeEditMark = () => {
-  let lastElementID = -1;
-  let lastData = {};
-  // id - номер option в select (для удаления)
-  let selectedDamages: SelectDamage[] = [];
+  const P_ELEMENT_STYLE = "bg-white, px-2, border-l, border-y, border-green-500, rounded-l-md";
+  const BUTTON_ELEMENT_STYLE = "bg-white, px-2, border-r, border-y, border-green-500, rounded-r-md";
+  let prevElementId = -1;
+  let prevData = {};
+  // Содержит объекты выбранных повреждений у элемента
+  let selectedDamages: SelectedDamage[] = [];
 
-  // В режиме редактирования
-  const onInput = (event: Event) => {
+  const handleInputClick = (event: Event) => {
     const elem = event.currentTarget as HTMLInputElement;
+    // Скрываем ошибку
     elem.nextElementSibling?.classList.add("hidden");
-    console.log("onInput");
+    console.log("handleInputClick");
   };
 
-  // При удалении повреждения
-  const handleDeleteDamage = (event: Event) => {
+  const handleDeleteDamageElement = (event: Event) => {
     const damageElement = event.currentTarget as HTMLSelectElement;
     const clickedElement = event.target as HTMLElement;
 
     if (clickedElement instanceof HTMLButtonElement) {
-      const damageText = (damageElement.firstElementChild as HTMLParagraphElement).innerText;
-
+      const textOfDamageElement = (damageElement.firstElementChild as HTMLParagraphElement)
+        .innerText;
       // Получаем объект удаляемого повреждения
-      const selectedDamageObj = selectedDamages.find((obj) => obj.value == damageText);
-      if (selectedDamageObj) {
-        // Удаляем из selectedDamages
-        console.log(`handleDeleteDamage: ${selectedDamageObj.value}`);
-        selectedDamages = selectedDamages.filter((obj) => obj.value !== damageText);
+      const selectedDamgeObject = selectedDamages.find((i) => i.value == textOfDamageElement);
+
+      if (selectedDamgeObject) {
+        console.log(`handleDeleteDamage: ${selectedDamgeObject.value}`);
+        // Удаляем из selectedDamages выбранное повреждение
+        selectedDamages = selectedDamages.filter((i) => i.value !== textOfDamageElement);
 
         const selectorDamages = document.getElementById(
-          "card-item__select-damage",
+          "card-item__selector-damages",
         ) as HTMLSelectElement;
-        selectorDamages.options[selectedDamageObj.id].classList.remove("hidden");
+        selectorDamages.options[selectedDamgeObject.id].classList.remove("hidden");
         damageElement.remove();
       }
     }
   };
 
-  const insertDamage = (damage: SelectDamage) => {
-    const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
+  const insertDamage = (damage: SelectedDamage) => {
+    const selectorDamages = document.getElementById(
+      "card-item__selector-damages",
+    ) as HTMLSelectElement;
 
     const newLiElement = document.createElement("li");
-    newLiElement.addEventListener("click", handleDeleteDamage);
+    newLiElement.addEventListener("click", handleDeleteDamageElement);
     newLiElement.classList.add("flex");
     const newPElement = document.createElement("p");
-    newPElement.classList.add(
-      "bg-white",
-      "px-2",
-      "border-l",
-      "border-y",
-      "border-green-500",
-      "rounded-l-md",
-    );
+    newPElement.classList.add(...P_ELEMENT_STYLE.split(", "));
     newPElement.innerText = damage.value;
     const newBtnElement = document.createElement("button");
-    newBtnElement.classList.add(
-      "bg-white",
-      "px-2",
-      "border-r",
-      "border-y",
-      "border-green-500",
-      "rounded-r-md",
-    );
+    newBtnElement.classList.add(...BUTTON_ELEMENT_STYLE.split(", "));
     newBtnElement.innerText = "x";
-
     newLiElement.appendChild(newPElement);
     newLiElement.appendChild(newBtnElement);
-    selectDamage.parentElement?.insertBefore(newLiElement, selectDamage.nextElementSibling);
+    selectorDamages.parentElement?.insertBefore(newLiElement, selectorDamages.nextElementSibling);
+
     // Скрывем выбранный option
-    selectDamage.options[damage.id].classList.add("hidden");
+    selectorDamages.options[damage.id].classList.add("hidden");
     console.log(`insert: ${damage.id} ${damage.value}`);
   };
 
   // При выборе повреждения
   const handleSelectDamage = (event: Event) => {
-    const selectedElement = event.currentTarget as HTMLSelectElement;
-    const damage: SelectDamage = {
-      id: selectedElement.selectedIndex,
-      value: selectedElement.value,
+    const selectedDamage = event.currentTarget as HTMLSelectElement;
+    const damage: SelectedDamage = {
+      id: selectedDamage.selectedIndex,
+      value: selectedDamage.value,
     };
 
     insertDamage(damage);
 
     selectedDamages.push(damage);
-    console.log(`handleSelectDamage: ${selectedElement.value}`);
+    console.log(`handleSelectDamage: ${selectedDamage.value}`);
     console.log(selectedDamages);
 
     // Устанавливаем значание select по умолчанию
-    selectedElement.value = "выбирите повреждение";
+    selectedDamage.value = "выбирите повреждение";
   };
 
   return function (objectID: number, element: TreeInfo) {
-    // Нахождение элемента по ИД быстрее, чем по классу
     const saveBtn = document.getElementById("card-item__save") as HTMLButtonElement;
     const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
     const title = document.getElementById("card-item__title") as HTMLInputElement;
     const height = document.getElementById("card-item__height") as HTMLInputElement;
     const trunkDiameter = document.getElementById("card-item__trunk-diameter") as HTMLInputElement;
     const bodyUlElement = document.getElementById("card-item__body") as HTMLInputElement;
-    const selectDamage = document.getElementById("card-item__select-damage") as HTMLSelectElement;
-
-    selectDamage.addEventListener("change", handleSelectDamage); // В чем отличие change от input?
+    const selectorDamages = document.getElementById(
+      "card-item__selector-damages",
+    ) as HTMLSelectElement;
 
     // При нажатии на Редактировать
-    if (saveBtn.innerText == "Редактировать") {
+    if (saveBtn.textContent == "Редактировать") {
       if (bodyUlElement) {
         const liElements = bodyUlElement.querySelectorAll(":scope > li");
 
@@ -115,32 +102,23 @@ window.makeEditMark = () => {
           if (!liElement.classList.toggle("hidden")) {
             const inputElement = liElement.querySelector("input");
             if (inputElement) {
-              inputElement.addEventListener("click", onInput);
+              inputElement.addEventListener("click", handleInputClick);
               console.log("add event");
             }
           }
         });
       }
-      title.addEventListener("click", onInput);
 
+      selectorDamages.addEventListener("change", handleSelectDamage);
+      title.addEventListener("click", handleInputClick);
       title.removeAttribute("disabled");
-
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
 
-      if (lastElementID != element.id) {
-        // Срабатывает каждый раз когда зашли в редактировать на элементе
-        console.log("first visit card");
-        // Получаем уже установленные повреждения
-        selectedDamages = element.typeOfDamage.map((elem) => ({
-          id: elem + 1,
-          value: DAMAGE[elem],
-        }));
-        console.log(selectedDamages);
+      if (prevElementId != element.id) {
+        prevElementId = element.id;
 
-        lastElementID = element.id;
-
-        lastData = {
+        prevData = {
           name: element.name,
           height: element.height,
           trunkDiameter: element.trunkDiameter,
@@ -148,6 +126,12 @@ window.makeEditMark = () => {
         };
       }
 
+      // Получаем уже установленные повреждения
+      selectedDamages = element.typeOfDamage.map((elem) => ({
+        id: elem + 1,
+        value: DAMAGE[elem],
+      }));
+      console.log(selectedDamages);
       // Вставляем повреждения для редактированя
       for (const i of selectedDamages) {
         insertDamage(i);
@@ -218,13 +202,14 @@ window.makeEditMark = () => {
             if (liElement.classList.toggle("hidden")) {
               const inputElement = liElement.querySelector("input");
               if (inputElement) {
-                inputElement.removeEventListener("click", onInput);
+                inputElement.removeEventListener("click", handleInputClick);
                 console.log("remove event ");
               }
             }
           });
         }
-        title.removeEventListener("click", onInput);
+        title.removeEventListener("click", handleInputClick);
+        selectorDamages.removeEventListener("change", handleSelectDamage);
 
         console.log("not error");
         title.setAttribute("disabled", "true");
@@ -235,8 +220,8 @@ window.makeEditMark = () => {
         saveBtn.innerText = "Редактировать";
 
         // Удаление повреждений из разметки, добавленные в режиме редактирования
-        while (selectDamage.nextElementSibling) {
-          selectDamage.nextElementSibling.remove();
+        while (selectorDamages.nextElementSibling) {
+          selectorDamages.nextElementSibling.remove();
         }
 
         const newData = {
@@ -246,9 +231,9 @@ window.makeEditMark = () => {
           typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };
 
-        if (JSON.stringify(lastData) != JSON.stringify(newData)) {
+        if (JSON.stringify(prevData) != JSON.stringify(newData)) {
           console.log("UPDATE DATA ", newData);
-          lastData = newData;
+          prevData = newData;
 
           fetch(`http://192.168.1.100:8000/objects/${objectID}/elements/trees/${element.id}`, {
             method: "PUT",

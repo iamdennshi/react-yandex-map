@@ -193,7 +193,7 @@ window.makeEditMark = () => {
                 if (prevElement) {
                   console.log(selectedDamages);
                   if (selectedDamages.length != 0) {
-                    prevElement.textContent = selectedDamages.map((i) => i.value).join();
+                    prevElement.textContent = selectedDamages.map((i) => i.value).join(", ");
                   } else {
                     prevElement.textContent = "Отсутсвуют";
                   }

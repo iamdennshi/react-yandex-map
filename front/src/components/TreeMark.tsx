@@ -66,7 +66,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
         }</span></li>
         <li class="text-primary">Повреждения: <span data-type="list" class="font-bold">${
           data.typeOfDamage.length != 0
-            ? data.typeOfDamage.map((elem) => DAMAGE[elem])
+            ? data.typeOfDamage.map((elem) => DAMAGE[elem]).join(", ")
             : "Отсутствуют"
         }</span></li>
         <li class="hidden text-primary">

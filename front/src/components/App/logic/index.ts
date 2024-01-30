@@ -2,8 +2,6 @@ import { DAMAGE } from "../../../utils";
 import { SelectedDamage } from "./types";
 
 window.makeEditMark = () => {
-  const P_ELEMENT_STYLE = "bg-white, px-2, border-l, border-y, border-green-500, rounded-l-md";
-  const BUTTON_ELEMENT_STYLE = "bg-white, px-2, border-r, border-y, border-green-500, rounded-r-md";
   let prevElementId = -1;
   let prevData = {};
   // Содержит объекты выбранных повреждений у элемента
@@ -49,10 +47,24 @@ window.makeEditMark = () => {
     newLiElement.addEventListener("click", handleDeleteDamageElement);
     newLiElement.classList.add("flex");
     const newPElement = document.createElement("p");
-    newPElement.classList.add(...P_ELEMENT_STYLE.split(", "));
+    newPElement.classList.add(
+      "bg-white",
+      "px-2",
+      "border-l",
+      "border-y",
+      "border-green-500",
+      "rounded-l-md",
+    );
     newPElement.innerText = damage.value;
     const newBtnElement = document.createElement("button");
-    newBtnElement.classList.add(...BUTTON_ELEMENT_STYLE.split(", "));
+    newBtnElement.classList.add(
+      "bg-white",
+      "px-2",
+      "border-r",
+      "border-y",
+      "border-green-500",
+      "rounded-r-md",
+    );
     newBtnElement.innerText = "x";
     newLiElement.appendChild(newPElement);
     newLiElement.appendChild(newBtnElement);

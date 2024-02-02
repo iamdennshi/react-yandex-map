@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from model import *
 from data import *
+from datetime import datetime
 
 app = FastAPI()
 
@@ -83,6 +84,7 @@ async def update_tree(object_id: int, tree_id: int, element: TreeWithoutId) -> T
     elementWithRequiredAttributes = element.model_dump(exclude_unset=True)
     requiredElement : dict =  list(filter(lambda e: e['id'] == tree_id, elements[object_id]['trees']))[0]
     requiredElement.update(elementWithRequiredAttributes)
+    requiredElement.update({"lastChange": datetime.now().isoformat()})
     return requiredElement
 
 

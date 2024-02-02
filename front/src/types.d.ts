@@ -28,6 +28,7 @@ interface TreeInfo extends ElementInfo {
   sanitaryCondition: number;
   recommendation: number[];
   trunkNumber: number;
+  lastChange: Date;
 }
 
 interface FurnitureInfo extends ElementInfo {

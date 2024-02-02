@@ -132,13 +132,12 @@ window.makeEditMark = () => {
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
 
-      // Получаем уже установленные повреждения
-      selectedDamages = element.typeOfDamage.map((elem) => ({
-        id: elem + 1,
-        value: DAMAGE[elem],
-      }));
-
       if (prevElementId != element.id) {
+        // Получаем уже установленные повреждения
+        selectedDamages = element.typeOfDamage.map((elem) => ({
+          id: elem + 1,
+          value: DAMAGE[elem],
+        }));
         prevElementId = element.id;
 
         // Порядок важен
@@ -177,11 +176,9 @@ window.makeEditMark = () => {
           }
 
           // Проверка корректности введенных значений характеристик
-          // FIXME -- разметка обновляются даже если характеристики не изменены
           liElements.forEach((liElement) => {
             if (!liElement.classList.contains("hidden")) {
               const dataset = prevElement?.dataset.type;
-              console.log(prevElement);
 
               // Все характериситки, которые измеряются в сантиметрах
               if (dataset === "sm") {
@@ -206,7 +203,6 @@ window.makeEditMark = () => {
               // Все характериситики, которые имеют множество значений из списка (например, повреждение)
               else if (dataset === "mult") {
                 if (prevElement) {
-                  console.log(selectedDamages);
                   if (selectedDamages.length != 0) {
                     prevElement.textContent = selectedDamages.map((i) => i.value).join(", ");
                   } else {

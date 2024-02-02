@@ -57,7 +57,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
         }</span></li>
         <li class="hidden text-primary">
         <label for="card-item__age">Диапазон возраста:</label>
-          <select id="card-item__age" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
+          <select id="card-item__age" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0 font-bold">
             ${AGE.map(
               (i, index) =>
                 `<option ${index === data.age && "selected"} value="${i}">${i}</option>`,
@@ -89,7 +89,7 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="hidden text-primary">
           <lable for="card-item__selector-damages">Повреждения:</label>
           <ul class="flex gap-2 flex-wrap text-green-500">
-            <select id="card-item__selector-damages" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
+            <select id="card-item__selector-damages" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0 font-bold">
               <option>выбирите повреждение</option>
               ${DAMAGE.map((i) => `<option value="${i}">${i}</option>`)}
             </select>

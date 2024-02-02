@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class Id(BaseModel):
@@ -31,6 +32,8 @@ class Tree(ElementWithoutId):
     recommendation: list[int] | None = None
     trunkNumber: int | None = None
     sanitaryCondition: int | None = None
+    lastChange: datetime | None = None
+
 
 class TreeWithId(Tree, Id):
      pass

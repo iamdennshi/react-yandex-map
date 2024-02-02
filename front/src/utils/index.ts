@@ -18,7 +18,7 @@ export function createContentMark(
   elementType: ElementType,
   body: string,
   objectID: number,
-  elementInfo: TreeInfo | FurnitureInfo,
+  elementInfo: TreeInfo,
 ): string {
   const title = elementType == "tree" ? "дерево" : "Элемент благоустройства";
   const stringify = JSON.stringify(elementInfo).replaceAll('"', "'");
@@ -26,6 +26,17 @@ export function createContentMark(
   const handleRemove = `window.removeMark(${objectID}, ${stringify})`;
   const infoImg = elementInfo.photos[0];
   const infoTitle = elementInfo.name;
+  const dateTime = new Date(elementInfo.lastChange);
+  const dateTimeString = `Последнее изменение ${dateTime
+    .getDate()
+    .toString()
+    .padStart(2, "0")}.${dateTime
+    .getMonth()
+    .toString()
+    .padStart(2, "0")}.${dateTime.getFullYear()} ${dateTime
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${dateTime.getMinutes().toString().padStart(2, "0")}`;
 
   return createWrapperContent(`
   <div id="card-item" class=' relative h-[600px] w-[300px]'>
@@ -59,7 +70,7 @@ export function createContentMark(
 
     </div>
 
-    <div class="text-center text-gray mb-2 text-sm">Последнее изменение 02.07.2023 16:37</div>
+    <div class="text-center text-gray mb-2 text-sm">${dateTimeString}</div>
   </div>
 </div>`);
 }

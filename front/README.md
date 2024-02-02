@@ -1,27 +1,25 @@
-# React + TypeScript + Vite
+# FontEnd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Мобильная версия. Находясь на объекте сразу вносить данные в систему
+- Карта объекта средствами Яндекс Карт
+- Добавление **элементов** (деревьев, кустарников, лавок, урн и т.д.). У каждого элемента свои характеристики. Элементы привязываются к координатам на карте. В процессе можно менять характеристики элементов, все изменения фиксируются в истории элемента.
+- Общее сведенья об объекте. Общая площадь объекта, деревьев, газонов, тротуаров и т.д. (**баланс территорий**) Примерная оценка содержания такого объекта в месяц.
+- Планирование. Если на объекте нет элемента, но планируется построить его. Можно добавить его в виде элемента планирующего к постройке и дату постройки. При наступлении даты, элемент становится “построенным” и учитывается в общих сведениях.
 
-Currently, two official plugins are available:
+## Tasks
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [ ] Единая цветовая палитра в конфиге tailwind
+- [ ] Карточка элемента
+  - [ ] Для деревьев
+    - [ ] **Класс возраста**
+  - [ ] Редактирование характеристик
+    - [ ] Валидация
+  - [ ] Увеличить картинку на весь экран
+  - [ ] Редактирование координат
+  - [ ] Дата последнего измненеия
+- [ ] Раздел с характеристиками объекта [1](./references/1.png) [2](./references/2.png) [3](./references/3.png)
 
-## Expanding the ESLint configuration
+## Useful links
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+[Документация по используемой библиотеке](https://pbe-react-yandex-maps.vercel.app/faq/)  
+[Какой-то пример, который я решил сохранить](https://github.com/mmarkelov/react-yandex-maps-layout/blob/master/src/App.js)

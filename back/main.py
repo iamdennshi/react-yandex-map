@@ -68,7 +68,7 @@ async def add_tree(object_id: int, element: TreeWithoutId) -> TreeWithId:
          'typeOfDamage': element.typeOfDamage,
          'recommendation': element.recommendation,
          'typeOfPlant': element.typeOfPlant,
-         'ageClass': element.ageClass,
+         'age': element.age,
          'crownProjection': element.crownProjection,
          'trunkNumber': element.trunkNumber,
          'sanitaryCondition': element.sanitaryCondition,

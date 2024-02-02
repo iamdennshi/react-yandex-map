@@ -25,7 +25,7 @@ class Tree(ElementWithoutId):
     trunkDiameter: int | None = None
     aestaticAssessment: int | None = None
     comment: str | None = None
-    ageClass: list[int] | None = None
+    age: int | None = None
     crownProjection: int | None = None
     typeOfDamage: list[int] | None = None
     recommendation: list[int] | None = None

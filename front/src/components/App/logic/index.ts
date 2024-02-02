@@ -1,4 +1,4 @@
-import { DAMAGE } from "../../../utils";
+import { DAMAGE, AGE } from "../../../utils";
 import { SelectedDamage } from "./types";
 
 window.makeEditMark = () => {
@@ -98,6 +98,8 @@ window.makeEditMark = () => {
     const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
     const title = document.getElementById("card-item__title") as HTMLInputElement;
     const height = document.getElementById("card-item__height") as HTMLInputElement;
+    const age = document.getElementById("card-item__age") as HTMLInputElement;
+
     const crownProjection = document.getElementById(
       "card-item__crown-projection",
     ) as HTMLInputElement;
@@ -130,23 +132,26 @@ window.makeEditMark = () => {
       removeBtn.classList.remove("hidden");
       saveBtn.innerText = "Сохранить";
 
-      if (prevElementId != element.id) {
-        prevElementId = element.id;
-
-        prevData = {
-          name: element.name,
-          height: element.height,
-          crownProjection: element.crownProjection,
-          trunkDiameter: element.trunkDiameter,
-          typeOfDamage: selectedDamages.map((i) => i.id - 1),
-        };
-      }
-
       // Получаем уже установленные повреждения
       selectedDamages = element.typeOfDamage.map((elem) => ({
         id: elem + 1,
         value: DAMAGE[elem],
       }));
+
+      if (prevElementId != element.id) {
+        prevElementId = element.id;
+
+        // Порядок важен
+        prevData = {
+          name: element.name,
+          height: element.height,
+          trunkDiameter: element.trunkDiameter,
+          age: element.age,
+          crownProjection: element.crownProjection,
+          typeOfDamage: selectedDamages.map((i) => i.id - 1),
+        };
+      }
+
       console.log(selectedDamages);
       // Вставляем повреждения для редактированя
       for (const i of selectedDamages) {
@@ -192,8 +197,14 @@ window.makeEditMark = () => {
                   }
                 }
               }
-              // Все характериситики, которые имеют список значений
-              else if (dataset === "list") {
+              // Все характериситики, которые имеют единственное значение из списка (например, возраст)
+              else if (dataset === "single") {
+                if (prevElement) {
+                  prevElement.textContent = age.value;
+                }
+              }
+              // Все характериситики, которые имеют множество значений из списка (например, повреждение)
+              else if (dataset === "mult") {
                 if (prevElement) {
                   console.log(selectedDamages);
                   if (selectedDamages.length != 0) {
@@ -243,8 +254,9 @@ window.makeEditMark = () => {
         const newData = {
           name: title.value,
           height: Number(height.value),
-          crownProjection: Number(crownProjection.value),
           trunkDiameter: Number(trunkDiameter.value),
+          age: AGE.indexOf(age.value),
+          crownProjection: Number(crownProjection.value),
           typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };
 

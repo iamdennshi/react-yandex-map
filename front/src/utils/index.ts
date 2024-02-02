@@ -64,6 +64,8 @@ export function createContentMark(
 </div>`);
 }
 
+export const AGE = ["не более 5 лет", "не более 10 лет", "от 10 до 20 лет", "до 40 и более лет"];
+
 export const AESTATIC = [
   "отличная",
   "хорошая",

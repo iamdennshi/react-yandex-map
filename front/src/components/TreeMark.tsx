@@ -7,6 +7,7 @@ import {
   DAMAGE,
   RECOMMENDATION,
   SANITARY,
+  AGE,
 } from "../utils";
 
 export const TreeMark = React.memo((props: MarkProps) => {
@@ -51,9 +52,18 @@ export const TreeMark = React.memo((props: MarkProps) => {
           }">
           <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретный диаметр ствола</p>
         </li>
-        <li class="text-primary">Класс возраста: <span class="font-bold">${data.ageClass[0]}-${
-          data.ageClass[1]
-        } лет</span></li>
+        <li  class="text-primary">Диапазон возраста: <span data-type="single" class="font-bold">${
+          AGE[data.age]
+        }</span></li>
+        <li class="hidden text-primary">
+        <label for="card-item__age">Диапазон возраста:</label>
+          <select id="card-item__age" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
+            ${AGE.map(
+              (i, index) =>
+                `<option ${index === data.age && "selected"} value="${i}">${i}</option>`,
+            )}
+          </select>
+      </li>
         <li class="text-primary">Проекция кроны: <span data-type="sm" class="font-bold">${
           data.crownProjection
         } см</span></li>
@@ -71,20 +81,19 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="text-primary">Эстетическая оценка: <span class="font-bold">${
           AESTATIC[data.aestaticAssessment]
         }</span></li>
-        <li class="text-primary">Повреждения: <span data-type="list" class="font-bold">${
+        <li class="text-primary">Повреждения: <span data-type="mult" class="font-bold">${
           data.typeOfDamage.length != 0
             ? data.typeOfDamage.map((elem) => DAMAGE[elem]).join(", ")
             : "Отсутствуют"
         }</span></li>
         <li class="hidden text-primary">
-          <p>Повреждения:</p>
+          <lable for="card-item__selector-damages">Повреждения:</label>
           <ul class="flex gap-2 flex-wrap text-green-500">
             <select id="card-item__selector-damages" class=" px-2 text-[#58D364] bg-[#DDFFE0] rounded-md w-full focus:bg-secondary focus:text-white outline-none h-[20px] m-0">
               <option>выбирите повреждение</option>
               ${DAMAGE.map((i) => `<option value="${i}">${i}</option>`)}
             </select>
           </ul>
-          <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретный диаметр ствола</p>
         </li>
         <li class="text-primary">Рекомендации по уходу: <span class="font-bold">${data.recommendation.map(
           (elem) => RECOMMENDATION[elem],

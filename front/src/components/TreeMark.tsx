@@ -54,9 +54,16 @@ export const TreeMark = React.memo((props: MarkProps) => {
         <li class="text-primary">Класс возраста: <span class="font-bold">${data.ageClass[0]}-${
           data.ageClass[1]
         } лет</span></li>
-        <li class="text-primary">Проекция кроны: <span class="font-bold">${
+        <li class="text-primary">Проекция кроны: <span data-type="sm" class="font-bold">${
           data.crownProjection
         } см</span></li>
+        <li class="hidden text-primary">
+        <label for="card-item__crown-projection">Проекция кроны, см:</label>
+        <input id="card-item__crown-projection" class="card-height" min="1" type="number" value="${
+          data.crownProjection
+        }">
+        <p class="hidden text-red-500 text-sm font-bold">⚠ Введите корретную проекцию кроны</p>
+      </li>
         <li class="text-primary">Стволов: <span class="font-bold">${data.trunkNumber} шт</span></li>
         <li class="text-primary">Санитарное состояние: <span class="font-bold">${
           SANITARY[data.sanitaryCondition]

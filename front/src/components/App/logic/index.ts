@@ -98,6 +98,9 @@ window.makeEditMark = () => {
     const removeBtn = document.getElementById("card-item__remove") as HTMLButtonElement;
     const title = document.getElementById("card-item__title") as HTMLInputElement;
     const height = document.getElementById("card-item__height") as HTMLInputElement;
+    const crownProjection = document.getElementById(
+      "card-item__crown-projection",
+    ) as HTMLInputElement;
     const trunkDiameter = document.getElementById("card-item__trunk-diameter") as HTMLInputElement;
     const bodyUlElement = document.getElementById("card-item__body") as HTMLInputElement;
     const selectorDamages = document.getElementById(
@@ -133,6 +136,7 @@ window.makeEditMark = () => {
         prevData = {
           name: element.name,
           height: element.height,
+          crownProjection: element.crownProjection,
           trunkDiameter: element.trunkDiameter,
           typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };
@@ -239,6 +243,7 @@ window.makeEditMark = () => {
         const newData = {
           name: title.value,
           height: Number(height.value),
+          crownProjection: Number(crownProjection.value),
           trunkDiameter: Number(trunkDiameter.value),
           typeOfDamage: selectedDamages.map((i) => i.id - 1),
         };

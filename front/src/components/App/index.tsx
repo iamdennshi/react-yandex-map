@@ -44,46 +44,56 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    async function getObjects() {
-      const tempFetchObjects = await fetch("http://192.168.1.100:8000/objects/");
-      const tempObjects = await tempFetchObjects.json();
-      setObjects(tempObjects);
-      setIsLoaded(true);
-      console.log(tempObjects);
+    async function fetchObjects() {
+      try {
+        const response = await fetch("http://192.168.1.100:8000/objects/");
+        if (!response.ok) {
+          throw new Error("Failed to fetch objects");
+        }
+        const objects = await response.json();
+        setObjects(objects);
+        setIsLoaded(true);
+        console.log(objects);
+      } catch (error) {
+        console.error("Error fetching objects:", error);
+      }
     }
-
-    getObjects();
+    fetchObjects();
   }, []);
 
   React.useEffect(() => {
-    async function getElements() {
-      const tempFetchElements = await fetch(
-        `http://192.168.1.100:8000/objects/${currentObjectID}/elements`,
-      );
-      const tempElements = await tempFetchElements.json();
-      setElements(tempElements);
-      console.log(tempElements);
+    async function fetchElements() {
+      try {
+        const response = await fetch(
+          `http://192.168.1.100:8000/objects/${currentObjectID}/elements`,
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch elements");
+        }
+        const elements = await response.json();
+        setElements(elements);
+        console.log(elements);
+      } catch (error) {
+        console.error("Error fetching elements:", error);
+      }
     }
-
-    getElements();
+    fetchElements();
   }, [currentObjectID]);
 
   React.useEffect(() => {
-    const handle = (deleteElement: CustomEvent) => {
-      console.log("handle " + deleteElement.detail.id);
+    const handleRemoveMark = (deleteElement: CustomEvent) => {
+      console.log("handleRemoveMark " + deleteElement.detail.id);
 
-      setElements((prev) => {
-        return {
-          ...prev,
-          trees: prev.trees.filter((element) => element.id != deleteElement.detail.id),
-        };
-      });
+      setElements((prev) => ({
+        ...prev,
+        trees: prev.trees.filter((element) => element.id != deleteElement.detail.id),
+      }));
     };
 
-    window.addEventListener("onRemoveMark", handle as EventListener);
+    window.addEventListener("onRemoveMark", handleRemoveMark as EventListener);
 
     return () => {
-      window.removeEventListener("onRemoveMark", handle as EventListener);
+      window.removeEventListener("onRemoveMark", handleRemoveMark as EventListener);
     };
   }, []);
 

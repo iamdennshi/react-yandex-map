@@ -20,8 +20,8 @@ elements = [
     },
     {
          'trees': [
-            {'id': 0, 'cords': [58.010615, 56.253384], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'aestaticAssessment': 'good', 'comment': "nice"},
-            {'id': 1, 'cords': [58.010615, 56.253394], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'aestaticAssessment': 'good', 'comment': "nice"},
+            {'id': 0, 'cords': [58.010615, 56.253384], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'aestaticAssessment': 0, 'comment': "nice"},
+            {'id': 1, 'cords': [58.010615, 56.253394], 'name':'Дерево 1', 'photos': ['someUrlToPhoto'], 'height': 100, 'trunkDiameter': 10, 'aestaticAssessment': 0, 'comment': "nice"},
         ],
         'furnitures': [
             {'id': 0, 'cords': [58.013582, 56.260926], 'name':'Будка 1', },

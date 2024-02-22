@@ -13,6 +13,8 @@ class Object(BaseModel):
 class Element(BaseModel):
      cords: list[float] | None = None
      name: str | None = None
+     lastChange: datetime | None = None
+
 
 class ElementWithId(Element, Id):
      pass
@@ -32,7 +34,6 @@ class Tree(ElementWithoutId):
     recommendation: list[int] | None = None
     trunkNumber: int | None = None
     sanitaryCondition: int | None = None
-    lastChange: datetime | None = None
 
 
 class TreeWithId(Tree, Id):
@@ -45,3 +46,14 @@ class Elements(BaseModel):
      trees: list[ElementWithId]
      furnitures: list[ElementWithId]
      areas: list[ElementWithId] | None = None
+
+
+class Furniture(ElementWithoutId):
+     pass
+
+class FurnitureWithoutId(Furniture):
+     pass
+
+
+class FurnitureWithId(Furniture, Id):
+     pass

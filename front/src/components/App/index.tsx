@@ -1,4 +1,4 @@
-import { Clusterer, Map, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
+import { Clusterer, Map, Polygon, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
 import React, { useCallback, useState } from "react";
 import SearchBox from "../SearchBox";
 import ActionBar from "../ActionBar";
@@ -114,7 +114,29 @@ export default function App() {
     >
       <ZoomControl options={{ visible: true }} />
       <RulerControl options={{ position: { left: "50%", bottom: 10 } }} />
-
+      <Polygon
+        instanceRef={(ref) => {
+          ref &&
+            ref.events.add("click", () => {
+              console.log(ref);
+            });
+        }}
+        geometry={[
+          [
+            [58.013235, 56.259925],
+            [58.013366, 56.259986],
+            [58.01329, 56.260285],
+          ],
+        ]}
+        options={{
+          fillColor: "#00FF00",
+          opacity: 0.5,
+          outline: false,
+        }}
+        properties={{
+          balloonContent: "Полигон",
+        }}
+      />
       {/* Деревья */}
       <Clusterer
         options={{

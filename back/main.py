@@ -9,7 +9,9 @@ app = FastAPI()
 
 origins = [
     "http://localhost:5500",
-    "http://192.168.1.100:5500"
+    "http://192.168.1.100:5500",
+    "http://localhost:5501",
+    "http://192.168.1.100:5501"
 ]
 
 app.add_middleware(
@@ -103,4 +105,20 @@ async def delete_tree(object_id: int, tree_id: int):
     return {"message": f"Not found tree with tree_id = {tree_id}"}       
         
 
+@app.put("/objects/{object_id}/elements/furnitures/{furniture_id}")
+async def update_furniture(object_id: int, furniture_id: int, element: FurnitureWithoutId) -> FurnitureWithId:
+    elementWithRequiredAttributes = element.model_dump(exclude_unset=True)
+    requiredElement : dict =  list(filter(lambda e: e['id'] == furniture_id, elements[object_id]['furnitures']))[0]
+    requiredElement.update(elementWithRequiredAttributes)
+    requiredElement.update({"lastChange": datetime.now().isoformat()})
+    return requiredElement
 
+@app.get("/objects/{object_id}/elements/furnitures/{furniture_id}")
+async def get_furniture_by_id(object_id: int, furniture_id: int) -> FurnitureWithId:
+    if object_id >= len(objects):
+         raise HTTPException(status_code=404, detail="Object not found")
+
+    for i in elements[object_id].get('furnitures'):
+         if i['id'] == furniture_id:
+              return i
+    raise HTTPException(status_code=404, detail="Furniture not found")
